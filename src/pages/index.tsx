@@ -3,138 +3,134 @@ import Head from 'next/head'
 import { useAccount, useContract, useContractEvent, useProvider, useSigner } from 'wagmi'
 
 import { APP_NAME, CONTRACT_ABI, CONTRACT_ADDRESS, ORACLE_ADDRESS } from '@/lib/consts'
-import ListingForm from '@/components/ListingForm'
-import Listings from '@/components/Listings'
-import { Listing, Sale, Decryption, default as useGlobalStore } from '@/stores/globalStore'
+import PostForm from '@/components/PostForm'
+import Posts from '@/components/Posts'
+import { Post, Request, Decryption, default as useGlobalStore } from '@/stores/globalStore'
 import { ethers } from 'ethers'
 import PurchasedSecrets from '@/components/PurchasedSecrets'
 import Header from '@/components/Header'
 import { Toaster } from 'react-hot-toast'
 
 const Home: FC = () => {
-  const provider = useProvider()
-  const { address } = useAccount()
+	const provider = useProvider()
+	const { address } = useAccount()
 
-  const updateListings = useGlobalStore((state) => state.updateListings)
-  const updateSales = useGlobalStore((state) => state.updateSales)
-  const updateDecryptions = useGlobalStore((state) => state.updateDecryptions)
-  const addListing = useGlobalStore((state) => state.addListing)
-  const addSale = useGlobalStore((state) => state.addSale)
-  const addDecryption = useGlobalStore((state) => state.addDecryption)
+	const updatePosts = useGlobalStore(state => state.updatePosts)
+	const updateRequests = useGlobalStore(state => state.updateRequests)
+	const updateDecryptions = useGlobalStore(state => state.updateDecryptions)
+	const addPost = useGlobalStore(state => state.addPost)
+	const addRequest = useGlobalStore(state => state.addRequest)
+	const addDecryption = useGlobalStore(state => state.addDecryption)
 
-  useContractEvent({
-    address: CONTRACT_ADDRESS,
-    abi: CONTRACT_ABI,
-    eventName: 'NewListing',
-    listener(seller, cipherId, name, description, price, uri) {
-      addListing({ seller, cipherId, name, description, price, uri })
-    },
-  })
+	useContractEvent({
+		address: CONTRACT_ADDRESS,
+		abi: CONTRACT_ABI,
+		eventName: 'NewPost',
+		listener(creator, cipherId, name, description, uri) {
+			addPost({ creator, cipherId, name, description, uri })
+		},
+	})
 
-  useContractEvent({
-    address: CONTRACT_ADDRESS,
-    abi: CONTRACT_ABI,
-    eventName: 'NewSale',
-    listener(buyer, seller, requestId, cipherId) {
-      if (buyer === address) {
-        addSale({ buyer, seller, requestId, cipherId })
-      }
-    },
-  })
+	useContractEvent({
+		address: CONTRACT_ADDRESS,
+		abi: CONTRACT_ABI,
+		eventName: 'NewPostRequest',
+		listener(subscriber, creator, requestId, cipherId) {
+			if (subscriber === address) {
+				addRequest({ subscriber, creator, requestId, cipherId })
+			}
+		},
+	})
 
-  useContractEvent({
-    address: CONTRACT_ADDRESS,
-    abi: CONTRACT_ABI,
-    eventName: 'ListingDecryption',
-    listener(requestId, ciphertext) {
-      addDecryption({ requestId, ciphertext })
-    },
-  })
+	useContractEvent({
+		address: CONTRACT_ADDRESS,
+		abi: CONTRACT_ABI,
+		eventName: 'PostDecryption',
+		listener(requestId, ciphertext) {
+			addDecryption({ requestId, ciphertext })
+		},
+	})
 
+	const donlyFans = useContract({
+		address: CONTRACT_ADDRESS,
+		abi: CONTRACT_ABI,
+		signerOrProvider: provider,
+	})
 
-  const medusaFans = useContract({
-    address: CONTRACT_ADDRESS,
-    abi: CONTRACT_ABI,
-    signerOrProvider: provider
-  })
+	useEffect(() => {
+		const getEvents = async () => {
+			const iface = new ethers.utils.Interface(CONTRACT_ABI)
 
-  useEffect(() => {
-    const getEvents = async () => {
-      const iface = new ethers.utils.Interface(CONTRACT_ABI)
+			const newPostFilter = donlyFans.filters.NewPost()
+			const newPosts = await donlyFans.queryFilter(newPostFilter)
 
-      const newListingFilter = medusaFans.filters.NewListing()
-      const newListings = await medusaFans.queryFilter(newListingFilter)
+			if (iface && newPosts) {
+				const posts = newPosts.reverse().map((filterTopic: any) => {
+					const result = iface.parseLog(filterTopic)
+					const { creator, cipherId, name, description, uri } = result.args
+					return { creator, cipherId, name, description, uri } as Post
+				})
+				updatePosts(posts)
+			}
 
-      if (iface && newListings) {
-        const listings = newListings.reverse().map((filterTopic: any) => {
-          const result = iface.parseLog(filterTopic)
-          const { seller, cipherId, name, description, price, uri } = result.args
-          return { seller, cipherId, name, description, price, uri } as Listing
-        })
-        updateListings(listings)
-      }
+			const newRequestFilter = donlyFans.filters.NewPostRequest(address)
+			const newRequests = await donlyFans.queryFilter(newRequestFilter)
 
-      const newSaleFilter = medusaFans.filters.NewSale(address)
-      const newSales = await medusaFans.queryFilter(newSaleFilter)
+			if (iface && newRequests) {
+				const requests = newRequests.reverse().map((filterTopic: any) => {
+					const result = iface.parseLog(filterTopic)
+					const { subscriber, creator, requestId, cipherId } = result.args
+					return { subscriber, creator, requestId, cipherId } as Request
+				})
+				updateRequests(requests)
+			}
 
-      if (iface && newSales) {
-        const sales = newSales.reverse().map((filterTopic: any) => {
-          const result = iface.parseLog(filterTopic)
-          const { buyer, seller, requestId, cipherId } = result.args
-          return { buyer, seller, requestId, cipherId } as Sale
-        })
-        updateSales(sales)
-      }
+			const postDecryptionFilter = donlyFans.filters.PostDecryption()
+			const postDecryptions = await donlyFans.queryFilter(postDecryptionFilter)
 
-      const listingDecryptionFilter = medusaFans.filters.ListingDecryption()
-      const listingDecryptions = await medusaFans.queryFilter(listingDecryptionFilter)
+			if (iface && postDecryptions) {
+				const decryptions = postDecryptions.reverse().map((filterTopic: any) => {
+					const result = iface.parseLog(filterTopic)
+					const { requestId, ciphertext } = result.args
+					return { requestId, ciphertext } as Decryption
+				})
+				updateDecryptions(decryptions)
+			}
+		}
+		getEvents()
+	}, [address])
 
-      if (iface && listingDecryptions) {
-        const decryptions = listingDecryptions.reverse().map((filterTopic: any) => {
-          const result = iface.parseLog(filterTopic)
-          const { requestId, ciphertext } = result.args
-          return { requestId, ciphertext } as Decryption
-        })
-        updateDecryptions(decryptions)
-      }
-    }
-    getEvents()
-  }, [address])
+	return (
+		<>
+			<Head>
+				<title>{`Medusa - ${APP_NAME}`}</title>
+				<meta name="viewport" content="initial-scale=1.0, width=device-width" />
+			</Head>
 
-  return (
-    <>
-      <Head>
-        <title>{`Medusa - ${APP_NAME}`}</title>
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-      </Head>
+			<Toaster position="top-center" reverseOrder={true} />
 
-      <Toaster
-        position="top-center"
-        reverseOrder={true}
-      />
+			<Header />
 
-      <Header />
+			<div className="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-800 sm:items-center py-4 sm:pt-0">
+				<div className="max-w-6xl mx-auto px-6 lg:px-8">
+					<div className="flex pt-8 justify-center sm:pt-0 my-7">
+						<h1 className="text-6xl font-mono font-light dark:text-white">{APP_NAME}</h1>
+					</div>
+					<div className="flex justify-center sm:pt-0 my-7">
+						<p className="text-lg font-mono font-light dark:text-white ml-2">
+							Encrypt & upload your content and set your price for people to see it!
+						</p>
+					</div>
 
-      <div className="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-800 sm:items-center py-4 sm:pt-0">
-        <div className="max-w-6xl mx-auto px-6 lg:px-8">
-          <div className="flex pt-8 justify-center sm:pt-0 my-7">
-            <h1 className="text-6xl font-mono font-light dark:text-white">{APP_NAME}</h1>
+					<PostForm />
 
-          </div>
-          <div className="flex justify-center sm:pt-0 my-7">
-            <p className="text-lg font-mono font-light dark:text-white ml-2">Encrypt & upload your content and set your price for people to see it!</p>
-          </div>
+					<PurchasedSecrets />
 
-          <ListingForm />
-
-          <PurchasedSecrets />
-
-          <Listings />
-
-        </div>
-      </div>
-    </>
-  )
+					<Posts />
+				</div>
+			</div>
+		</>
+	)
 }
 
 export default Home
