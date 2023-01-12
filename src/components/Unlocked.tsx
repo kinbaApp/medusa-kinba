@@ -1,13 +1,13 @@
 import { FC, useEffect, useState } from 'react'
 import Image from 'next/image'
-import useGlobalStore, { Sale } from '@/stores/globalStore'
+import useGlobalStore, { Request } from '@/stores/globalStore'
 import { BigNumber } from 'ethers'
 import { formatEther } from 'ethers/lib/utils'
 import { Base64 } from 'js-base64'
 import { ipfsGatewayLink } from '@/lib/utils'
 import { useSigner } from 'wagmi'
 
-const Unlocked: FC<Sale> = ({ buyer, seller, requestId, cipherId }) => {
+const Unlocked: FC<Request> = ({ subscriber, creator, requestId, cipherId }) => {
 	const medusa = useGlobalStore(state => state.medusa)
 	const { data: signer, isSuccess: isSignerLoaded } = useSigner()
 
@@ -62,7 +62,7 @@ const Unlocked: FC<Sale> = ({ buyer, seller, requestId, cipherId }) => {
 				{post.name}
 			</h5>
 			<p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{post.description}</p>
-			<p className="mb-3">{BigNumber.from(0).eq(post.price) ? 'Free' : `${formatEther(post.price)} ETH`} </p>
+			{/* <p className="mb-3">{BigNumber.from(0).eq(post.price) ? 'Free' : `${formatEther(post.price)} ETH`} </p> */}
 			<a
 				href={downloadLink}
 				download={post.name}

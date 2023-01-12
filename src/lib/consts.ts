@@ -1,5 +1,5 @@
 export const APP_NAME = 'dOnlyFans' as const
-export const CONTRACT_ADDRESS = '0xe039608e695d21ab11675ebba00261a0e750526c' as const
+export const CONTRACT_ADDRESS = '0x071586ba1b380b00b793cc336fe01106b0bfbe6d' as const
 export const ORACLE_ADDRESS = '0xf1d5A4481F44fe0818b6E7Ef4A60c0c9b29E3118' as const
 
 // The <const> assertion enables wagmi to infer the correct types when using the ABI in hooks

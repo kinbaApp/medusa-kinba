@@ -5,6 +5,7 @@ import { useAccount, useContract, useContractEvent, useProvider, useSigner } fro
 import { APP_NAME, CONTRACT_ABI, CONTRACT_ADDRESS, ORACLE_ADDRESS } from '@/lib/consts'
 import PostForm from '@/components/PostForm'
 import Posts from '@/components/Posts'
+import Subscribe from '@/components/Subscribe'
 import { Post, Request, Decryption, default as useGlobalStore } from '@/stores/globalStore'
 import { ethers } from 'ethers'
 import PurchasedSecrets from '@/components/PurchasedSecrets'
@@ -21,6 +22,7 @@ const Home: FC = () => {
 	const addPost = useGlobalStore(state => state.addPost)
 	const addRequest = useGlobalStore(state => state.addRequest)
 	const addDecryption = useGlobalStore(state => state.addDecryption)
+	const addSubscriber = useGlobalStore(state => state.addSubscriber)
 
 	useContractEvent({
 		address: CONTRACT_ADDRESS,
@@ -30,6 +32,16 @@ const Home: FC = () => {
 			addPost({ creator, cipherId, name, description, uri })
 		},
 	})
+
+	// add event for each new subscriber on contract
+	// useContractEvent({
+	// 	address: CONTRACT_ADDRESS,
+	// 	abi: CONTRACT_ABI,
+	// 	eventName: 'NewSubscriber',
+	// 	listener(creator, cipherId, name, description, uri) {
+	// 		addSubscriber({ creator, cipherId, name, description, uri })
+	// 	},
+	// })
 
 	useContractEvent({
 		address: CONTRACT_ADDRESS,
@@ -62,6 +74,7 @@ const Home: FC = () => {
 			const iface = new ethers.utils.Interface(CONTRACT_ABI)
 
 			const newPostFilter = donlyFans.filters.NewPost()
+			console.log(newPostFilter)
 			const newPosts = await donlyFans.queryFilter(newPostFilter)
 
 			if (iface && newPosts) {
@@ -103,7 +116,7 @@ const Home: FC = () => {
 	return (
 		<>
 			<Head>
-				<title>{`Medusa - ${APP_NAME}`}</title>
+				<title>{`${APP_NAME}`}</title>
 				<meta name="viewport" content="initial-scale=1.0, width=device-width" />
 			</Head>
 
@@ -118,11 +131,15 @@ const Home: FC = () => {
 					</div>
 					<div className="flex justify-center sm:pt-0 my-7">
 						<p className="text-lg font-mono font-light dark:text-white ml-2">
-							Encrypt & upload your content and set your price for people to see it!
+							Creator: post your original content! <br></br>
+							(There is only a single creator for now, associated with address
+							0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266, only that creator can post content.)
 						</p>
 					</div>
 
 					<PostForm />
+
+					<Subscribe />
 
 					<PurchasedSecrets />
 

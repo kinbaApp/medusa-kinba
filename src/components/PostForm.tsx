@@ -16,7 +16,7 @@ const PostForm: FC = () => {
 
 	const [name, setName] = useState('')
 	const [description, setDescription] = useState('')
-	const [price, setPrice] = useState('')
+	//const [price, setPrice] = useState('')
 
 	const [plaintext, setPlaintext] = useState('')
 	const [ciphertextKey, setCiphertextKey] = useState<HGamalEVMCipher>()
@@ -31,18 +31,19 @@ const PostForm: FC = () => {
 	} = usePrepareContractWrite({
 		address: CONTRACT_ADDRESS,
 		abi: CONTRACT_ABI,
-		functionName: 'createPost',
-		args: [ciphertextKey, name, description, parseEther(price || '0.00'), `ipfs://${cid}/${name}`],
+		functionName: 'CreatePost',
+		//args: [ciphertextKey, name, description, parseEther(price || '0.00'), `ipfs://${cid}/${name}`],
+		args: [ciphertextKey, name, description, `ipfs://${cid}/${name}`],
 		enabled: Boolean(cid),
 		chainId: arbitrumGoerli.id,
 	})
 
-	const { data, error, isError, write: createPost } = useContractWrite(config)
+	const { data, error, isError, write: CreatePost } = useContractWrite(config)
 
 	useEffect(() => {
 		if (readyToSendTransaction) {
 			toast.loading('Submitting secret to Medusa...')
-			createPost?.()
+			CreatePost?.()
 			setCid('')
 		}
 	}, [readyToSendTransaction])
@@ -83,12 +84,18 @@ const PostForm: FC = () => {
 		console.log('Submitting new post')
 
 		const buff = new TextEncoder().encode(plaintext)
-		await medusa.fetchPublicKey()
+		try {
+			await medusa.fetchPublicKey()
+		} catch (error) {
+			console.log('Try signing in with metamask first')
+		}
+
 		try {
 			const { encryptedData, encryptedKey } = await medusa.encrypt(buff, CONTRACT_ADDRESS)
 			const b64EncryptedData = Base64.fromUint8Array(encryptedData)
 			console.log('Encrypted KEY: ', encryptedKey)
 			setCiphertextKey(encryptedKey)
+			console.log('input to storeCiphertext', name, b64EncryptedData)
 
 			toast.promise(storeCiphertext(name, b64EncryptedData), {
 				loading: 'Uploading encrypted secret to IPFS...',
@@ -121,7 +128,6 @@ const PostForm: FC = () => {
 		}
 		setSubmitting(false)
 	}
-
 	const handleFileChange = (event: any) => {
 		toast.success('File uploaded successfully!')
 		const file = event.target.files[0]
@@ -169,7 +175,7 @@ const PostForm: FC = () => {
 					</label>
 				</div>
 
-				<div className="pt-4 text-center">
+				{/* <div className="pt-4 text-center">
 					<label className="block">
 						<span className="text-lg font-mono font-light dark:text-white my-4">Price</span>
 						<input
@@ -181,7 +187,7 @@ const PostForm: FC = () => {
 							onChange={e => setPrice(e.target.value)}
 						/>
 					</label>
-				</div>
+				</div> */}
 
 				<div className="pt-4 text-center">
 					<span className="text-lg font-mono font-light dark:text-white my-4">Description</span>

@@ -83,8 +83,8 @@ contract Creator is IEncryptionClient, PullPayment {
 	mapping(address => User) private users;
 
 	event PostDecryption(uint256 indexed requestId, Ciphertext ciphertext);
-	event NewPost(address indexed seller, uint256 indexed cipherId, string name, string description, string uri);
-	event NewPostRequest(address indexed buyer, address indexed seller, uint256 requestId, uint256 cipherId);
+	event NewPost(address indexed creator, uint256 indexed cipherId, string name, string description, string uri);
+	event NewPostRequest(address indexed subscriber, address indexed creator, uint256 requestId, uint256 cipherId);
 
 	modifier onlyOracle() {
 		if (msg.sender != address(oracle)) {
