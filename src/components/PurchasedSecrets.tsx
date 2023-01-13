@@ -13,7 +13,7 @@ const PurchasedSecrets: FC = () => {
 	return (
 		<>
 			<h1 className="text-2xl font-mono font-light dark:text-white mt-10 mb-6">
-				Subscribe to the creator content! (2 ETH for 7 days subscription)
+				Subscribe to the creator content! (2 wei for 7 days subscription)
 			</h1>
 			{myPurchasedSecrets.length > 0 ? (
 				<div className="grid grid-cols-1 lg:grid-cols-3 gap-6 p-4 w-full transition-all">
@@ -23,7 +23,7 @@ const PurchasedSecrets: FC = () => {
 				</div>
 			) : (
 				<p className="text-base font-mono font-light dark:text-gray-300 ml-2">
-					You have not unlocked any content yet. Sign in and purchase some content to see it decrypted!
+					You have not unlocked any content yet. Sign in and subscribe to see it decrypted!
 				</p>
 			)}
 		</>
