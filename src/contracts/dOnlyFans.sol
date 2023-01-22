@@ -2,6 +2,10 @@
 pragma solidity ^0.8.17;
 
 import { PullPayment } from '@openzeppelin/contracts/security/PullPayment.sol';
+import { BN254EncryptionOracle as Oracle } from './BN254EncryptionOracle.sol';
+import { IEncryptionClient, Ciphertext } from './EncryptionOracle.sol';
+import { G1Point } from './Bn128.sol';
+import { PullPayment } from '@openzeppelin/contracts/security/PullPayment.sol';
 
 /**
  * @title dOnlyFans Basic Smart Contract
@@ -11,42 +15,9 @@ import { PullPayment } from '@openzeppelin/contracts/security/PullPayment.sol';
  * @dev This is meant as a "play around" contract to learn about solidity and EVM and certainly not a final product.
  */
 
-struct G1Point {
-	uint256 x;
-	uint256 y;
-}
-
 struct DleqProof {
 	uint256 f;
 	uint256 e;
-}
-
-/// @notice A 32-byte encrypted ciphertext
-struct Ciphertext {
-	G1Point random;
-	uint256 cipher;
-	/// DLEQ part
-	G1Point random2;
-	DleqProof dleq;
-}
-
-interface IEncryptionClient {
-	/// @notice Callback to client contract when medusa posts a result
-	/// @dev Implement in client contracts of medusa
-	/// @param requestId The id of the original request
-	/// @param _cipher the reencryption result
-	function oracleResult(uint256 requestId, Ciphertext calldata _cipher) external;
-}
-
-interface IOracle {
-	/// @notice submit a ciphertext that can be retrieved at the given link and
-	/// has been created by this encryptor address. The ciphertext proof is checked
-	/// and if correct, being signalled to Medusa.
-	function submitCiphertext(
-		Ciphertext calldata _cipher,
-		bytes calldata _link,
-		address _encryptor
-	) external returns (uint256);
 }
 
 error CallbackNotAuthorized();
@@ -59,9 +30,41 @@ struct Post {
 	string uri;
 }
 
+/**
+ * @notice this is the main contracts that keeps track of all the creator profiles and
+ * creates a new Creator smart contract for each.
+ */
+contract dOnlyFans {
+	/// @notice The Encryption Oracle Instance
+	Oracle public oracle;
+	mapping(address => address) public creatorsContract;
+
+	event NewCreatorProfileCreated(address creatorAddress, address creatorContractAddress);
+
+	error dOnlyFans__CreatorAlreadyExists();
+
+	constructor(Oracle _oracle) {
+		oracle = _oracle;
+	}
+
+	function createProfile(uint256 price, uint256 period) public {
+		// if ((creatorsContract[msg.sender]) != address(0)) {
+		//     // the creator profile already exists
+		//     revert CreatorAlreadyExists();
+		// }
+		Creator creator = new Creator(oracle, msg.sender, price, period);
+		creatorsContract[msg.sender] = address(creator);
+		emit NewCreatorProfileCreated(msg.sender, address(creator));
+	}
+
+	function getCreatorContractAddress(address creatorAddress) public view returns (address) {
+		return creatorsContract[creatorAddress];
+	}
+}
+
 contract Creator is IEncryptionClient, PullPayment {
 	/// @notice The Encryption Oracle Instance
-	IOracle public oracle;
+	Oracle public oracle;
 
 	/// @notice A mapping from cipherId to post
 	mapping(uint256 => Post) public posts;
@@ -82,8 +85,9 @@ contract Creator is IEncryptionClient, PullPayment {
 
 	mapping(address => User) private users;
 
+	event NewSubscriber(address indexed creator, address indexed subscriber);
 	event PostDecryption(uint256 indexed requestId, Ciphertext ciphertext);
-	event NewPost(address indexed creator, uint256 indexed cipherId, string name, string description, string uri);
+	event NewPost(address indexed subscriber, uint256 indexed cipherId, string name, string description, string uri);
 	event NewPostRequest(address indexed subscriber, address indexed creator, uint256 requestId, uint256 cipherId);
 
 	modifier onlyOracle() {

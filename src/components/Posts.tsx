@@ -1,5 +1,4 @@
 import { FC } from 'react'
-
 import useGlobalStore from '@/stores/globalStore'
 import Post from './Post'
 import { useAccount } from 'wagmi'

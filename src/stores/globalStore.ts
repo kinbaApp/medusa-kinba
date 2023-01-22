@@ -13,6 +13,7 @@ export interface Post {
 
 export interface Subscribe {
 	subscriber: string
+	creator: string
 	price: BigNumber
 }
 
@@ -28,23 +29,31 @@ export interface Decryption {
 	ciphertext: Ciphertext
 }
 
+export interface Creator {
+	address: string
+	price: BigNumber
+}
+
 interface GlobalState {
 	medusa: Medusa<SecretKey, PublicKey<SecretKey>> | null
 	posts: Post[]
 	requests: Request[]
 	decryptions: Decryption[]
 	subscribers: Subscribe[]
+	creators: Creator[]
 
 	updateMedusa: (medusa: Medusa<SecretKey, PublicKey<SecretKey>> | null) => void
 	updatePosts: (posts: Post[]) => void
 	updateRequests: (requests: Request[]) => void
 	updateDecryptions: (decryptions: Decryption[]) => void
 	updateSubscribe: (subscribers: Subscribe[]) => void
+	updateCreators: (creators: Creator[]) => void
 
 	addPost: (post: Post) => void
 	addRequest: (request: Request) => void
 	addDecryption: (decryption: Decryption) => void
 	addSubscriber: (subscribe: Subscribe) => void
+	addCreator: (creator: Creator) => void
 }
 
 const useGlobalStore = create<GlobalState>()(set => ({
@@ -53,17 +62,20 @@ const useGlobalStore = create<GlobalState>()(set => ({
 	requests: [],
 	decryptions: [],
 	subscribers: [],
+	creators: [],
 
 	updateMedusa: (medusa: Medusa<SecretKey, PublicKey<SecretKey>> | null) => set(state => ({ medusa })),
 	updatePosts: (posts: Post[]) => set(state => ({ posts })),
 	updateRequests: (requests: []) => set(state => ({ requests })),
 	updateDecryptions: (decryptions: []) => set(state => ({ decryptions })),
 	updateSubscribe: (subscribers: Subscribe[]) => set(state => ({ subscribers })),
+	updateCreators: (creators: Creator[]) => set(state => ({ creators })),
 
 	addPost: (post: Post) => set(state => ({ posts: [post, ...state.posts] })),
 	addRequest: (request: Request) => set(state => ({ requests: [request, ...state.requests] })),
 	addDecryption: (decryption: Decryption) => set(state => ({ decryptions: [decryption, ...state.decryptions] })),
 	addSubscriber: (subscribe: Subscribe) => set(state => ({ subscribers: [subscribe, ...state.subscribers] })),
+	addCreator: (creator: Creator) => set(state => ({ creators: [creator, ...state.creators] })),
 }))
 
 export default useGlobalStore

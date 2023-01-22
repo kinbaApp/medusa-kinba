@@ -2,15 +2,17 @@ import { FC, useEffect } from 'react'
 import Head from 'next/head'
 import { useAccount, useContract, useContractEvent, useProvider, useSigner } from 'wagmi'
 
-import { APP_NAME, CONTRACT_ABI, CONTRACT_ADDRESS, ORACLE_ADDRESS } from '@/lib/consts'
+import { APP_NAME, CREATOR_ABI, DONLYFANS_ABI, CONTRACT_ADDRESS, ORACLE_ADDRESS } from '@/lib/consts'
 import PostForm from '@/components/PostForm'
 import Posts from '@/components/Posts'
-import Subscribe from '@/components/Subscribe'
-import { Post, Request, Decryption, default as useGlobalStore } from '@/stores/globalStore'
+import Subscription from '@/components/Subscribe'
+import CreateNewProfile from '@/components/CreateNewProfile'
+import { Post, Request, Decryption, Subscribe, default as useGlobalStore } from '@/stores/globalStore'
 import { ethers } from 'ethers'
 import PurchasedSecrets from '@/components/PurchasedSecrets'
 import Header from '@/components/Header'
 import { Toaster } from 'react-hot-toast'
+import CreatorsList from '@/components/CreatorsList'
 
 const Home: FC = () => {
 	const provider = useProvider()
@@ -26,7 +28,7 @@ const Home: FC = () => {
 
 	useContractEvent({
 		address: CONTRACT_ADDRESS,
-		abi: CONTRACT_ABI,
+		abi: CREATOR_ABI,
 		eventName: 'NewPost',
 		listener(creator, cipherId, name, description, uri) {
 			addPost({ creator, cipherId, name, description, uri })
@@ -45,7 +47,7 @@ const Home: FC = () => {
 
 	useContractEvent({
 		address: CONTRACT_ADDRESS,
-		abi: CONTRACT_ABI,
+		abi: CREATOR_ABI,
 		eventName: 'NewPostRequest',
 		listener(subscriber, creator, requestId, cipherId) {
 			if (subscriber === address) {
@@ -56,7 +58,7 @@ const Home: FC = () => {
 
 	useContractEvent({
 		address: CONTRACT_ADDRESS,
-		abi: CONTRACT_ABI,
+		abi: CREATOR_ABI,
 		eventName: 'PostDecryption',
 		listener(requestId, ciphertext) {
 			addDecryption({ requestId, ciphertext })
@@ -65,13 +67,13 @@ const Home: FC = () => {
 
 	const donlyFans = useContract({
 		address: CONTRACT_ADDRESS,
-		abi: CONTRACT_ABI,
+		abi: CREATOR_ABI,
 		signerOrProvider: provider,
 	})
 
 	useEffect(() => {
 		const getEvents = async () => {
-			const iface = new ethers.utils.Interface(CONTRACT_ABI)
+			const iface = new ethers.utils.Interface(CREATOR_ABI)
 
 			const newPostFilter = donlyFans.filters.NewPost()
 			console.log(newPostFilter)
@@ -131,15 +133,14 @@ const Home: FC = () => {
 					</div>
 					<div className="flex justify-center sm:pt-0 my-7">
 						<p className="text-lg font-mono font-light dark:text-white ml-2">
-							Creator: post your original content! <br></br>
-							(There is only a single creator for now, associated with address
-							0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266, only that creator can post content.)
+							New creator? Create a profile below:
 						</p>
 					</div>
-
+					<CreateNewProfile />
+					<CreatorsList />
 					<PostForm />
 
-					<Subscribe />
+					<Subscription />
 
 					<PurchasedSecrets />
 

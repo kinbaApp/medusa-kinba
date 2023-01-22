@@ -1,9 +1,116 @@
 export const APP_NAME = 'dOnlyFans' as const
-export const CONTRACT_ADDRESS = '0x071586ba1b380b00b793cc336fe01106b0bfbe6d' as const
+export const CONTRACT_ADDRESS = '0xce0066b1008237625dddbe4a751827de037e53d2' as const
 export const ORACLE_ADDRESS = '0xf1d5A4481F44fe0818b6E7Ef4A60c0c9b29E3118' as const
 
 // The <const> assertion enables wagmi to infer the correct types when using the ABI in hooks
-export const CONTRACT_ABI = <const>[
+export const DONLYFANS_ABI = <const>[
+	{
+		inputs: [
+			{
+				internalType: 'contract BN254EncryptionOracle',
+				name: '_oracle',
+				type: 'address',
+			},
+		],
+		stateMutability: 'nonpayable',
+		type: 'constructor',
+	},
+	{
+		inputs: [],
+		name: 'dOnlyFans__CreatorAlreadyExists',
+		type: 'error',
+	},
+	{
+		anonymous: false,
+		inputs: [
+			{
+				indexed: false,
+				internalType: 'address',
+				name: 'creatorAddress',
+				type: 'address',
+			},
+			{
+				indexed: false,
+				internalType: 'address',
+				name: 'creatorContractAddress',
+				type: 'address',
+			},
+		],
+		name: 'NewCreatorProfileCreated',
+		type: 'event',
+	},
+	{
+		inputs: [
+			{
+				internalType: 'uint256',
+				name: 'price',
+				type: 'uint256',
+			},
+			{
+				internalType: 'uint256',
+				name: 'period',
+				type: 'uint256',
+			},
+		],
+		name: 'createProfile',
+		outputs: [],
+		stateMutability: 'nonpayable',
+		type: 'function',
+	},
+	{
+		inputs: [
+			{
+				internalType: 'address',
+				name: '',
+				type: 'address',
+			},
+		],
+		name: 'creatorsContract',
+		outputs: [
+			{
+				internalType: 'address',
+				name: '',
+				type: 'address',
+			},
+		],
+		stateMutability: 'view',
+		type: 'function',
+	},
+	{
+		inputs: [
+			{
+				internalType: 'address',
+				name: 'creatorAddress',
+				type: 'address',
+			},
+		],
+		name: 'getCreatorContractAddress',
+		outputs: [
+			{
+				internalType: 'address',
+				name: '',
+				type: 'address',
+			},
+		],
+		stateMutability: 'view',
+		type: 'function',
+	},
+	{
+		inputs: [],
+		name: 'oracle',
+		outputs: [
+			{
+				internalType: 'contract BN254EncryptionOracle',
+				name: '',
+				type: 'address',
+			},
+		],
+		stateMutability: 'view',
+		type: 'function',
+	},
+]
+
+export const CREATOR_ABI = <const>[
 	{
 		inputs: [
 			{
@@ -61,7 +168,7 @@ export const CONTRACT_ABI = <const>[
 			{
 				indexed: true,
 				internalType: 'address',
-				name: 'seller',
+				name: 'subscriber',
 				type: 'address',
 			},
 			{
@@ -98,13 +205,13 @@ export const CONTRACT_ABI = <const>[
 			{
 				indexed: true,
 				internalType: 'address',
-				name: 'buyer',
+				name: 'subscriber',
 				type: 'address',
 			},
 			{
 				indexed: true,
 				internalType: 'address',
-				name: 'seller',
+				name: 'creator',
 				type: 'address',
 			},
 			{
@@ -121,6 +228,25 @@ export const CONTRACT_ABI = <const>[
 			},
 		],
 		name: 'NewPostRequest',
+		type: 'event',
+	},
+	{
+		anonymous: false,
+		inputs: [
+			{
+				indexed: true,
+				internalType: 'address',
+				name: 'creator',
+				type: 'address',
+			},
+			{
+				indexed: true,
+				internalType: 'address',
+				name: 'subscriber',
+				type: 'address',
+			},
+		],
+		name: 'NewSubscriber',
 		type: 'event',
 	},
 	{

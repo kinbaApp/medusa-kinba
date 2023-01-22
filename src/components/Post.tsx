@@ -1,4 +1,4 @@
-import { CONTRACT_ABI, CONTRACT_ADDRESS } from '@/lib/consts'
+import { CREATOR_ABI, CONTRACT_ADDRESS } from '@/lib/consts'
 import { ipfsGatewayLink } from '@/lib/utils'
 import useGlobalStore, { Post } from '@/stores/globalStore'
 import { BigNumber } from 'ethers'
@@ -20,7 +20,7 @@ const Post: FC<Post & { purchased: boolean }> = ({ cipherId, uri, name, descript
 
 	const { config } = usePrepareContractWrite({
 		address: CONTRACT_ADDRESS,
-		abi: CONTRACT_ABI,
+		abi: CREATOR_ABI,
 		functionName: 'requestPost',
 		args: [cipherId, evmPoint],
 		enabled: Boolean(evmPoint),
