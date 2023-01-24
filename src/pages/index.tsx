@@ -2,7 +2,7 @@ import { FC, useEffect } from 'react'
 import Head from 'next/head'
 import { useAccount, useContract, useContractEvent, useProvider, useSigner } from 'wagmi'
 
-import { APP_NAME, CREATOR_ABI, DONLYFANS_ABI, CONTRACT_ADDRESS, ORACLE_ADDRESS } from '@/lib/consts'
+import { APP_NAME, DONLYFANS_ABI, CONTRACT_ADDRESS, ORACLE_ADDRESS } from '@/lib/consts'
 import PostForm from '@/components/PostForm'
 import Posts from '@/components/Posts'
 import Subscription from '@/components/Subscribe'
@@ -25,29 +25,41 @@ const Home: FC = () => {
 	const addRequest = useGlobalStore(state => state.addRequest)
 	const addDecryption = useGlobalStore(state => state.addDecryption)
 	const addSubscriber = useGlobalStore(state => state.addSubscriber)
+	const addCreator = useGlobalStore(state => state.addCreator)
 
 	useContractEvent({
 		address: CONTRACT_ADDRESS,
-		abi: CREATOR_ABI,
+		abi: DONLYFANS_ABI,
+		eventName: 'NewCreatorProfileCreated',
+		listener(creatorAddress, creatorContractAddress) {
+			if (creatorAddress == address) {
+				addCreator({ creatorAddress })
+			}
+		},
+	})
+
+	useContractEvent({
+		address: CONTRACT_ADDRESS,
+		abi: DONLYFANS_ABI,
+		eventName: 'NewSubscriber',
+		listener(creator, subscriber) {
+			if (subscriber == address) {
+				addSubscriber({ creator, subscriber })
+			}
+		},
+	})
+	useContractEvent({
+		address: CONTRACT_ADDRESS,
+		abi: DONLYFANS_ABI,
 		eventName: 'NewPost',
 		listener(creator, cipherId, name, description, uri) {
 			addPost({ creator, cipherId, name, description, uri })
 		},
 	})
 
-	// add event for each new subscriber on contract
-	// useContractEvent({
-	// 	address: CONTRACT_ADDRESS,
-	// 	abi: CONTRACT_ABI,
-	// 	eventName: 'NewSubscriber',
-	// 	listener(creator, cipherId, name, description, uri) {
-	// 		addSubscriber({ creator, cipherId, name, description, uri })
-	// 	},
-	// })
-
 	useContractEvent({
 		address: CONTRACT_ADDRESS,
-		abi: CREATOR_ABI,
+		abi: DONLYFANS_ABI,
 		eventName: 'NewPostRequest',
 		listener(subscriber, creator, requestId, cipherId) {
 			if (subscriber === address) {
@@ -58,7 +70,7 @@ const Home: FC = () => {
 
 	useContractEvent({
 		address: CONTRACT_ADDRESS,
-		abi: CREATOR_ABI,
+		abi: DONLYFANS_ABI,
 		eventName: 'PostDecryption',
 		listener(requestId, ciphertext) {
 			addDecryption({ requestId, ciphertext })
@@ -67,13 +79,13 @@ const Home: FC = () => {
 
 	const donlyFans = useContract({
 		address: CONTRACT_ADDRESS,
-		abi: CREATOR_ABI,
+		abi: DONLYFANS_ABI,
 		signerOrProvider: provider,
 	})
 
 	useEffect(() => {
 		const getEvents = async () => {
-			const iface = new ethers.utils.Interface(CREATOR_ABI)
+			const iface = new ethers.utils.Interface(DONLYFANS_ABI)
 
 			const newPostFilter = donlyFans.filters.NewPost()
 			console.log(newPostFilter)

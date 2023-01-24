@@ -14,7 +14,7 @@ export interface Post {
 export interface Subscribe {
 	subscriber: string
 	creator: string
-	price: BigNumber
+	//price: BigNumber
 }
 
 export interface Request {
@@ -30,8 +30,8 @@ export interface Decryption {
 }
 
 export interface Creator {
-	address: string
-	price: BigNumber
+	creatorAddress: string
+	//price: BigNumber
 }
 
 interface GlobalState {
