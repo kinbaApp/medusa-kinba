@@ -137,14 +137,15 @@ const Home: FC = () => {
 						</p>
 					</div>
 					<CreateNewProfile />
-					<CreatorsList />
+
 					<PostForm />
 
 					<Subscription />
 
-					<PurchasedSecrets />
+					{/* <PurchasedSecrets /> */}
 
 					<Posts />
+					<CreatorsList />
 				</div>
 			</div>
 		</>

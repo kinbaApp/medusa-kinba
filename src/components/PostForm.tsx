@@ -3,7 +3,7 @@ import { usePrepareContractWrite, useContractWrite, useWaitForTransaction } from
 import { arbitrumGoerli } from 'wagmi/chains'
 import { HGamalEVMCipher } from '@medusa-network/medusa-sdk'
 
-import { CONTRACT_ABI, CONTRACT_ADDRESS } from '@/lib/consts'
+import { DONLYFANS_ABI, CONTRACT_ADDRESS } from '@/lib/consts'
 import { parseEther } from 'ethers/lib/utils'
 import storeCiphertext from '@/lib/storeCiphertext'
 import toast from 'react-hot-toast'
@@ -30,7 +30,7 @@ const PostForm: FC = () => {
 		isSuccess: readyToSendTransaction,
 	} = usePrepareContractWrite({
 		address: CONTRACT_ADDRESS,
-		abi: CONTRACT_ABI,
+		abi: DONLYFANS_ABI,
 		functionName: 'CreatePost',
 		//args: [ciphertextKey, name, description, parseEther(price || '0.00'), `ipfs://${cid}/${name}`],
 		args: [ciphertextKey, name, description, `ipfs://${cid}/${name}`],
@@ -145,7 +145,8 @@ const PostForm: FC = () => {
 
 	return (
 		<>
-			<form className="lg:w-1/2 lg:mx-auto" onSubmit={handleSubmit}>
+			<form className="lg:w lg:mx-auto" onSubmit={handleSubmit}>
+				<h1 className="text-2xl font-mono font-light dark:text-white mt-10 mb-6">Creator, post here</h1>
 				<div className="flex items-center justify-center">
 					<label className="w-64 flex flex-col items-center px-4 py-6 rounded-lg shadow-lg tracking-wide border border-blue cursor-pointer hover:bg-gray-800 hover:text-white dark:hover:text-blue-400">
 						<svg

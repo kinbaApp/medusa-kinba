@@ -1,4 +1,4 @@
-import { CREATOR_ABI, CONTRACT_ADDRESS } from '@/lib/consts'
+import { DONLYFANS_ABI, CONTRACT_ADDRESS } from '@/lib/consts'
 import { ipfsGatewayLink } from '@/lib/utils'
 import useGlobalStore, { Post, Subscribe } from '@/stores/globalStore'
 import { BigNumber } from 'ethers'
@@ -11,6 +11,7 @@ import { arbitrumGoerli } from 'wagmi/chains'
 const Subscription: FC<Subscribe & { subscribed: boolean }> = ({ subscribed }) => {
 	const { isConnected } = useAccount()
 	const [price, setPrice] = useState('')
+	const [creatorAddress, setCreatorAddress] = useState('')
 
 	const medusa = useGlobalStore(state => state.medusa)
 	//let evmPoint = null
@@ -21,9 +22,9 @@ const Subscription: FC<Subscribe & { subscribed: boolean }> = ({ subscribed }) =
 
 	const { config } = usePrepareContractWrite({
 		address: CONTRACT_ADDRESS,
-		abi: CREATOR_ABI,
+		abi: DONLYFANS_ABI,
 		functionName: 'subscribe',
-		//args: [cipherId, evmPoint],
+		args: [creatorAddress],
 		//enabled: Boolean(evmPoint),
 		overrides: { value: parseEther(price || '0.00') },
 		chainId: arbitrumGoerli.id,
@@ -73,6 +74,19 @@ const Subscription: FC<Subscribe & { subscribed: boolean }> = ({ subscribed }) =
 			</h5>
 			{/* <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{description}</p> */}
 
+			<div className="pt-4 text-center">
+				<label className="block">
+					<span className="text-lg font-mono font-light dark:text-white my-4">Creator Address</span>
+					<input
+						required
+						type="number"
+						placeholder="0x00..."
+						className="form-input my-5 block w-full dark:bg-gray-800 dark:text-white"
+						value={price}
+						onChange={e => setCreatorAddress(e.target.value)}
+					/>
+				</label>
+			</div>
 			<div className="pt-4 text-center">
 				<label className="block">
 					<span className="text-lg font-mono font-light dark:text-white my-4">Price</span>
