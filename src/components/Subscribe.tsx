@@ -1,7 +1,7 @@
 import { DONLYFANS_ABI, CONTRACT_ADDRESS } from '@/lib/consts'
 import { ipfsGatewayLink } from '@/lib/utils'
 import useGlobalStore, { Post, Subscribe } from '@/stores/globalStore'
-import { BigNumber } from 'ethers'
+import { BigNumber, ethers } from 'ethers'
 import { formatEther, getAddress, parseEther } from 'ethers/lib/utils'
 import { FC, useState } from 'react'
 import toast from 'react-hot-toast'
@@ -26,7 +26,7 @@ const Subscription: FC = () => {
 		abi: DONLYFANS_ABI,
 		functionName: 'subscribe',
 		//args: ['0x${creatorAddress}'],
-		args: [getAddress(creatorAddress)],
+		args: [getAddress(creatorAddress || ethers.constants.AddressZero)],
 		//enabled: Boolean(evmPoint),
 		overrides: { value: parseEther(price || '0.0') },
 		chainId: arbitrumGoerli.id,
