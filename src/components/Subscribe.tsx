@@ -2,16 +2,17 @@ import { DONLYFANS_ABI, CONTRACT_ADDRESS } from '@/lib/consts'
 import { ipfsGatewayLink } from '@/lib/utils'
 import useGlobalStore, { Post, Subscribe } from '@/stores/globalStore'
 import { BigNumber } from 'ethers'
-import { formatEther, parseEther } from 'ethers/lib/utils'
+import { formatEther, getAddress, parseEther } from 'ethers/lib/utils'
 import { FC, useState } from 'react'
 import toast from 'react-hot-toast'
 import { useAccount, useContractWrite, usePrepareContractWrite, useWaitForTransaction } from 'wagmi'
 import { arbitrumGoerli } from 'wagmi/chains'
 
-const Subscription: FC<Subscribe & { subscribed: boolean }> = ({ subscribed }) => {
+const Subscription: FC = () => {
 	const { isConnected } = useAccount()
 	const [price, setPrice] = useState('')
 	const [creatorAddress, setCreatorAddress] = useState('')
+	const [subscribed, setSubscribed] = useState(false)
 
 	const medusa = useGlobalStore(state => state.medusa)
 	//let evmPoint = null
@@ -24,9 +25,10 @@ const Subscription: FC<Subscribe & { subscribed: boolean }> = ({ subscribed }) =
 		address: CONTRACT_ADDRESS,
 		abi: DONLYFANS_ABI,
 		functionName: 'subscribe',
-		args: [creatorAddress],
+		//args: ['0x${creatorAddress}'],
+		args: [getAddress(creatorAddress)],
 		//enabled: Boolean(evmPoint),
-		overrides: { value: parseEther(price || '0.00') },
+		overrides: { value: parseEther(price || '0.0') },
 		chainId: arbitrumGoerli.id,
 	})
 
@@ -55,6 +57,7 @@ const Subscription: FC<Subscribe & { subscribed: boolean }> = ({ subscribed }) =
 					</svg>
 				</a>
 			)
+			//setSubscribed(true)
 		},
 		onError: e => {
 			toast.dismiss()
@@ -65,6 +68,7 @@ const Subscription: FC<Subscribe & { subscribed: boolean }> = ({ subscribed }) =
 	const subscribeToCreator = async () => {
 		toast.loading('Subscribing..')
 		subscribe?.()
+		console.log(config)
 	}
 
 	return (
@@ -79,10 +83,10 @@ const Subscription: FC<Subscribe & { subscribed: boolean }> = ({ subscribed }) =
 					<span className="text-lg font-mono font-light dark:text-white my-4">Creator Address</span>
 					<input
 						required
-						type="number"
+						type="string"
 						placeholder="0x00..."
 						className="form-input my-5 block w-full dark:bg-gray-800 dark:text-white"
-						value={price}
+						value={creatorAddress}
 						onChange={e => setCreatorAddress(e.target.value)}
 					/>
 				</label>

@@ -17,6 +17,12 @@ export interface Subscribe {
 	//price: BigNumber
 }
 
+export interface Following {
+	subscriber: string
+	creator: string
+	price: BigNumber
+}
+
 export interface Request {
 	subscriber: string
 	creator: string
@@ -41,6 +47,7 @@ interface GlobalState {
 	decryptions: Decryption[]
 	subscribers: Subscribe[]
 	creators: Creator[]
+	followings: Following[]
 
 	updateMedusa: (medusa: Medusa<SecretKey, PublicKey<SecretKey>> | null) => void
 	updatePosts: (posts: Post[]) => void

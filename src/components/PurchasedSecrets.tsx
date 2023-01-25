@@ -12,9 +12,9 @@ const PurchasedSecrets: FC = () => {
 
 	return (
 		<>
-			<h1 className="text-2xl font-mono font-light dark:text-white mt-10 mb-6">
+			{/* <h1 className="text-2xl font-mono font-light dark:text-white mt-10 mb-6">
 				Subscribe to the creator content! (2 wei for 7 days subscription)
-			</h1>
+			</h1> */}
 			{myPurchasedSecrets.length > 0 ? (
 				<div className="grid grid-cols-1 lg:grid-cols-3 gap-6 p-4 w-full transition-all">
 					{myPurchasedSecrets.map(sale => (

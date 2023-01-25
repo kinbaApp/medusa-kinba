@@ -144,20 +144,22 @@ const Home: FC = () => {
 						<h1 className="text-6xl font-mono font-light dark:text-white">{APP_NAME}</h1>
 					</div>
 					<div className="flex justify-center sm:pt-0 my-7">
-						<p className="text-lg font-mono font-light dark:text-white ml-2">
+						{/* <p className="text-lg font-mono font-light dark:text-white ml-2">
 							New creator? Create a profile below:
-						</p>
-					</div>
-					<CreateNewProfile />
+						</p> */}
+						<div className=" flex-row-reverse lg:w ">
+							<CreateNewProfile />
 
-					<PostForm />
+							<PostForm />
+						</div>
+					</div>
 
 					<Subscription />
 
 					{/* <PurchasedSecrets /> */}
+					{/* <CreatorsList /> */}
 
-					<Posts />
-					<CreatorsList />
+					{/* <CreatorsList /> */}
 				</div>
 			</div>
 		</>

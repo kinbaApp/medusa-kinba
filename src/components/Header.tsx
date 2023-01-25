@@ -53,7 +53,7 @@ const Header: FC = () => {
 						<a className="mr-4 p-6">Home</a>
 					</Link>
 					<Link href="/content">
-						<a className="mr-4 p-6">Click here to view content</a>
+						<a className="mr-4 p-6">Content</a>
 					</Link>
 					<div className="items-center justify-end flex flex-1 lg:w-0 space-x-3">
 						<button

@@ -6,6 +6,7 @@ import { APP_NAME, DONLYFANS_ABI, CONTRACT_ADDRESS, ORACLE_ADDRESS } from '@/lib
 import { Toaster } from 'react-hot-toast'
 import PurchasedSecrets from '@/components/PurchasedSecrets'
 import Header from '@/components/Header'
+import Posts from '@/components/Posts'
 
 const Content: NextPage = () => {
 	return (
@@ -16,8 +17,11 @@ const Content: NextPage = () => {
 			</Head>
 			<Toaster position="top-center" reverseOrder={true} />
 			<Header />
-			Content page
-			<PurchasedSecrets />
+			<div className="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-800 py-4 sm:pt-0">
+				<PurchasedSecrets />
+
+				<Posts />
+			</div>
 		</div>
 	)
 }
