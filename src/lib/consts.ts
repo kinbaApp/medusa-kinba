@@ -1,5 +1,5 @@
 export const APP_NAME = 'dOnlyFans' as const
-export const CONTRACT_ADDRESS = '0x6CCCfe29a3e74BB11D025D54e323B73594b55981' as const
+export const CONTRACT_ADDRESS = '0x12Ad100f5e5d401B7A2B4B02F906c2bA6e4C1f1b' as const
 export const ORACLE_ADDRESS = '0xf1d5A4481F44fe0818b6E7Ef4A60c0c9b29E3118' as const
 
 // The <const> assertion enables wagmi to infer the correct types when using the ABI in hooks
@@ -18,6 +18,16 @@ export const DONLYFANS_ABI = <const>[
 	{
 		inputs: [],
 		name: 'CallbackNotAuthorized',
+		type: 'error',
+	},
+	{
+		inputs: [],
+		name: 'CreatorDoesNotExist',
+		type: 'error',
+	},
+	{
+		inputs: [],
+		name: 'NotSubscriber',
 		type: 'error',
 	},
 	{
@@ -290,7 +300,13 @@ export const DONLYFANS_ABI = <const>[
 			},
 		],
 		name: 'CreatePost',
-		outputs: [],
+		outputs: [
+			{
+				internalType: 'uint256',
+				name: '',
+				type: 'uint256',
+			},
+		],
 		stateMutability: 'nonpayable',
 		type: 'function',
 	},
@@ -461,10 +477,29 @@ export const DONLYFANS_ABI = <const>[
 	{
 		inputs: [
 			{
+				internalType: 'uint256',
+				name: '',
+				type: 'uint256',
+			},
+		],
+		name: 'posts',
+		outputs: [
+			{
 				internalType: 'address',
-				name: 'creatorAddress',
+				name: 'seller',
 				type: 'address',
 			},
+			{
+				internalType: 'string',
+				name: 'uri',
+				type: 'string',
+			},
+		],
+		stateMutability: 'view',
+		type: 'function',
+	},
+	{
+		inputs: [
 			{
 				internalType: 'uint256',
 				name: 'cipherId',
@@ -489,7 +524,13 @@ export const DONLYFANS_ABI = <const>[
 			},
 		],
 		name: 'requestPost',
-		outputs: [],
+		outputs: [
+			{
+				internalType: 'uint256',
+				name: '',
+				type: 'uint256',
+			},
+		],
 		stateMutability: 'nonpayable',
 		type: 'function',
 	},
