@@ -14,14 +14,14 @@ export interface Post {
 export interface Subscribe {
 	subscriber: string
 	creator: string
-	//price: BigNumber
-}
-
-export interface Following {
-	subscriber: string
-	creator: string
 	price: BigNumber
 }
+
+// export interface Following {
+// 	subscriber: string
+// 	creator: string
+// 	price: BigNumber
+// }
 
 export interface Request {
 	subscriber: string
@@ -37,7 +37,7 @@ export interface Decryption {
 
 export interface Creator {
 	creatorAddress: string
-	//price: BigNumber
+	price: BigNumber
 }
 
 interface GlobalState {
@@ -47,7 +47,7 @@ interface GlobalState {
 	decryptions: Decryption[]
 	subscribers: Subscribe[]
 	creators: Creator[]
-	followings: Following[]
+	//followings: Following[]
 
 	updateMedusa: (medusa: Medusa<SecretKey, PublicKey<SecretKey>> | null) => void
 	updatePosts: (posts: Post[]) => void
@@ -70,6 +70,7 @@ const useGlobalStore = create<GlobalState>()(set => ({
 	decryptions: [],
 	subscribers: [],
 	creators: [],
+	followings: [],
 
 	updateMedusa: (medusa: Medusa<SecretKey, PublicKey<SecretKey>> | null) => set(state => ({ medusa })),
 	updatePosts: (posts: Post[]) => set(state => ({ posts })),

@@ -8,7 +8,7 @@ import toast from 'react-hot-toast'
 import { useAccount, useContractWrite, usePrepareContractWrite, useWaitForTransaction } from 'wagmi'
 import { arbitrumGoerli } from 'wagmi/chains'
 
-const Request: FC<Post & { purchased: boolean }> = ({ cipherId, uri, name, description, purchased }) => {
+const PostListing: FC<Post & { purchased: boolean }> = ({ cipherId, uri, name, description, purchased }) => {
 	const { isConnected } = useAccount()
 
 	const medusa = useGlobalStore(state => state.medusa)
@@ -101,4 +101,4 @@ const Request: FC<Post & { purchased: boolean }> = ({ cipherId, uri, name, descr
 	)
 }
 
-export default Request
+export default PostListing

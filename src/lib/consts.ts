@@ -1,5 +1,5 @@
 export const APP_NAME = 'dOnlyFans' as const
-export const CONTRACT_ADDRESS = '0x12Ad100f5e5d401B7A2B4B02F906c2bA6e4C1f1b' as const
+export const CONTRACT_ADDRESS = '0xF3c97CD465dca84972D022A2dE54Ae12DAcB98d8' as const
 export const ORACLE_ADDRESS = '0xf1d5A4481F44fe0818b6E7Ef4A60c0c9b29E3118' as const
 
 // The <const> assertion enables wagmi to infer the correct types when using the ABI in hooks
@@ -32,6 +32,11 @@ export const DONLYFANS_ABI = <const>[
 	},
 	{
 		inputs: [],
+		name: 'PostDoesNotExist',
+		type: 'error',
+	},
+	{
+		inputs: [],
 		name: 'dOnlyFans__CreatorAlreadyExists',
 		type: 'error',
 	},
@@ -50,6 +55,18 @@ export const DONLYFANS_ABI = <const>[
 				name: 'creatorContractAddress',
 				type: 'address',
 			},
+			{
+				indexed: false,
+				internalType: 'uint256',
+				name: 'price',
+				type: 'uint256',
+			},
+			{
+				indexed: false,
+				internalType: 'uint256',
+				name: 'period',
+				type: 'uint256',
+			},
 		],
 		name: 'NewCreatorProfileCreated',
 		type: 'event',
@@ -60,7 +77,7 @@ export const DONLYFANS_ABI = <const>[
 			{
 				indexed: true,
 				internalType: 'address',
-				name: 'subscriber',
+				name: 'creator',
 				type: 'address',
 			},
 			{
@@ -136,6 +153,12 @@ export const DONLYFANS_ABI = <const>[
 				internalType: 'address',
 				name: 'subscriber',
 				type: 'address',
+			},
+			{
+				indexed: false,
+				internalType: 'uint256',
+				name: 'price',
+				type: 'uint256',
 			},
 		],
 		name: 'NewSubscriber',
@@ -356,6 +379,25 @@ export const DONLYFANS_ABI = <const>[
 			},
 		],
 		name: 'getCreatorContractAddress',
+		outputs: [
+			{
+				internalType: 'address',
+				name: '',
+				type: 'address',
+			},
+		],
+		stateMutability: 'view',
+		type: 'function',
+	},
+	{
+		inputs: [
+			{
+				internalType: 'uint256',
+				name: 'cipherId',
+				type: 'uint256',
+			},
+		],
+		name: 'getPostSeller',
 		outputs: [
 			{
 				internalType: 'address',
