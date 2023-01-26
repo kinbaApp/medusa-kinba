@@ -31,9 +31,9 @@ const Home: FC = () => {
 		address: CONTRACT_ADDRESS,
 		abi: DONLYFANS_ABI,
 		eventName: 'NewCreatorProfileCreated',
-		listener(creatorAddress, creatorContractAddress) {
+		listener(creatorAddress, creatorContractAddress, price, period) {
 			if (creatorAddress == address) {
-				addCreator({ creatorAddress })
+				addCreator({ creatorAddress, price, period })
 			}
 		},
 	})
@@ -42,9 +42,9 @@ const Home: FC = () => {
 		address: CONTRACT_ADDRESS,
 		abi: DONLYFANS_ABI,
 		eventName: 'NewSubscriber',
-		listener(creator, subscriber) {
+		listener(creator, subscriber, price) {
 			if (subscriber == address) {
-				addSubscriber({ creator, subscriber })
+				addSubscriber({ creator, subscriber, price })
 			}
 		},
 	})
@@ -149,8 +149,6 @@ const Home: FC = () => {
 						</p> */}
 						<div className=" flex-row-reverse lg:w ">
 							<CreateNewProfile />
-
-							<PostForm />
 						</div>
 					</div>
 

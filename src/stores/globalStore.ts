@@ -38,6 +38,7 @@ export interface Decryption {
 export interface Creator {
 	creatorAddress: string
 	price: BigNumber
+	period: BigNumber
 }
 
 interface GlobalState {
