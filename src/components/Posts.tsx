@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import useGlobalStore from '@/stores/globalStore'
-import Post from './Post'
+import Request from './RequestPost'
 import { useAccount } from 'wagmi'
 
 const Posts: FC = () => {
@@ -20,7 +20,7 @@ const Posts: FC = () => {
 			</h1>
 			<div className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-4 w-full transition-all">
 				{posts.map(post => (
-					<Post key={post.cipherId.toNumber()} {...post} />
+					<Request key={post.cipherId.toNumber()} {...post} />
 				))}
 			</div>
 		</>

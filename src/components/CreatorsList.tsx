@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import useGlobalStore from '@/stores/globalStore'
-import Post from './Post'
+import Post from './RequestPost'
 import { useAccount } from 'wagmi'
 import Subscription from './Subscribe'
 import CreateNewProfile from './CreateNewProfile'

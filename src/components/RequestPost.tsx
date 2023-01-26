@@ -1,4 +1,4 @@
-import { CREATOR_ABI, CONTRACT_ADDRESS } from '@/lib/consts'
+import { DONLYFANS_ABI, CONTRACT_ADDRESS } from '@/lib/consts'
 import { ipfsGatewayLink } from '@/lib/utils'
 import useGlobalStore, { Post } from '@/stores/globalStore'
 import { BigNumber } from 'ethers'
@@ -8,7 +8,7 @@ import toast from 'react-hot-toast'
 import { useAccount, useContractWrite, usePrepareContractWrite, useWaitForTransaction } from 'wagmi'
 import { arbitrumGoerli } from 'wagmi/chains'
 
-const Post: FC<Post & { purchased: boolean }> = ({ cipherId, uri, name, description, purchased }) => {
+const Request: FC<Post & { purchased: boolean }> = ({ cipherId, uri, name, description, purchased }) => {
 	const { isConnected } = useAccount()
 
 	const medusa = useGlobalStore(state => state.medusa)
@@ -20,7 +20,7 @@ const Post: FC<Post & { purchased: boolean }> = ({ cipherId, uri, name, descript
 
 	const { config } = usePrepareContractWrite({
 		address: CONTRACT_ADDRESS,
-		abi: CREATOR_ABI,
+		abi: DONLYFANS_ABI,
 		functionName: 'requestPost',
 		args: [cipherId, evmPoint],
 		enabled: Boolean(evmPoint),
@@ -63,6 +63,7 @@ const Post: FC<Post & { purchased: boolean }> = ({ cipherId, uri, name, descript
 	const unlockSecret = async () => {
 		toast.loading('Unlocking secret...')
 		requestPost?.()
+		console.log(requestPost)
 	}
 
 	return (
@@ -100,4 +101,4 @@ const Post: FC<Post & { purchased: boolean }> = ({ cipherId, uri, name, descript
 	)
 }
 
-export default Post
+export default Request
