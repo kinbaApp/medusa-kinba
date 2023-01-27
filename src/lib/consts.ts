@@ -603,3 +603,246 @@ export const DONLYFANS_ABI = <const>[
 		type: 'function',
 	},
 ]
+
+export const CREATOR_ABI = <const>[
+	{
+		inputs: [
+			{
+				internalType: 'contract BN254EncryptionOracle',
+				name: '_oracle',
+				type: 'address',
+			},
+			{
+				internalType: 'address',
+				name: '_address',
+				type: 'address',
+			},
+			{
+				internalType: 'uint256',
+				name: '_price',
+				type: 'uint256',
+			},
+			{
+				internalType: 'uint256',
+				name: '_period',
+				type: 'uint256',
+			},
+		],
+		stateMutability: 'nonpayable',
+		type: 'constructor',
+	},
+	{
+		inputs: [],
+		name: 'CreatorDoesNotExist',
+		type: 'error',
+	},
+	{
+		inputs: [],
+		name: 'Creator__NotOwner',
+		type: 'error',
+	},
+	{
+		inputs: [],
+		name: 'Creator__NotSubscriber',
+		type: 'error',
+	},
+	{
+		inputs: [],
+		name: 'InsufficientFunds',
+		type: 'error',
+	},
+	{
+		inputs: [],
+		name: 'CCaddress',
+		outputs: [
+			{
+				internalType: 'address',
+				name: '',
+				type: 'address',
+			},
+		],
+		stateMutability: 'view',
+		type: 'function',
+	},
+	{
+		inputs: [
+			{
+				internalType: 'address',
+				name: 'user',
+				type: 'address',
+			},
+		],
+		name: 'blockUser',
+		outputs: [],
+		stateMutability: 'nonpayable',
+		type: 'function',
+	},
+	{
+		inputs: [],
+		name: 'getSubscribers',
+		outputs: [
+			{
+				internalType: 'address[]',
+				name: '',
+				type: 'address[]',
+			},
+		],
+		stateMutability: 'view',
+		type: 'function',
+	},
+	{
+		inputs: [
+			{
+				internalType: 'address',
+				name: 'userAddress',
+				type: 'address',
+			},
+		],
+		name: 'isSubscriber',
+		outputs: [
+			{
+				internalType: 'bool',
+				name: '',
+				type: 'bool',
+			},
+		],
+		stateMutability: 'view',
+		type: 'function',
+	},
+	{
+		inputs: [],
+		name: 'isVerified',
+		outputs: [
+			{
+				internalType: 'bool',
+				name: '',
+				type: 'bool',
+			},
+		],
+		stateMutability: 'view',
+		type: 'function',
+	},
+	{
+		inputs: [],
+		name: 'oracle',
+		outputs: [
+			{
+				internalType: 'contract BN254EncryptionOracle',
+				name: '',
+				type: 'address',
+			},
+		],
+		stateMutability: 'view',
+		type: 'function',
+	},
+	{
+		inputs: [
+			{
+				internalType: 'address',
+				name: 'dest',
+				type: 'address',
+			},
+		],
+		name: 'payments',
+		outputs: [
+			{
+				internalType: 'uint256',
+				name: '',
+				type: 'uint256',
+			},
+		],
+		stateMutability: 'view',
+		type: 'function',
+	},
+	{
+		inputs: [],
+		name: 'price',
+		outputs: [
+			{
+				internalType: 'uint256',
+				name: '',
+				type: 'uint256',
+			},
+		],
+		stateMutability: 'view',
+		type: 'function',
+	},
+	{
+		inputs: [],
+		name: 'publicKey',
+		outputs: [
+			{
+				components: [
+					{
+						internalType: 'uint256',
+						name: 'x',
+						type: 'uint256',
+					},
+					{
+						internalType: 'uint256',
+						name: 'y',
+						type: 'uint256',
+					},
+				],
+				internalType: 'struct G1Point',
+				name: '',
+				type: 'tuple',
+			},
+		],
+		stateMutability: 'view',
+		type: 'function',
+	},
+	{
+		inputs: [],
+		name: 'subscribe',
+		outputs: [],
+		stateMutability: 'payable',
+		type: 'function',
+	},
+	{
+		inputs: [],
+		name: 'subscriptionPeriod',
+		outputs: [
+			{
+				internalType: 'uint256',
+				name: '',
+				type: 'uint256',
+			},
+		],
+		stateMutability: 'view',
+		type: 'function',
+	},
+	{
+		inputs: [
+			{
+				internalType: 'address',
+				name: 'subscriber',
+				type: 'address',
+			},
+		],
+		name: 'unsubscribe',
+		outputs: [],
+		stateMutability: 'nonpayable',
+		type: 'function',
+	},
+	{
+		inputs: [],
+		name: 'withdrawFunds',
+		outputs: [],
+		stateMutability: 'nonpayable',
+		type: 'function',
+	},
+	{
+		inputs: [
+			{
+				internalType: 'address payable',
+				name: 'payee',
+				type: 'address',
+			},
+		],
+		name: 'withdrawPayments',
+		outputs: [],
+		stateMutability: 'nonpayable',
+		type: 'function',
+	},
+]

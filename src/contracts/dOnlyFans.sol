@@ -10,8 +10,9 @@ error CallbackNotAuthorized();
 error ListingDoesNotExist();
 error InsufficientFunds();
 error CreatorDoesNotExist();
+error PostDoesNotExist();
 error NotSubscriber();
-
+error NotOwnerOfPost();
 struct Post {
 	address seller;
 	string uri;
@@ -35,11 +36,16 @@ contract dOnlyFans is IEncryptionClient {
 	mapping(address => address) public creatorsContract;
 	mapping(uint256 => Post) public posts;
 
-	event NewCreatorProfileCreated(address indexed creatorAddress, address indexed creatorContractAddress);
+	event NewCreatorProfileCreated(
+		address indexed creatorAddress,
+		address indexed creatorContractAddress,
+		uint256 price,
+		uint256 period
+	);
 
-	event NewSubscriber(address indexed creator, address indexed subscriber);
+	event NewSubscriber(address indexed creator, address indexed subscriber, uint256 price);
 	event NewPostRequest(address indexed subscriber, address indexed creator, uint256 requestId, uint256 cipherId);
-	event NewPost(address indexed subscriber, uint256 indexed cipherId, string name, string description, string uri);
+	event NewPost(address indexed creator, uint256 indexed cipherId, string name, string description, string uri);
 	event PostDecryption(uint256 indexed requestId, Ciphertext ciphertext);
 
 	modifier onlyOracle() {
@@ -62,7 +68,7 @@ contract dOnlyFans is IEncryptionClient {
 		// }
 		Creator creator = new Creator(oracle, msg.sender, price, period);
 		creatorsContract[msg.sender] = address(creator);
-		emit NewCreatorProfileCreated(msg.sender, address(creator));
+		emit NewCreatorProfileCreated(msg.sender, address(creator), price, period);
 	}
 
 	function getCreatorContractAddress(address creatorAddress) public view returns (address) {
@@ -73,7 +79,7 @@ contract dOnlyFans is IEncryptionClient {
 		address contractAddress = creatorsContract[creatorAddress];
 		Creator creator = Creator(contractAddress);
 		creator.subscribe{ value: msg.value }();
-		emit NewSubscriber(creatorAddress, msg.sender);
+		emit NewSubscriber(creatorAddress, msg.sender, msg.value);
 	}
 
 	function CreatePost(
@@ -91,6 +97,11 @@ contract dOnlyFans is IEncryptionClient {
 		return cipherId;
 	}
 
+	function getPostSeller(uint256 cipherId) public view returns (address) {
+		Post memory post = posts[cipherId];
+		return post.seller;
+	}
+
 	// function requestPost(
 	//     address creatorAddress,
 	//     uint256 cipherId,
@@ -103,19 +114,32 @@ contract dOnlyFans is IEncryptionClient {
 	function requestPost(uint256 cipherId, G1Point calldata subscriberPublicKey) external returns (uint256) {
 		Post memory post = posts[cipherId];
 		address creator = post.seller;
-		if (post.seller == address(0)) {
-			revert CreatorDoesNotExist();
+		if (creator == address(0)) {
+			revert PostDoesNotExist();
 		}
-		if (creatorsContract[post.seller] == address(0)) {
+		if (creatorsContract[creator] == address(0)) {
 			revert CreatorDoesNotExist();
 		}
 		address contractAddress = creatorsContract[creator];
 		if (!Creator(contractAddress).isSubscriber(msg.sender)) {
 			revert NotSubscriber();
 		}
+		//uint256 requestId = 2;
 		uint256 requestId = oracle.requestReencryption(cipherId, subscriberPublicKey);
+		emit NewPostRequest(msg.sender, creator, requestId, cipherId);
 
 		return requestId;
+	}
+
+	function deletePost(uint256 cipherId) external {
+		Post memory post = posts[cipherId];
+		address creator = post.seller;
+		if (creator != msg.sender) {
+			revert NotOwnerOfPost();
+		}
+		// posts[cipherId].seller = address(0);
+		// posts[cipherId].uri = "";
+		posts[cipherId] = Post(address(0), '');
 	}
 
 	function unsubscribe(address creatorAddress) external {
@@ -281,7 +305,7 @@ contract Creator is PullPayment {
 	}
 
 	function withdrawFunds() public onlyOwner {
-		withdrawPayments(payable(msg.sender));
+		withdrawPayments(payable(CCaddress));
 	}
 
 	function removeSubscriber(address user) private {
