@@ -19,12 +19,13 @@ const Profile: NextPage = () => {
 			</Head>
 			<Toaster position="top-center" reverseOrder={true} />
 			<Header />
+
 			<div className="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-800 sm:items-center py-4 sm:pt-0">
-				<div className="max-w-6xl mx-auto px-6 lg:px-8">
-					<PostForm />
+				<div className=" absolute top-0 left-0 max-w-6xl mx-auto px-6 lg:px-8">
+					<WithdrawFund />
 				</div>
 				<div className="max-w-6xl mx-auto px-6 lg:px-8">
-					<WithdrawFund />
+					<PostForm />
 				</div>
 			</div>
 		</div>
