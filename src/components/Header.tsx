@@ -62,13 +62,13 @@ const Header: FC = () => {
 						<a className="mr-4 p-6">Discover</a>
 					</Link>
 					<div className="items-center justify-end flex flex-1 lg:w-0 space-x-3">
-						<button
+						{/* <button
 							disabled={!address}
 							onClick={handleFaucet}
 							className="text-base font-medium text-black dark:text-white hover:text-gray-500 dark:hover:text-gray-400 disabled:cursor-not-allowed disabled:opacity-25"
 						>
 							Faucet
-						</button>
+						</button> */}
 						<ThemeSwitcher />
 						{isConnected ? <Signin /> : <ConnectWallet />}
 					</div>
