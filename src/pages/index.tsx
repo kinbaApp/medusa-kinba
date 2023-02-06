@@ -7,7 +7,7 @@ import PostForm from '@/components/PostForm'
 import Posts from '@/components/Posts'
 import Subscription from '@/components/Subscribe'
 import CreateNewProfile from '@/components/CreateNewProfile'
-import { Post, Request, Decryption, Subscribe, default as useGlobalStore } from '@/stores/globalStore'
+import { Post, Request, Decryption, Subscribe, Creator, default as useGlobalStore } from '@/stores/globalStore'
 import { ethers } from 'ethers'
 import PurchasedSecrets from '@/components/PurchasedSecrets'
 import Header from '@/components/Header'
@@ -21,6 +21,7 @@ const Home: FC = () => {
 	const updatePosts = useGlobalStore(state => state.updatePosts)
 	const updateRequests = useGlobalStore(state => state.updateRequests)
 	const updateDecryptions = useGlobalStore(state => state.updateDecryptions)
+	const updateCreators = useGlobalStore(state => state.updateCreators)
 	const addPost = useGlobalStore(state => state.addPost)
 	const addRequest = useGlobalStore(state => state.addRequest)
 	const addDecryption = useGlobalStore(state => state.addDecryption)
@@ -122,6 +123,18 @@ const Home: FC = () => {
 					return { requestId, ciphertext } as Decryption
 				})
 				updateDecryptions(decryptions)
+			}
+
+			const creatorsListFilter = donlyFans.filters.NewCreatorProfileCreated()
+			const newCreatorsProfile = await donlyFans.queryFilter(creatorsListFilter)
+
+			if (iface && newCreatorsProfile) {
+				const creators = newCreatorsProfile.reverse().map((filterTopic: any) => {
+					const result = iface.parseLog(filterTopic)
+					const { creatorAddress, price, period } = result.args
+					return { creatorAddress, price, period } as Creator
+				})
+				updateCreators(creators)
 			}
 		}
 		getEvents()

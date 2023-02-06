@@ -20,6 +20,12 @@ const PurchasedSecrets: FC = () => {
 					))}
 				</div>
 			) : (
+				// 	<div className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-4 w-full transition-all">
+				// 	{creators.map(sale => (
+				// 		//<CreatorsSubscribedTo key={creator.toString()} {...creator} />
+				// 		<li>{sale.requestId.toNumber()}</li>
+				// 	))}
+				// </div>
 				<p className="text-base font-mono font-light dark:text-gray-300 ml-2">
 					You have not unlocked any content yet. Sign in and subscribe to see it decrypted!
 				</p>

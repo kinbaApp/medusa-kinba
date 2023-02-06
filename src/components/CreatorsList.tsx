@@ -10,15 +10,16 @@ const CreatorsList: FC = () => {
 	const { address } = useAccount()
 	const creators = useGlobalStore(state => state.creators)
 	//const listOfCreators = creators.filter(creator => creator.)
+	const uniqueCreators = Array.from(new Set(creators))
 
 	return (
 		<>
 			<h1 className="text-2xl font-mono font-light dark:text-white mt-10 mb-6">List of creators</h1>
 
 			<div className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-4 w-full transition-all">
-				{creators.map(creator => (
+				{uniqueCreators.map(creator => (
 					//<CreatorsSubscribedTo key={creator.toString()} {...creator} />
-					<li>{creator.creatorAddress}</li>
+					<li key={creator.creatorAddress}> {creator.creatorAddress}</li>
 				))}
 			</div>
 		</>
