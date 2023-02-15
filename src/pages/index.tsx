@@ -1,7 +1,7 @@
-import { FC, useEffect } from 'react'
+import { FC, useEffect, useRef } from 'react'
 import Head from 'next/head'
 import { useAccount, useContract, useContractEvent, useProvider, useSigner } from 'wagmi'
-
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { APP_NAME, DONLYFANS_ABI, CONTRACT_ADDRESS, ORACLE_ADDRESS } from '@/lib/consts'
 import PostForm from '@/components/PostForm'
 import Posts from '@/components/Posts'
@@ -13,10 +13,12 @@ import PurchasedSecrets from '@/components/PurchasedSecrets'
 import Header from '@/components/Header'
 import { Toaster } from 'react-hot-toast'
 import CreatorsList from '@/components/CreatorsList'
+import { UserProfile } from '@/components'
 
 const Home: FC = () => {
 	const provider = useProvider()
 	const { address } = useAccount()
+	const scrollRef = useRef(null)
 
 	const updatePosts = useGlobalStore(state => state.updatePosts)
 	const updateRequests = useGlobalStore(state => state.updateRequests)
@@ -171,6 +173,14 @@ const Home: FC = () => {
 					{/* <CreatorsList /> */}
 
 					{/* <CreatorsList /> */}
+
+					{/* <div className="pb-2 flex-1 h-screen overflow-y-scroll" ref={scrollRef}>
+						<Router>
+							<Routes>
+								<Route path="/user-profile/:creatorAddress" element={<UserProfile />} />
+							</Routes>
+						</Router>
+					</div> */}
 				</div>
 			</div>
 		</>
