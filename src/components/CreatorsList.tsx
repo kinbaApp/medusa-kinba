@@ -5,7 +5,7 @@ import { useAccount } from 'wagmi'
 import Subscription from './Subscribe'
 import CreateNewProfile from './CreateNewProfile'
 import CreatorsSubscribedTo from './CreatorsSubscribedTo'
-import { Link, BrowserRouter as Router } from 'react-router-dom'
+import Link from 'next/link'
 
 const CreatorsList: FC = () => {
 	const { address } = useAccount()
@@ -21,18 +21,14 @@ const CreatorsList: FC = () => {
 	return (
 		<>
 			<h1 className="text-2xl font-mono font-light dark:text-white mt-10 mb-6">List of creators</h1>
-			<Router>
-				{creators.map(creator => (
-					<li key={creator.creatorAddress}>
-						<Link
-							to={`user-profile/${creator?.creatorAddress.toString()}`}
-							className="flex gap-2 mt-2 items"
-						>
-							{creator.creatorAddress.toString()}
-						</Link>
-					</li>
-				))}
-			</Router>
+
+			{creators.map(creator => (
+				<li key={creator.creatorAddress}>
+					<Link href={`user-profile/${creator?.creatorAddress.toString()}`}>
+						{creator.creatorAddress.toString()}
+					</Link>
+				</li>
+			))}
 		</>
 	)
 }

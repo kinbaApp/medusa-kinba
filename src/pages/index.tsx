@@ -14,6 +14,7 @@ import Header from '@/components/Header'
 import { Toaster } from 'react-hot-toast'
 import CreatorsList from '@/components/CreatorsList'
 import { UserProfile } from '@/components'
+import App from './_app'
 
 const Home: FC = () => {
 	const provider = useProvider()
@@ -173,14 +174,6 @@ const Home: FC = () => {
 					{/* <CreatorsList /> */}
 
 					{/* <CreatorsList /> */}
-
-					{/* <div className="pb-2 flex-1 h-screen overflow-y-scroll" ref={scrollRef}>
-						<Router>
-							<Routes>
-								<Route path="/user-profile/:creatorAddress" element={<UserProfile />} />
-							</Routes>
-						</Router>
-					</div> */}
 				</div>
 			</div>
 		</>
