@@ -212,7 +212,7 @@ const PostForm: FC = () => {
 						{isLoading || submitting
 							? 'Submitting...'
 							: medusa?.keypair
-							? 'Sell your Secret'
+							? 'Post your content'
 							: 'Please sign in'}
 					</button>
 				</div>
