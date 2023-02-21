@@ -53,10 +53,10 @@ const Header: FC = () => {
 						<a className="mr-4 p-6">Home</a>
 					</Link>
 					<Link href="/profile">
-						<a className="mr-4 p-6">Profile</a>
+						<a className="mr-4 p-6">New post</a>
 					</Link>
 					<Link href="/content">
-						<a className="mr-4 p-6">Content</a>
+						<a className="mr-4 p-6">Feed</a>
 					</Link>
 					<Link href="/discover">
 						<a className="mr-4 p-6">Discover</a>

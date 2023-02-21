@@ -46,13 +46,13 @@ const UserProfile = ({ creatorAddress }) => {
 	// console.log('price is', price?.toNumber())
 	//const price = parseInt(creator.price, 16)
 	const userPosts = useGlobalStore(state => state.posts).filter(post => post.creator === creatorAddress)
-	// const posts = userPosts.map(post => {
-	// 	return {
-	// 		...post,
-	// 		purchased: requests.some(request => request.subscriber === address && request.cipherId.eq(post.cipherId)),
-	// 	}
-	// })
-	const myPurchasedSecrets = requests.filter(
+	const posts = userPosts.map(post => {
+		return {
+			...post,
+			purchased: requests.some(request => request.subscriber === address && request.cipherId.eq(post.cipherId)),
+		}
+	})
+	const myUnlockedPosts = requests.filter(
 		request => request.subscriber == address && request.creator === creatorAddress
 	)
 
@@ -70,9 +70,12 @@ const UserProfile = ({ creatorAddress }) => {
 				Price: {price ? (BigNumber.from(0).eq(price) ? 'Free' : `${formatEther(price)} ETH`) : 'no price'} ,
 				Period: {formatEther(period)} days
 			</p>
-			{myPurchasedSecrets.length > 0 ? (
+			{!isSubscriber && (
+				<p className="text-base font-mono font-light dark:text-gray-300 ml-2">Subscribe to see the content!</p>
+			)}
+			{myUnlockedPosts.length > 0 ? (
 				<div className="grid grid-cols-1 lg:grid-cols-3 gap-6 p-4 w-full transition-all">
-					{myPurchasedSecrets.map(sale => (
+					{myUnlockedPosts.map(sale => (
 						<Unlocked key={sale.requestId.toNumber()} {...sale} />
 					))}
 				</div>
@@ -83,11 +86,8 @@ const UserProfile = ({ creatorAddress }) => {
 				// 		<li>{sale.requestId.toNumber()}</li>
 				// 	))}
 				// </div>
-				<p className="text-base font-mono font-light dark:text-gray-300 ml-2">
-					You have not unlocked any content yet. Sign in and subscribe to see it decrypted!
-				</p>
+				''
 			)}
-			)
 		</div>
 	)
 }

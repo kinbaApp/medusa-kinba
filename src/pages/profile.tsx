@@ -22,17 +22,17 @@ const Profile: NextPage = () => {
 			<Toaster position="top-center" reverseOrder={true} />
 			<Header />
 
-			<div className="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-800 sm:items-center py-4 sm:pt-0">
-				<div className=" absolute top-0 left-0 max-w-6xl mx-auto px-6 lg:px-8">
+			<div className="relative flex justify-center min-h-screen bg-gray-100 dark:bg-gray-800 sm:items-center py-2 sm:pt-0">
+				<div className="my-auto relative flex justify-center py-2 px-6 sm:pt-0 ">
 					<WithdrawFund />
 				</div>
-				<div className="max-w-6xl mx-auto px-4 lg:px-8">
+				<div className="  m-10  ">
 					<PostForm />
 					{/* </div>
 				<div className="max-w-6xl mx-auto px-6 lg:px-8"> */}
 					{/* <SubscribersList /> */}
 				</div>
-				<div className="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-800 sm:items-center py-4 px-10 sm:pt-0">
+				<div className="my-auto relative flex justify-center py-2 px-6 sm:pt-0">
 					<Link href="/listofsubscribers">
 						<a
 							className="font-semibold mb-2 text-sm text-white py-2 px-3 rounded-sm transition-colors bg-indigo-600 dark:bg-indigo-800 hover:bg-black dark:hover:bg-gray-50 dark:hover:text-gray-900 hover:cursor-pointer disabled:cursor-not-allowed disabled:opacity-25
