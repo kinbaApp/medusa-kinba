@@ -126,7 +126,9 @@ const UserProfile = ({ creatorAddress }) => {
 					<div className="p-6 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
 						<div className="pt-4 text-center">
 							<label className="block">
-								<span className="text-lg font-mono font-light dark:text-white my-4">Price</span>
+								<span className="text-lg font-mono font-light dark:text-white my-4">
+									Subscribe to see content!
+								</span>
 
 								<input
 									required
