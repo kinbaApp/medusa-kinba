@@ -26,7 +26,7 @@ const Profile: NextPage = () => {
 				<div className="my-auto relative flex justify-center py-2 px-6 sm:pt-0 ">
 					<WithdrawFund />
 				</div>
-				<div className="  m-10  ">
+				<div className="  m-10 px-20  ">
 					<PostForm />
 					{/* </div>
 				<div className="max-w-6xl mx-auto px-6 lg:px-8"> */}

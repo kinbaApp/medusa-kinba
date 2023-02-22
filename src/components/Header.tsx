@@ -55,7 +55,7 @@ const Header: FC = () => {
 					<Link href="/profile">
 						<a className="mr-4 p-6">New post</a>
 					</Link>
-					<Link href="/content">
+					<Link href="/feed">
 						<a className="mr-4 p-6">Feed</a>
 					</Link>
 					<Link href="/discover">
