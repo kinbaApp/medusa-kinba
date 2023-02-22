@@ -70,7 +70,7 @@ const UserProfile = ({ creatorAddress }) => {
 		//args: ['0x${creatorAddress}'],
 		args: [getAddress(creatorAddress || ethers.constants.AddressZero)],
 		//enabled: Boolean(evmPoint),
-		overrides: { value: price },
+		overrides: { value: parseEther(subscriptionPrice || '0.0') },
 		chainId: arbitrumGoerli.id,
 	})
 
