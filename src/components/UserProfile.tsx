@@ -58,11 +58,6 @@ const UserProfile = ({ creatorAddress }) => {
 		request => request.subscriber == address && request.creator === creatorAddress
 	)
 
-	//const userPost = posts.some(post => post.creator === creatorAddress)
-	if (!isConnected) {
-		return <div>Please connect your wallet</div>
-	}
-
 	const { config: configSubscribe } = usePrepareContractWrite({
 		address: CONTRACT_ADDRESS,
 		abi: DONLYFANS_ABI,
@@ -108,9 +103,20 @@ const UserProfile = ({ creatorAddress }) => {
 	})
 
 	const subscribeToCreator = async () => {
-		toast.loading('Subscribing..')
-		subscribe?.()
-		console.log(configSubscribe)
+		if (parseEther(subscriptionPrice) < price) {
+			console.log('not enough eth')
+			toast.dismiss()
+			toast.error(`Subscription price is ${formatEther(price)} ETH`)
+		} else {
+			toast.loading('Subscribing..')
+			subscribe?.()
+			console.log(configSubscribe)
+		}
+	}
+
+	//const userPost = posts.some(post => post.creator === creatorAddress)
+	if (!isConnected) {
+		return <div>Please connect your wallet</div>
 	}
 	return (
 		<div>
@@ -143,7 +149,7 @@ const UserProfile = ({ creatorAddress }) => {
 						<button
 							disabled={!isConnected}
 							className="font-semibold mb-2 text-sm text-white py-2 px-3 rounded-sm transition-colors bg-indigo-600 dark:bg-indigo-800 hover:bg-black dark:hover:bg-gray-50 dark:hover:text-gray-900 hover:cursor-pointer disabled:cursor-not-allowed disabled:opacity-25"
-							onClick={() => subscribeToCreator}
+							onClick={() => subscribeToCreator()}
 						>
 							Subscribe
 						</button>
