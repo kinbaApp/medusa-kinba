@@ -13,7 +13,7 @@ import PurchasedSecrets from '@/components/PurchasedSecrets'
 import Header from '@/components/Header'
 import { Toaster } from 'react-hot-toast'
 import CreatorsList from '@/components/CreatorsList'
-import { UserProfile } from '@/components'
+import { UserProfile, NavBar, Sidebar } from '@/components'
 import App from './_app'
 
 const Home: FC = () => {
@@ -128,27 +128,26 @@ const Home: FC = () => {
 			<Toaster position="top-center" reverseOrder={true} />
 
 			<Header />
+			<div className=" flex md:flex-row bg-gray-100 dark:bg-gray-800 flex-col h-screen transition-height duration-75 ease-out">
+				<Sidebar />
+				<div className="pb-2 flex-1 h-screen overflow-y-scroll" ref={scrollRef}>
+					<div className="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-800 sm:items-center py-4 sm:pt-0">
+						<div className="max-w-6xl mx-auto px-6 lg:px-8">
+							<h1 className="text-6xl font-mono font-light dark:text-white">{APP_NAME}</h1>
 
-			<div className="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-800 sm:items-center py-4 sm:pt-0">
-				<div className="max-w-6xl mx-auto px-6 lg:px-8">
-					<div className="flex pt-8 justify-center sm:pt-0 my-7">
-						<h1 className="text-6xl font-mono font-light dark:text-white">{APP_NAME}</h1>
-					</div>
-					<div className="flex justify-center sm:pt-0 my-7">
-						{/* <p className="text-lg font-mono font-light dark:text-white ml-2">
+							{/* <p className="text-lg font-mono font-light dark:text-white ml-2">
 							New creator? Create a profile below:
 						</p> */}
-						<div className=" flex-row-reverse lg:w ">
 							<CreateNewProfile />
+
+							<Subscription />
+
+							{/* <PurchasedSecrets /> */}
+							{/* <CreatorsList /> */}
+
+							{/* <CreatorsList /> */}
 						</div>
 					</div>
-
-					<Subscription />
-
-					{/* <PurchasedSecrets /> */}
-					{/* <CreatorsList /> */}
-
-					{/* <CreatorsList /> */}
 				</div>
 			</div>
 		</>
