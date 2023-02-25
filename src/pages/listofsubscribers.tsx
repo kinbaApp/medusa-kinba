@@ -10,6 +10,7 @@ import Header from '@/components/Header'
 import Posts from '@/components/Posts'
 import CreatorsList from '@/components/CreatorsList'
 import SubscribersList from '@/components/SubscribersList'
+import { Sidebar } from '@/components'
 
 const ListOfSubs: NextPage = () => {
 	return (
@@ -20,10 +21,13 @@ const ListOfSubs: NextPage = () => {
 			</Head>
 			<Toaster position="top-center" reverseOrder={true} />
 			<Header />
+			<div className=" flex md:flex-row bg-gray-100 dark:bg-gray-800 flex-col h-screen transition-height duration-75 ease-out">
+				<Sidebar />
 
-			<div className="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-800 sm:items-center py-4 sm:pt-0">
-				<div className="max-w-6xl mx-auto px-6 lg:px-8">
-					<SubscribersList />
+				<div className="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-800 sm:items-center py-4 sm:pt-0">
+					<div className="max-w-6xl mx-auto px-6 lg:px-8">
+						<SubscribersList />
+					</div>
 				</div>
 			</div>
 		</div>

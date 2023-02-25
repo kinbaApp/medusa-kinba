@@ -52,15 +52,7 @@ const Header: FC = () => {
 					<Link href="/">
 						<a className="mr-4 p-6">Home</a>
 					</Link>
-					<Link href="/profile">
-						<a className="mr-4 p-6">New post</a>
-					</Link>
-					<Link href="/feed">
-						<a className="mr-4 p-6">Feed</a>
-					</Link>
-					<Link href="/discover">
-						<a className="mr-4 p-6">Discover</a>
-					</Link>
+
 					<div className="items-center justify-end flex flex-1 lg:w-0 space-x-3">
 						{/* <button
 							disabled={!address}
@@ -70,7 +62,8 @@ const Header: FC = () => {
 							Faucet
 						</button> */}
 						<ThemeSwitcher />
-						{isConnected ? <Signin /> : <ConnectWallet />}
+						<ConnectWallet />
+						{isConnected && <Signin />}
 					</div>
 				</div>
 			</div>
