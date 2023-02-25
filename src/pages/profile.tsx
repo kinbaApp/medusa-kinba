@@ -5,15 +5,45 @@ import { ThemeProvider } from 'next-themes'
 import Head from 'next/head'
 import { APP_NAME, DONLYFANS_ABI, CONTRACT_ADDRESS, ORACLE_ADDRESS } from '@/lib/consts'
 import { Toaster } from 'react-hot-toast'
+import { useEffect } from 'react'
 import PurchasedSecrets from '@/components/PurchasedSecrets'
 import Header from '@/components/Header'
 import Posts from '@/components/Posts'
 import WithdrawFund from '@/components/WithdrawFund'
 import SubscribersList from '@/components/SubscribersList'
 import Link from 'next/link'
-import { Sidebar } from '@/components'
+import { Sidebar, CreateNewProfile } from '@/components'
+import { useAccount, useContractRead } from 'wagmi'
+import { arbitrumGoerli } from 'wagmi/chains'
+import { constants } from 'ethers'
+import { useRouter } from 'next/router'
 
 const Profile: NextPage = () => {
+	const { isConnected, address } = useAccount()
+	const router = useRouter()
+	// check if creator of profile exist
+	const {
+		data: creatorContractAddress,
+		isError,
+		isLoading,
+	} = useContractRead({
+		address: CONTRACT_ADDRESS,
+		abi: DONLYFANS_ABI,
+		functionName: 'getCreatorContractAddress',
+		args: [address],
+		chainId: arbitrumGoerli.id,
+		onSuccess(data) {
+			console.log('Success', creatorContractAddress)
+		},
+	})
+
+	const isCreator = creatorContractAddress !== constants.AddressZero
+
+	useEffect(() => {
+		if (isCreator) {
+			router.push(router.push(`user-profile/${address.toString()}`))
+		}
+	})
 	return (
 		<div>
 			<Head>
@@ -30,10 +60,15 @@ const Profile: NextPage = () => {
 						<WithdrawFund />
 					</div>
 					<div className="  m-10 px-20  ">
-						<PostForm />
-						{/* </div>
-				<div className="max-w-6xl mx-auto px-6 lg:px-8"> */}
-						{/* <SubscribersList /> */}
+						{isConnected ? (
+							isCreator ? (
+								'You are a creator'
+							) : (
+								<CreateNewProfile />
+							)
+						) : (
+							'Please connect your wallet'
+						)}{' '}
 					</div>
 					<div className="my-auto relative flex justify-center py-2 px-6 sm:pt-0">
 						<Link href="/listofsubscribers">

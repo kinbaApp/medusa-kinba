@@ -1,7 +1,7 @@
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useAccount } from 'wagmi'
 import type { NextPage } from 'next'
 import 'tailwindcss/tailwind.css'
@@ -21,6 +21,7 @@ const UserProfilePage = () => {
 	const router = useRouter()
 	const { address } = useAccount()
 	const { creatorAddress } = router.query
+	const scrollRef = useRef(null)
 
 	return (
 		<div>
@@ -33,9 +34,13 @@ const UserProfilePage = () => {
 			<div className=" flex md:flex-row bg-gray-100 dark:bg-gray-800 flex-col h-screen transition-height duration-75 ease-out">
 				<Sidebar />
 
-				<div className="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-800 sm:items-center py-4 sm:pt-0">
-					<div className="max-w-6xl mx-auto px-6 lg:px-8">
-						<UserProfile creatorAddress={creatorAddress} />
+				<div className="pb-2 flex-1 h-screen overflow-y-scroll" ref={scrollRef}>
+					<div className="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-800 sm:items-center py-4 sm:pt-0">
+						<div className="relative flex  justify-center  bg-gray-100 dark:bg-gray-800 sm:items-center py-4 sm:pt-0">
+							<div className="max-w-5xl mx-auto px-6 lg:px-8">
+								<UserProfile creatorAddress={creatorAddress} />
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>

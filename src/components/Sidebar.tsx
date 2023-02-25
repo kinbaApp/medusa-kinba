@@ -9,9 +9,6 @@ const Sidebar = () => {
 		<div className="hidden md:flex h-screen flex-initial  ">
 			<div className="  flex flex-col justify-between h-full overflow-y-scrikk min-w-210  bg-gray-100 dark:bg-gray-800">
 				<div className="border-r-2 px-5 h-full border-black dark:border-gray-100 flex flex-col gap-5">
-					<Link href="/">
-						<a className={sidebarStyle}>Home</a>
-					</Link>
 					<Link href="/feed">
 						<a className={sidebarStyle}>Feed</a>
 					</Link>
@@ -27,7 +24,7 @@ const Sidebar = () => {
 					<Link href="/">
 						<a className={sidebarStyle}>Messages</a>
 					</Link>
-					<Link href="/profile">
+					<Link href="/newPost">
 						<a className={sidebarStyle}>New Post</a>
 					</Link>
 				</div>

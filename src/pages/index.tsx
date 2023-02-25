@@ -132,8 +132,8 @@ const Home: FC = () => {
 				<Sidebar />
 				<div className="pb-2 flex-1 h-screen overflow-y-scroll" ref={scrollRef}>
 					<div className="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-800 sm:items-center py-4 sm:pt-0">
-						<div className="max-w-6xl mx-auto px-6 lg:px-8">
-							<h1 className="text-6xl font-mono font-light dark:text-white">{APP_NAME}</h1>
+						<div className="max-w-6xl mx-auto px-6  pt-10 lg:px-8">
+							{/* <h1 className="text-6xl font-mono font-light dark:text-white">{APP_NAME}</h1> */}
 
 							{/* <p className="text-lg font-mono font-light dark:text-white ml-2">
 							New creator? Create a profile below:

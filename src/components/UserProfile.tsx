@@ -120,7 +120,7 @@ const UserProfile = ({ creatorAddress }) => {
 	}
 	return (
 		<div>
-			<p className="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white truncate">
+			<p className="m-auto mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white truncate">
 				Creator Address: {creatorAddress}
 			</p>
 			<p className="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white truncate">
@@ -157,7 +157,7 @@ const UserProfile = ({ creatorAddress }) => {
 					{/* <p className="text-base font-mono font-light dark:text-gray-300 ml-2">
 						Subscribe to see the content!
 					</p> */}
-					<div className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-4 w-full transition-all">
+					<div className="grid grid-rows-1  gap-6 p-4 w-full transition-all">
 						{posts.map(post => (
 							<PostListing key={post.cipherId.toNumber()} {...post} />
 						))}
@@ -165,7 +165,7 @@ const UserProfile = ({ creatorAddress }) => {
 				</>
 			)}
 			{myUnlockedPosts.length > 0 ? (
-				<div className="grid grid-cols-1 lg:grid-cols-3 gap-6 p-4 w-full transition-all">
+				<div className="grid grid-rows-1 gap-6 p-4 w-full transition-all">
 					{myUnlockedPosts.map(sale => (
 						<Unlocked key={sale.requestId.toNumber()} {...sale} />
 					))}
