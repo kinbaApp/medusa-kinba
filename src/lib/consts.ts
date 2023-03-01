@@ -1,4 +1,4 @@
-export const APP_NAME = 'dOnlyFans' as const
+export const APP_NAME = 'Kinba' as const
 export const CONTRACT_ADDRESS = '0xF3c97CD465dca84972D022A2dE54Ae12DAcB98d8' as const
 export const ORACLE_ADDRESS = '0xf1d5A4481F44fe0818b6E7Ef4A60c0c9b29E3118' as const
 

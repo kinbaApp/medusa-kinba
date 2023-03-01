@@ -76,7 +76,7 @@ const PostListing: FC<Post & { purchased: boolean }> = ({ creator, cipherId, uri
 					target="_blank"
 					rel="noreferrer"
 				>
-					dOnlyFans post successfully unlocked with Medusa! View on Etherscan
+					Post successfully unlocked with Medusa! View on Etherscan
 					<svg
 						className="ml-2 w-5 h-5"
 						fill="currentColor"
