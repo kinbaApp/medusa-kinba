@@ -1,0 +1,147 @@
+.main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 75vh;
+    .videoContainer {
+        position: relative;
+        width: 100%;
+        height: 100%; 
+        overflow: hidden;
+        display: grid;
+        grid-template-columns: .2fr 1fr .2fr;
+        .videoText {
+            margin: 5rem 0;
+            grid-column: 2/3;
+            z-index: 10;
+            position: relative;
+            color: white;
+            .title {
+                font-size: 28px;
+                margin-left: 12px;
+            }
+            .subtext {
+                font-size: 18px;
+                margin: 12px;
+            }
+        }
+        .intro {
+            position: absolute; 
+            left:0;
+            top:0;
+            min-width: 100%; 
+            min-height: 100%;
+            width: auto; 
+            height: auto; 
+            z-index: -100;
+            background-size: cover;
+            overflow: hidden;
+        }
+    }
+    .loginContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        position: relative;
+        >h3 {
+            text-align: left;
+            width: 50%;
+            // position: absolute;
+        }
+        .username {
+            width: 50%;
+            padding: 12px 20px;
+            margin: 12px;
+            display: inline-block;
+            border: 2px solid #dbdbdb;
+            border-radius: 4px;
+            box-sizing: border-box;
+            background-color: white;
+          }
+          .input{
+            width: 50%;
+            padding: 12px 20px;
+            margin: 12px;
+            display: flex;
+            border: 2px solid #dbdbdb;
+            border-radius: 4px;
+            box-sizing: border-box;
+          }
+          input[type='password']:focus, input[type='text']:focus, textarea {
+            border: none;
+            outline-offset: none;
+            --tw-shadow: none;
+          }
+          
+        .loginButton {
+            width: 50%;
+            background-color: #dbdbdb;
+            height: 40px;
+            border-radius: 25px;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 12px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .redirectText {
+            color: rgb(228, 67, 228);
+            margin: 12px;
+        }
+        .twitterButton {
+            width: 50%;
+            background-color: #1da1f2;
+            height: 40px;
+            border-radius: 25px;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 12px;
+            cursor: pointer;
+            position: relative;
+            font-size: 14px;
+            .iconContainer {
+                position: absolute;
+                left: 5px;
+                top: 5px;
+            }
+        }
+        .googleButton {
+            width: 50%;
+            background-color: #4c8bf5;
+            height: 40px;
+            border-radius: 25px;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 12px;
+            position: relative;
+            cursor: pointer;
+            font-size: 14px;
+            .whitebox {
+                position: absolute;
+                left: 1px;
+                width: 35px;
+                height: 38px;
+                background-color: white;
+                border-top-left-radius: 80px 80px;
+                border-bottom-left-radius: 80px 80px;
+            }
+        }
+    }
+}
+.featuredPosts {
+    background-color: #eeecec;
+    //need to remove height later when content fills this space
+    height: 25vh;
+    padding: 3rem 15rem;
+    .featuredTitle {
+        font-size: 30px;
+        font-weight: 300;
+    }
+}
