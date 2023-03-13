@@ -17,6 +17,8 @@ import { useAccount, useContractRead } from 'wagmi'
 import { arbitrumGoerli } from 'wagmi/chains'
 import { constants } from 'ethers'
 import { useRouter } from 'next/router'
+import styles from '../../styles/Profile.module.scss'
+import Image from 'next/image'
 
 const Profile: NextPage = () => {
 	const { isConnected, address } = useAccount()
@@ -44,6 +46,7 @@ const Profile: NextPage = () => {
 			console.log('Not connected')
 		}
 		if (isCreator && isConnected) {
+			// @ts-ignore
 			router.push(router.push(`user-profile/${address?.toString()}`))
 		}
 	})
@@ -54,11 +57,10 @@ const Profile: NextPage = () => {
 				<meta name="viewport" content="initial-scale=1.0, width=device-width" />
 			</Head>
 			<Toaster position="top-center" reverseOrder={true} />
-			<Header />
-			<div className=" flex md:flex-row bg-gray-100 dark:bg-gray-800 flex-col h-screen transition-height duration-75 ease-out">
-				<Sidebar />
+			{/* <Header /> */}
+			{/* <div className=" flex md:flex-row bg-gray-100 dark:bg-gray-800 flex-col h-screen transition-height duration-75 ease-out"> */}
 
-				<div className="relative flex justify-center min-h-screen bg-gray-100 dark:bg-gray-800 sm:items-center py-2 sm:pt-0">
+			{/* <div className="relative flex justify-center min-h-screen bg-gray-100 dark:bg-gray-800 sm:items-center py-2 sm:pt-0">
 					<div className="my-auto relative flex justify-center py-2 px-6 sm:pt-0 ">
 						<WithdrawFund />
 					</div>
@@ -83,6 +85,45 @@ const Profile: NextPage = () => {
 							</a>
 						</Link>
 					</div>
+				</div> */}
+			{/* </div> */}
+			<div className={styles.container}>
+				<div className={styles.video}>
+					<video loop autoPlay muted id="video" className={styles.intro}>
+						<source src="/Login/kinba.mp4" type="video/mp4" />
+					</video>
+				</div>
+				<div className={styles.main}>
+					{/* All of this data will need to be taken from the users account  */}
+					{/* Hard coding all images and info untitl i access db */}
+					<div className={styles.sidebar}>
+						<Sidebar />
+					</div>
+					<div className={styles.content}>
+						<div className={styles.headerImage}>
+							<img src="/Profile/stock.png" alt="" />
+						</div>
+						<div className={styles.profilepic}>
+							<div className={styles.pinkring}>
+								<div className={styles.blackring}>
+									<div>
+										<img src="/Profile/girl.png" alt="" className={styles.image} />
+									</div>
+								</div>
+							</div>
+						</div>
+						<div className={styles.bio}>
+							<div className={styles.likeAndShare}>heart and share</div>
+							<div className={styles.bottomhalf}>
+								{/* INTERPOLATE USER INFO HERE  */}
+								<div> name pink checkmark postts videos and likes</div>
+								<div>username</div>
+								<div>bio</div>
+							</div>
+						</div>
+						<div className={styles.subscriptionInfo}>SUBSCRIBE</div>
+					</div>
+					<div className={styles.subscriptions}>Subscribe messages will go here</div>
 				</div>
 			</div>
 		</div>

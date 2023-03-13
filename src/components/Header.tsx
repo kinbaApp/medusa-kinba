@@ -63,7 +63,7 @@ const Header: FC = () => {
 						</button> */}
 						<ThemeSwitcher />
 						<ConnectWallet />
-						{isConnected && <Signin />}
+						{/* {!isConnected && <Signin />} */}
 					</div>
 				</div>
 			</div>

@@ -1,31 +1,79 @@
 import React from 'react'
 import Link from 'next/link'
 import { useAccount } from 'wagmi'
+import styles from '../../styles/Sidebar.module.scss'
+import { VscHome } from 'react-icons/vsc'
+import { BsBell } from 'react-icons/bs'
+import { BiMessageSquareDetail } from 'react-icons/bi'
+import { FiBookmark } from 'react-icons/fi'
+import { MdFormatListBulleted } from 'react-icons/md'
+import { BsPersonHeart } from 'react-icons/bs'
+import { IoPersonCircleSharp } from 'react-icons/io5'
+import { CiCircleMore } from 'react-icons/ci'
+import Image from 'next/image'
 
-const sidebarStyle = 'mr-4 p-3'
 const Sidebar = () => {
 	const { address, isConnected } = useAccount()
 	return (
-		<div className="hidden md:flex h-screen flex-initial  ">
-			<div className="  flex flex-col justify-between h-full overflow-y-scrikk min-w-210  bg-gray-100 dark:bg-gray-800">
-				<div className="border-r-2 px-5 h-full border-black dark:border-gray-100 flex flex-col gap-5">
+		<div className={styles.outerContainer}>
+			<div className={styles.logo}>
+				<Image src="/Login/logo.png" alt="" height={70} width={130} />
+			</div>
+			<div className={styles.container}>
+				<div className={styles.feed}>
 					<Link href="/feed">
-						<a className={sidebarStyle}>Feed</a>
+						<a>
+							<VscHome size="20px" />
+						</a>
 					</Link>
-					<Link href="/profile">
-						<a className={sidebarStyle}>Profile</a>
-					</Link>
-					<Link href="/discover">
-						<a className={sidebarStyle}>Discover</a>
-					</Link>
+				</div>
+				<div className={styles.feed}>
 					<Link href="/">
-						<a className={sidebarStyle}>Notifications</a>
+						<a>
+							<BsBell size="20px" />
+						</a>
 					</Link>
+				</div>
+				<div className={styles.feed}>
 					<Link href="/">
-						<a className={sidebarStyle}>Messages</a>
+						<a>
+							<BiMessageSquareDetail size="20px" />
+						</a>
 					</Link>
+				</div>
+				<div className={styles.feed}>
 					<Link href="/newPost">
-						<a className={sidebarStyle}>New Post</a>
+						<a>
+							<FiBookmark size="20px" />
+						</a>
+					</Link>
+				</div>
+				<div className={styles.feed}>
+					<Link href="/discover">
+						<a>
+							<MdFormatListBulleted size="20px" />
+						</a>
+					</Link>
+				</div>
+				<div className={styles.feed}>
+					<Link href="/">
+						<a>
+							<BsPersonHeart size="20px" />
+						</a>
+					</Link>
+				</div>
+				<div className={styles.feed}>
+					<Link href="/profile">
+						<a>
+							<IoPersonCircleSharp size="20px" />
+						</a>
+					</Link>
+				</div>
+				<div className={styles.feed}>
+					<Link href="/">
+						<a>
+							<CiCircleMore size="20px" />
+						</a>
 					</Link>
 				</div>
 			</div>

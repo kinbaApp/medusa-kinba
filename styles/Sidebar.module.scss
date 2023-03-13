@@ -1,0 +1,21 @@
+.outerContainer {
+    .logo {
+        position: absolute;
+        // left: 15px;
+        top: 25px;
+    }
+	.container {
+		// max-width: 60px;
+		display: flex;
+		flex-direction: column;
+		height: 70vh;
+		width: 200px;
+		padding-top: 2rem;
+		align-items: flex-end;
+		gap: 2rem;
+		position: relative;
+		.feed:hover {
+			color: white;
+		}
+	}
+}
