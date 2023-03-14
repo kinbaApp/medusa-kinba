@@ -1,9 +1,9 @@
 import { useCallback } from 'react'
-import { useTheme } from 'next-themes'
+// import { useTheme } from 'next-themes'
 import { MoonIcon, SunIcon } from '@heroicons/react/outline'
 
-const ThemeSwitcher = ({ className = '' }) => {
-	const { resolvedTheme, setTheme } = useTheme()
+const ThemeSwitcher = ({ className = '', resolvedTheme, setTheme }) => {
+	// const { resolvedTheme, setTheme } = useTheme()
 
 	const toggleTheme = useCallback(() => {
 		setTheme(resolvedTheme === 'light' ? 'dark' : 'light')

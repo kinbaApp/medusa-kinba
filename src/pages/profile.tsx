@@ -1,8 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import type { NextPage } from 'next'
 import 'tailwindcss/tailwind.css'
-import PostForm from '@/components/PostForm'
-import { ThemeProvider } from 'next-themes'
 import Head from 'next/head'
 import { APP_NAME, DONLYFANS_ABI, CONTRACT_ADDRESS, ORACLE_ADDRESS } from '@/lib/consts'
 import { Toaster } from 'react-hot-toast'
@@ -12,7 +10,6 @@ import Header from '@/components/Header'
 import Posts from '@/components/Posts'
 import WithdrawFund from '@/components/WithdrawFund'
 import SubscribersList from '@/components/SubscribersList'
-import Link from 'next/link'
 import { Sidebar, CreateNewProfile } from '@/components'
 import { useAccount, useContractRead } from 'wagmi'
 import { arbitrumGoerli } from 'wagmi/chains'
@@ -25,10 +22,14 @@ import { BsCameraVideo } from 'react-icons/bs'
 import { AiOutlineHeart } from 'react-icons/ai'
 import PinkButton from '@/components/reusable/PinkButton'
 import Ad from '@/components/reusable/Ad'
-import { style } from '@mui/system'
-const Profile: NextPage = () => {
+import useGlobalStore from '@/stores/globalStore'
+import PostListing from '@/components/PostListing'
+import Unlocked from '@/components/Unlocked'
+
+const Profile: NextPage = resolvedTheme => {
 	const { isConnected, address } = useAccount()
 	const router = useRouter()
+	const { creatorAddress } = router.query
 	// check if creator of profile exist
 	const {
 		data: creatorContractAddress,
@@ -47,15 +48,38 @@ const Profile: NextPage = () => {
 
 	const isCreator = creatorContractAddress !== constants.AddressZero
 
-	useEffect(() => {
-		if (!isConnected) {
-			console.log('Not connected')
-		}
-		if (isCreator && isConnected) {
-			// @ts-ignore
-			router.push(router.push(`user-profile/${address?.toString()}`))
+	// useEffect(() => {
+	// 	if (!isConnected) {
+	// 		console.log('Not connected')
+	// 	}
+	// 	if (isCreator && isConnected) {
+	// 		// @ts-ignore
+	// 		router.push(`/user-profile/${address?.toString()}`)
+	// 	}
+	// })
+
+	//doing this to display the posts because something is wrong with the filter on like 68
+	const testPost = useGlobalStore(state => state.posts)
+
+	const requests = useGlobalStore(state => state.requests)
+	//since i'm not the creator, I added my address
+	const userPosts = useGlobalStore(state => state.posts).filter(
+		post => post.creator === (creatorAddress || '0x342Ed79c05E61Dfb7AF45df02100859e068E3a83')
+	)
+	const posts = userPosts.map(post => {
+		return {
+			...post,
+			purchased: requests.some(request => request.subscriber === address && request.cipherId.eq(post.cipherId)),
 		}
 	})
+	const myUnlockedPosts = requests.filter(
+		request => request.subscriber == address && request.creator === creatorAddress
+	)
+	// console.log('requests', requests)
+	// console.log('posts', posts)
+	// console.log('userposts', userPosts)
+	// console.log('creatoraddress', creatorAddress)
+	console.log('testposts', testPost)
 	return (
 		<div>
 			<Head>
@@ -106,7 +130,7 @@ const Profile: NextPage = () => {
 					{/* All of this data will need to be taken from the users account  */}
 					{/* Hard coding all images and info untitl i access db */}
 					<div className={styles.sidebar}>
-						<Sidebar />
+						<Sidebar resolvedTheme={resolvedTheme} />
 					</div>
 					<div className={styles.content}>
 						<div className={styles.headerImage}>
@@ -217,6 +241,20 @@ const Profile: NextPage = () => {
 						</div>
 					</div>
 				</div>
+				<div className={styles.posts}>
+					{testPost.map(post => (
+						<PostListing purchased={false} key={post.cipherId.toNumber()} {...post} />
+					))}
+				</div>
+				{/* {myUnlockedPosts.length > 0 ? (
+					<div className={styles.unlockedContainer}>
+						{myUnlockedPosts.map(sale => (
+							<Unlocked key={sale.requestId.toNumber()} {...sale} />
+						))}
+					</div>
+				) : (
+					<div>nothing is working</div>
+				)} */}
 			</div>
 		</div>
 	)

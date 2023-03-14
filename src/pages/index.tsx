@@ -13,13 +13,17 @@ import PurchasedSecrets from '@/components/PurchasedSecrets'
 import Header from '@/components/Header'
 import { Toaster } from 'react-hot-toast'
 import CreatorsList from '@/components/CreatorsList'
-import { UserProfile, NavBar, Sidebar } from '@/components'
+import { UserProfile, Sidebar } from '@/components'
 import App from './_app'
+import { useTheme } from 'next-themes'
+import { resolve } from 'path'
 
 const Home: FC = () => {
 	const provider = useProvider()
 	const { address } = useAccount()
 	const scrollRef = useRef(null)
+
+	const { resolvedTheme, setTheme } = useTheme()
 
 	const updatePosts = useGlobalStore(state => state.updatePosts)
 	const updateRequests = useGlobalStore(state => state.updateRequests)
@@ -28,7 +32,6 @@ const Home: FC = () => {
 	const addRequest = useGlobalStore(state => state.addRequest)
 	const addDecryption = useGlobalStore(state => state.addDecryption)
 	const addSubscriber = useGlobalStore(state => state.addSubscriber)
-
 	useContractEvent({
 		address: CONTRACT_ADDRESS,
 		abi: DONLYFANS_ABI,
@@ -127,9 +130,9 @@ const Home: FC = () => {
 
 			<Toaster position="top-center" reverseOrder={true} />
 
-			<Header />
+			<Header resolvedTheme={resolvedTheme} setTheme={setTheme} />
 			<div className=" flex md:flex-row bg-gray-100 dark:bg-gray-800 flex-col h-screen transition-height duration-75 ease-out">
-				<Sidebar />
+				<Sidebar resolvedTheme={resolvedTheme} />
 				<div className="pb-2 flex-1 h-screen overflow-y-scroll" ref={scrollRef}>
 					<div className="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-800 sm:items-center py-4 sm:pt-0">
 						<div className="max-w-6xl mx-auto px-6  pt-10 lg:px-8">

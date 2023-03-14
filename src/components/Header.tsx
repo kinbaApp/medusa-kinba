@@ -8,7 +8,7 @@ import Signin from './Signin'
 import ThemeSwitcher from './ThemeSwitcher'
 import toast from 'react-hot-toast'
 
-const Header: FC = () => {
+function Header({ setTheme, resolvedTheme }) {
 	const { isConnected, address } = useAccount()
 
 	const handleFaucet = async (event: any) => {
@@ -55,13 +55,13 @@ const Header: FC = () => {
 
 					<div className="items-center justify-end flex flex-1 lg:w-0 space-x-3">
 						{/* <button
-							disabled={!address}
-							onClick={handleFaucet}
-							className="text-base font-medium text-black dark:text-white hover:text-gray-500 dark:hover:text-gray-400 disabled:cursor-not-allowed disabled:opacity-25"
-						>
-							Faucet
-						</button> */}
-						<ThemeSwitcher />
+                disabled={!address}
+                onClick={handleFaucet}
+                className="text-base font-medium text-black dark:text-white hover:text-gray-500 dark:hover:text-gray-400 disabled:cursor-not-allowed disabled:opacity-25"
+            >
+                Faucet
+            </button> */}
+						<ThemeSwitcher resolvedTheme={resolvedTheme} setTheme={setTheme} />
 						<ConnectWallet />
 						{/* {!isConnected && <Signin />} */}
 					</div>

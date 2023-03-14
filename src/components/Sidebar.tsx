@@ -12,7 +12,7 @@ import { IoPersonCircleSharp } from 'react-icons/io5'
 import { CiCircleMore } from 'react-icons/ci'
 import Image from 'next/image'
 
-const Sidebar = () => {
+const Sidebar = ({ resolvedTheme }) => {
 	const { address, isConnected } = useAccount()
 	return (
 		<div className={styles.outerContainer}>
@@ -23,56 +23,56 @@ const Sidebar = () => {
 				<div className={styles.feed}>
 					<Link href="/feed">
 						<a>
-							<VscHome size="25px" color="white" />
+							<VscHome size="25px" color={resolvedTheme === 'light' ? 'black' : 'white'} />
 						</a>
 					</Link>
 				</div>
 				<div className={styles.feed}>
 					<Link href="/">
 						<a>
-							<BsBell size="25px" color="white" />
+							<BsBell size="25px" color={resolvedTheme === 'light' ? 'black' : 'white'} />
 						</a>
 					</Link>
 				</div>
 				<div className={styles.feed}>
 					<Link href="/">
 						<a>
-							<BiMessageSquareDetail size="25px" color="white" />
+							<BiMessageSquareDetail size="25px" color={resolvedTheme === 'light' ? 'black' : 'white'} />
 						</a>
 					</Link>
 				</div>
 				<div className={styles.feed}>
 					<Link href="/newPost">
 						<a>
-							<FiBookmark size="25px" color="white" />
+							<FiBookmark size="25px" color={resolvedTheme === 'light' ? 'black' : 'white'} />
 						</a>
 					</Link>
 				</div>
 				<div className={styles.feed}>
 					<Link href="/discover">
 						<a>
-							<MdFormatListBulleted size="25px" color="white" />
+							<MdFormatListBulleted size="25px" color={resolvedTheme === 'light' ? 'black' : 'white'} />
 						</a>
 					</Link>
 				</div>
 				<div className={styles.feed}>
 					<Link href="/">
 						<a>
-							<BsPersonHeart size="25px" color="white" />
+							<BsPersonHeart size="25px" color={resolvedTheme === 'light' ? 'black' : 'white'} />
 						</a>
 					</Link>
 				</div>
 				<div className={styles.feed}>
 					<Link href="/profile">
 						<a>
-							<IoPersonCircleSharp size="25px" color="white" />
+							<IoPersonCircleSharp size="25px" color={resolvedTheme === 'light' ? 'black' : 'white'} />
 						</a>
 					</Link>
 				</div>
 				<div className={styles.feed}>
 					<Link href="/">
 						<a>
-							<CiCircleMore size="25px" color="white" />
+							<CiCircleMore size="25px" color={resolvedTheme === 'light' ? 'black' : 'white'} />
 						</a>
 					</Link>
 				</div>
