@@ -19,7 +19,7 @@ import { constants } from 'ethers'
 import { useRouter } from 'next/router'
 import styles from '../../styles/Profile.module.scss'
 import Image from 'next/image'
-
+import fonts from '../../styles/Fonts.module.scss'
 const Profile: NextPage = () => {
 	const { isConnected, address } = useAccount()
 	const router = useRouter()
@@ -116,7 +116,7 @@ const Profile: NextPage = () => {
 							<div className={styles.likeAndShare}>heart and share</div>
 							<div className={styles.bottomhalf}>
 								{/* INTERPOLATE USER INFO HERE  */}
-								<div> name pink checkmark postts videos and likes</div>
+								<div className={`${fonts.bold}`}> name pink checkmark postts videos and likes</div>
 								<div>username</div>
 								<div>bio</div>
 							</div>
