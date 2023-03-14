@@ -10,12 +10,17 @@
 		flex-direction: column;
 		height: 70vh;
 		width: 200px;
+        // border: 1px solid white;
 		padding-top: 2rem;
 		align-items: flex-end;
 		gap: 2rem;
 		position: relative;
 		.feed:hover {
-			color: white;
+            // create a hover effect
+			// background-color: black;
+            // border-radius: 50%;
+            // width: 25px;
+            // height: 25px;
 		}
 	}
 }

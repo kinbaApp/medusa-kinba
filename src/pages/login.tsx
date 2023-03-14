@@ -50,7 +50,7 @@ const Login = () => {
 									Kinba is a decentralized content <br />
 									subscription website that provides <br />
 									censorship resistance. At Kinba, everything <br />
-									is stored and handled in a decenttralized <br />
+									is stored and handled in a decentralized <br />
 									way, we cannot delete your content, ban <br />
 									your profile or withhold your funds.
 								</p>

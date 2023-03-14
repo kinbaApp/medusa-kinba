@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import type { NextPage } from 'next'
 import 'tailwindcss/tailwind.css'
 import PostForm from '@/components/PostForm'
@@ -18,8 +19,12 @@ import { arbitrumGoerli } from 'wagmi/chains'
 import { constants } from 'ethers'
 import { useRouter } from 'next/router'
 import styles from '../../styles/Profile.module.scss'
-import Image from 'next/image'
 import fonts from '../../styles/Fonts.module.scss'
+import { AiOutlinePicture } from 'react-icons/ai'
+import { BsCameraVideo } from 'react-icons/bs'
+import { AiOutlineHeart } from 'react-icons/ai'
+import PinkButton from '@/components/reusable/PinkButton'
+
 const Profile: NextPage = () => {
 	const { isConnected, address } = useAccount()
 	const router = useRouter()
@@ -89,9 +94,12 @@ const Profile: NextPage = () => {
 			{/* </div> */}
 			<div className={styles.container}>
 				<div className={styles.video}>
-					<video loop autoPlay muted id="video" className={styles.intro}>
+					{/* This is the Profile BG - You can comment out the img and use the video if you like */}
+
+					{/* <video loop autoPlay muted id="video" className={styles.intro}>
 						<source src="/Login/kinba.mp4" type="video/mp4" />
-					</video>
+					</video> */}
+					<img src="/Profile/kinbaBGv2.png" alt="" className={styles.intro} />
 				</div>
 				<div className={styles.main}>
 					{/* All of this data will need to be taken from the users account  */}
@@ -101,11 +109,11 @@ const Profile: NextPage = () => {
 					</div>
 					<div className={styles.content}>
 						<div className={styles.headerImage}>
-							<img src="/Profile/stock.png" alt="" />
+							<img src="/Profile/layingdown.png" alt="" />
 						</div>
 						<div className={styles.profilepic}>
 							<div className={styles.pinkring}>
-								<div className={styles.blackring}>
+								<div className={styles.purplering}>
 									<div>
 										<img src="/Profile/girl.png" alt="" className={styles.image} />
 									</div>
@@ -113,17 +121,89 @@ const Profile: NextPage = () => {
 							</div>
 						</div>
 						<div className={styles.bio}>
-							<div className={styles.likeAndShare}>heart and share</div>
+							<div className={styles.likeAndShare}>
+								{/* these two assets will eventually need functionality added  */}
+								<img src="/Profile/heartIcon.png" alt="" className={styles.likeIcon} />
+								<img src="/Profile/shareIcon.png" alt="" className={styles.shareIcon} />
+							</div>
 							<div className={styles.bottomhalf}>
 								{/* INTERPOLATE USER INFO HERE  */}
-								<div className={`${fonts.bold}`}> name pink checkmark postts videos and likes</div>
-								<div>username</div>
-								<div>bio</div>
+								<div className={`${styles.nameAndPostInfo}`}>
+									<p className={`${styles.name} ${fonts.bold}`}>Anne Onyme</p>
+									<img src="/Profile/verified.png" alt="" className={styles.verified} />
+									<div className={styles.postsCount}>
+										<AiOutlinePicture size="20px" color="white" />
+										<p className={fonts.lightText}>643 ·</p>
+									</div>
+									<div className={styles.videoCount}>
+										<BsCameraVideo size="20px" color="white" />
+										<p className={fonts.lightText}>291 ·</p>
+									</div>
+
+									<div className={styles.likeCount}>
+										<AiOutlineHeart size="20px" color="white" />
+										<p className={fonts.lightText}>528.8K </p>
+									</div>
+								</div>
+								<div className={`${styles.username} ${fonts.lightText}`}>@anneonyme</div>
+								<div className={`${styles.bioText} ${fonts.lightText}`}>
+									Exclusive Anne Onyme Kinba profile
+								</div>
 							</div>
 						</div>
-						<div className={styles.subscriptionInfo}>SUBSCRIBE</div>
+						<div className={styles.subscriptionInfo}>
+							<h2 className={`${styles.subTitle} ${fonts.extraBold}`}>SUBSCRIPTION</h2>
+							<p className={`${styles.offer} ${fonts.lightText}`}>
+								Limited time offer: -80% for the first month!
+							</p>
+							<div className={styles.bannerContainer}>
+								<div className={styles.banner}>
+									<p className={`${styles.bannerText} ${fonts.lightText}`}>
+										Only $2.25 - Limited Time Only - Exclusive Nudes
+									</p>
+									<div className={styles.smallpinkring}>
+										<div className={styles.smallpurplering}>
+											<img src="/Profile/girl.png" alt="" className={styles.smallpfp} />
+										</div>
+									</div>
+								</div>
+							</div>
+							<div className={styles.firstsubcontainer}>
+								<PinkButton text={'SUBSCRIBE'} />
+								<div className={styles.pinkLine}></div>
+								<div className={`${styles.price} ${fonts.lightText}`}>$2.25 for 1 month</div>
+							</div>
+							<div className={styles.date}>
+								<p>February 24th 2023</p>
+							</div>
+							<div className={styles.subContainer}>
+								<div className={`${styles.subscriptionSubTitle} ${fonts.bodyText}`}>
+									Subscription plans
+								</div>
+								<div className={styles.subPlans}>
+									<PinkButton text={'3 MONTHS - 50% OFF'} />
+									<div className={styles.pinkLine}></div>
+									<p className={`${styles.price} ${fonts.lightText}`}>$29 total</p>
+								</div>
+							</div>
+						</div>
 					</div>
-					<div className={styles.subscriptions}>Subscribe messages will go here</div>
+
+					{/* Adds are here  */}
+
+					<div className={styles.rightContainer}>
+						<div className={styles.searchBar}>
+							<form>
+								<input type="search" placeholder="" className={styles.search} />
+								{/* <img src="/Profile/searchicon.png" alt="" className={styles.searchIcon} /> */}
+							</form>
+						</div>
+						<div className={styles.mainadvertisment}>Make a reusable ad and put it here</div>
+						<div className={styles.privacypolicy}>Privacy policy</div>
+						<div className={styles.publishButtton}>
+							<PinkButton text={'PUBLISH NEW +'} />
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

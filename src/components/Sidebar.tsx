@@ -23,56 +23,56 @@ const Sidebar = () => {
 				<div className={styles.feed}>
 					<Link href="/feed">
 						<a>
-							<VscHome size="20px" />
+							<VscHome size="20px" color="white" />
 						</a>
 					</Link>
 				</div>
 				<div className={styles.feed}>
 					<Link href="/">
 						<a>
-							<BsBell size="20px" />
+							<BsBell size="20px" color="white" />
 						</a>
 					</Link>
 				</div>
 				<div className={styles.feed}>
 					<Link href="/">
 						<a>
-							<BiMessageSquareDetail size="20px" />
+							<BiMessageSquareDetail size="20px" color="white" />
 						</a>
 					</Link>
 				</div>
 				<div className={styles.feed}>
 					<Link href="/newPost">
 						<a>
-							<FiBookmark size="20px" />
+							<FiBookmark size="20px" color="white" />
 						</a>
 					</Link>
 				</div>
 				<div className={styles.feed}>
 					<Link href="/discover">
 						<a>
-							<MdFormatListBulleted size="20px" />
+							<MdFormatListBulleted size="20px" color="white" />
 						</a>
 					</Link>
 				</div>
 				<div className={styles.feed}>
 					<Link href="/">
 						<a>
-							<BsPersonHeart size="20px" />
+							<BsPersonHeart size="20px" color="white" />
 						</a>
 					</Link>
 				</div>
 				<div className={styles.feed}>
 					<Link href="/profile">
 						<a>
-							<IoPersonCircleSharp size="20px" />
+							<IoPersonCircleSharp size="20px" color="white" />
 						</a>
 					</Link>
 				</div>
 				<div className={styles.feed}>
 					<Link href="/">
 						<a>
-							<CiCircleMore size="20px" />
+							<CiCircleMore size="20px" color="white" />
 						</a>
 					</Link>
 				</div>

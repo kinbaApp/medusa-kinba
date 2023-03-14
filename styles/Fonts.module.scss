@@ -1,9 +1,9 @@
 @font-face {
     font-family: 'Montserrat';
     font-style: normal;
-    font-weight: normal;
+    font-weight: 200;
     src: local('Montserrat'),
-    url('/Fonts/Montserrat-Black.ttf') format('truetype');
+    url('/Fonts/Montserrat-Medium.ttf') format('truetype');
 }
 
 @font-face {
@@ -15,9 +15,9 @@
 }
 
 @font-face {
-    font-family: 'MontserratLigh';
+    font-family: 'MontserratLight';
     font-style: light;
-    font-weight: 300;
+    font-weight: 100;
     src: local('Montserrat'),
     url('/Fonts/Montserrat-Light.ttf') format('truetype');
 }
