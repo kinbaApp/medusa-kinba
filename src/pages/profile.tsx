@@ -25,6 +25,7 @@ import { BsCameraVideo } from 'react-icons/bs'
 import { AiOutlineHeart } from 'react-icons/ai'
 import PinkButton from '@/components/reusable/PinkButton'
 import Ad from '@/components/reusable/Ad'
+import { style } from '@mui/system'
 const Profile: NextPage = () => {
 	const { isConnected, address } = useAccount()
 	const router = useRouter()
@@ -192,18 +193,27 @@ const Profile: NextPage = () => {
 					{/* Adds are here  */}
 
 					<div className={styles.rightContainer}>
-						<div className={styles.searchBar}>
-							<form>
-								<input type="search" placeholder="" className={styles.search} />
-								{/* <img src="/Profile/searchicon.png" alt="" className={styles.searchIcon} /> */}
-							</form>
+						<div className={styles.top}>
+							<div className={styles.searchBar}>
+								<form>
+									<input type="search" placeholder="" className={styles.search} />
+									{/* <img src="/Profile/searchicon.png" alt="" className={styles.searchIcon} /> */}
+								</form>
+							</div>
+							<div className={styles.mainadvertisment}>
+								<Ad image={'/Profile/girl.png'} price={'$2.25'} />
+							</div>
 						</div>
-						<div className={styles.mainadvertisment}>
-							<Ad image={'/Profile/girl.png'} price={'$2.25'} />
-						</div>
-						<div className={styles.privacypolicy}>Privacy policy</div>
-						<div className={styles.publishButtton}>
-							<PinkButton text={'PUBLISH NEW +'} />
+						<div className={styles.bottom}>
+							<div className={styles.privacypolicy}>
+								{/* These should be turned into links  */}
+								<p className={`${styles.privacy} ${fonts.lightText}`}>
+									Privacy. Cookie Notice. Terms of Service
+								</p>
+							</div>
+							<div className={styles.publishButton}>
+								<PinkButton text={'PUBLISH NEW +'} />
+							</div>
 						</div>
 					</div>
 				</div>

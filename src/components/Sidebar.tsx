@@ -17,62 +17,62 @@ const Sidebar = () => {
 	return (
 		<div className={styles.outerContainer}>
 			<div className={styles.logo}>
-				<Image src="/Login/logo.png" alt="" height={70} width={130} />
+				<Image src="/Login/logo.png" alt="" height={85} width={150} />
 			</div>
 			<div className={styles.container}>
 				<div className={styles.feed}>
 					<Link href="/feed">
 						<a>
-							<VscHome size="20px" color="white" />
+							<VscHome size="25px" color="white" />
 						</a>
 					</Link>
 				</div>
 				<div className={styles.feed}>
 					<Link href="/">
 						<a>
-							<BsBell size="20px" color="white" />
+							<BsBell size="25px" color="white" />
 						</a>
 					</Link>
 				</div>
 				<div className={styles.feed}>
 					<Link href="/">
 						<a>
-							<BiMessageSquareDetail size="20px" color="white" />
+							<BiMessageSquareDetail size="25px" color="white" />
 						</a>
 					</Link>
 				</div>
 				<div className={styles.feed}>
 					<Link href="/newPost">
 						<a>
-							<FiBookmark size="20px" color="white" />
+							<FiBookmark size="25px" color="white" />
 						</a>
 					</Link>
 				</div>
 				<div className={styles.feed}>
 					<Link href="/discover">
 						<a>
-							<MdFormatListBulleted size="20px" color="white" />
+							<MdFormatListBulleted size="25px" color="white" />
 						</a>
 					</Link>
 				</div>
 				<div className={styles.feed}>
 					<Link href="/">
 						<a>
-							<BsPersonHeart size="20px" color="white" />
+							<BsPersonHeart size="25px" color="white" />
 						</a>
 					</Link>
 				</div>
 				<div className={styles.feed}>
 					<Link href="/profile">
 						<a>
-							<IoPersonCircleSharp size="20px" color="white" />
+							<IoPersonCircleSharp size="25px" color="white" />
 						</a>
 					</Link>
 				</div>
 				<div className={styles.feed}>
 					<Link href="/">
 						<a>
-							<CiCircleMore size="20px" color="white" />
+							<CiCircleMore size="25px" color="white" />
 						</a>
 					</Link>
 				</div>

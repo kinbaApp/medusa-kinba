@@ -1,20 +1,24 @@
 .outerContainer {
+	position: sticky;
+	top: 0;
+	left: 0; 
+	height: 100%;
     .logo {
         position: absolute;
-        // left: 15px;
         top: 25px;
+		left: 35px;
+		@media(max-width: 1300px){
+			left: 0;
+		}
     }
 	.container {
-		// max-width: 60px;
 		display: flex;
+		width: 100%;
 		flex-direction: column;
 		height: 70vh;
-		width: 200px;
-        // border: 1px solid white;
-		padding-top: 2rem;
+		padding: 20px;
 		align-items: flex-end;
 		gap: 2rem;
-		position: relative;
 		.feed:hover {
             // create a hover effect
 			// background-color: black;
