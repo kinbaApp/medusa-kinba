@@ -1,0 +1,57 @@
+.container {
+	width: 100%;
+	height: auto;
+	background: linear-gradient(180deg, #7219ba 15%, #430f92 49%);
+	color: white;
+	padding: 20px 20px 10px 20px;
+	border-radius: 20px;
+	margin-top: 20px;
+	letter-spacing: 1px;
+	.title {
+		font-size: 24px;
+	}
+	.offer {
+		font-size: 18px;
+	}
+	.imageandoffer {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		gap: 10px;
+		padding: 10px 0 15px 0;
+		.smallpinkring {
+			left: 0;
+			top: 3px;
+			height: 68px;
+			width: 68px;
+			border: 2px solid rgb(234, 22, 198);
+			border-radius: 50%;
+			.smallpurplering {
+				width: 64px;
+				height: 64px;
+				border: 2px solid #430f92;
+				border-radius: 50%;
+				.smallpfp {
+					width: 60px;
+					height: 60px;
+					border-radius: 50%;
+				}
+			}
+		}
+		.offerDetails {
+			font-size: 16px;
+			line-height: 20px;
+		}
+	}
+	.bottomDetails {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		padding: 10px 0 0 0;
+		.date {
+			font-size: 12px;
+			color: black;
+		}
+	}
+}

@@ -19,9 +19,6 @@
 		position: relative;
 		.sidebar {
 			grid-column: 1/2;
-            // Make this position absolute if you want the sidebar to scroll away with the users scroll
-			position: fixed;
-            left: 60px;
 		}
 		.content {
 			grid-column: 2/3;

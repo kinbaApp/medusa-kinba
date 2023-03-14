@@ -24,7 +24,7 @@ import { AiOutlinePicture } from 'react-icons/ai'
 import { BsCameraVideo } from 'react-icons/bs'
 import { AiOutlineHeart } from 'react-icons/ai'
 import PinkButton from '@/components/reusable/PinkButton'
-
+import Ad from '@/components/reusable/Ad'
 const Profile: NextPage = () => {
 	const { isConnected, address } = useAccount()
 	const router = useRouter()
@@ -198,7 +198,9 @@ const Profile: NextPage = () => {
 								{/* <img src="/Profile/searchicon.png" alt="" className={styles.searchIcon} /> */}
 							</form>
 						</div>
-						<div className={styles.mainadvertisment}>Make a reusable ad and put it here</div>
+						<div className={styles.mainadvertisment}>
+							<Ad image={'/Profile/girl.png'} price={'$2.25'} />
+						</div>
 						<div className={styles.privacypolicy}>Privacy policy</div>
 						<div className={styles.publishButtton}>
 							<PinkButton text={'PUBLISH NEW +'} />
