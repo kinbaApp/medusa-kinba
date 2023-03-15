@@ -241,11 +241,11 @@ const Profile: NextPage = resolvedTheme => {
 						</div>
 					</div>
 				</div>
-				<div className={styles.posts}>
+				{/* <div className={styles.posts}>
 					{testPost.map(post => (
 						<PostListing purchased={false} key={post.cipherId.toNumber()} {...post} />
 					))}
-				</div>
+				</div> */}
 				{/* {myUnlockedPosts.length > 0 ? (
 					<div className={styles.unlockedContainer}>
 						{myUnlockedPosts.map(sale => (

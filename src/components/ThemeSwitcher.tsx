@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 // import { useTheme } from 'next-themes'
 import { MoonIcon, SunIcon } from '@heroicons/react/outline'
 
-const ThemeSwitcher = ({ className = '', resolvedTheme, setTheme }) => {
+const ThemeSwitcher = ({ className = '', setTheme, resolvedTheme }) => {
 	// const { resolvedTheme, setTheme } = useTheme()
 
 	const toggleTheme = useCallback(() => {

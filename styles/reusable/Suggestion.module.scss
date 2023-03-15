@@ -1,0 +1,60 @@
+.container {
+	width: 100%;
+	border-radius: 15px;
+	height: 125px;
+	overflow: hidden;
+
+	// position: relative;
+	.bgImage {
+		width: 100%;
+		overflow: hidden !important;
+		z-index: 0;
+		position: relative;
+		// border-radius: 30px;
+		.moreIcon {
+			position: absolute;
+			top: 1px;
+			right: 1px;
+		}
+		.pfpContainer {
+			padding: 0 20px 0 0;
+			position: absolute;
+			top: 10px;
+			left: 15px;
+			display: flex;
+			width: inherit;
+			.whiteBorder {
+				border-radius: 50%;
+				height: 100px;
+				width: 125px;
+				border: 3px solid white;
+				z-index: 1;
+				.profilePicture {
+					height: 95px;
+					width: 120px;
+					border-radius: 50%;
+				}
+			}
+			.text {
+				display: flex;
+				flex-direction: column;
+				// border: 1px solid white;
+				width: 100%;
+				justify-content: flex-end;
+				// align-items: flex-start;
+				padding: 0 10px;
+				.nameAndCheckmark {
+					display: flex;
+					align-items: center;
+					.name {
+						font-size: 24px;
+					}
+					.verifiedIcon {
+						height: 20px;
+						width: 22px;
+					}
+				}
+			}
+		}
+	}
+}

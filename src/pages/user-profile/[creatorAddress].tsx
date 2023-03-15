@@ -17,7 +17,7 @@ import CreatorsList from '@/components/CreatorsList'
 import UserProfile from '@/components/UserProfile'
 import { Sidebar } from '@/components'
 
-const UserProfilePage = () => {
+const UserProfilePage = (resolvedTheme, setTheme) => {
 	const router = useRouter()
 	const { address } = useAccount()
 	const { creatorAddress } = router.query
@@ -30,9 +30,9 @@ const UserProfilePage = () => {
 				<meta name="viewport" content="initial-scale=1.0, width=device-width" />
 			</Head>
 			<Toaster position="top-center" reverseOrder={true} />
-			<Header />
+			<Header resolvedTheme={resolvedTheme} setTheme={setTheme} />
 			<div className=" flex md:flex-row bg-gray-100 dark:bg-gray-800 flex-col h-screen transition-height duration-75 ease-out">
-				<Sidebar />
+				<Sidebar resolvedTheme={resolvedTheme} />
 
 				<div className="pb-2 flex-1 h-screen overflow-y-scroll" ref={scrollRef}>
 					<div className="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-800 sm:items-center py-4 sm:pt-0">

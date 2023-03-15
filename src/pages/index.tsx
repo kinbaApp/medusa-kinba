@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 import Head from 'next/head'
 import { useAccount, useContract, useContractEvent, useProvider, useSigner } from 'wagmi'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
@@ -23,6 +23,7 @@ const Home: FC = () => {
 	const { address } = useAccount()
 	const scrollRef = useRef(null)
 
+	// const [mounted, setMounted] = useState(false)
 	const { resolvedTheme, setTheme } = useTheme()
 
 	const updatePosts = useGlobalStore(state => state.updatePosts)
@@ -120,6 +121,15 @@ const Home: FC = () => {
 		}
 		getEvents()
 	}, [address])
+
+	// useEffect(() => {
+	// 	setMounted(true)
+	// }, [])
+
+	// if (!mounted) {
+	// 	console.log('not mounted')
+	// 	return null
+	// }
 
 	return (
 		<>

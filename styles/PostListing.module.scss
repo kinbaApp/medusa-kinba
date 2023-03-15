@@ -1,0 +1,58 @@
+.container {
+    border-bottom: 1px solid lightgray;
+    width: 100%;
+    .postHeader {
+        border-bottom: 1px solid lightgray;
+        padding: 20px 0;
+        .pfp {
+            position: absolute;
+            height: 50px;
+            width: 50px;
+            border-radius: 30px;
+        }
+        .nameAndDate {
+            padding: 0 10px 0 60px;
+            display: flex;
+            justify-content: space-between;
+            .dateAndMore {
+                display: flex;
+                flex-direction: row;
+            }
+        }
+        .postCaption {
+            display: flex;
+            justify-content: space-between;
+            .description {
+                flex: 1;
+                padding: 10px 0;
+            }
+        }
+    }
+    .image {
+        width: 100%;
+        min-height: 300px;
+    }
+    .iconsContainer {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        .left{
+        .top {
+            display: flex;
+            flex-direction: row;
+            gap: 5px;
+            .tip{
+                display: flex;
+                align-items: center;
+                gap: 3px;
+                .tipText {
+                    font-size: 14px;
+                }
+            }
+        }
+        .postLikeCount {
+            padding: 10px 0;
+        }
+    }
+    }
+}
