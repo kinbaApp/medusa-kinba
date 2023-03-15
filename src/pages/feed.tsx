@@ -1,9 +1,12 @@
 import type { NextPage } from 'next'
 import { FC, useEffect, useRef } from 'react'
 import 'tailwindcss/tailwind.css'
+import useGlobalStore from '@/stores/globalStore'
+import Unlocked from '../components/Unlocked'
 import { ThemeProvider } from 'next-themes'
 import Head from 'next/head'
 import { APP_NAME, DONLYFANS_ABI, CONTRACT_ADDRESS, ORACLE_ADDRESS } from '@/lib/consts'
+import { useAccount, useContractRead, usePrepareContractWrite, useContractWrite, useWaitForTransaction } from 'wagmi'
 import { Toaster } from 'react-hot-toast'
 import PurchasedSecrets from '@/components/PurchasedSecrets'
 import Header from '@/components/Header'
@@ -19,9 +22,23 @@ import { AiOutlineLeft } from 'react-icons/ai'
 import { AiOutlineRight } from 'react-icons/ai'
 import { TbFreeRights } from 'react-icons/tb'
 import Link from 'next/link'
+import PostListing from '@/components/PostListing'
 
 const Content: FC = (resolvedTheme, setTheme) => {
 	const scrollRef = useRef(null)
+	const { isConnected, address } = useAccount()
+	const requests = useGlobalStore(state => state.requests)
+	const myUnlockedPosts = requests.filter(request => request.subscriber === address)
+	console.log('unlocked posts', myUnlockedPosts)
+	const posts = useGlobalStore(state => state.posts)
+	const lockedPosts = posts.filter(post => !myUnlockedPosts.some(request => request.cipherId.eq(post.cipherId)))
+	console.log('locked post', lockedPosts)
+	const lockedPostsUser = lockedPosts.map(post => {
+		return {
+			...post,
+			purchased: requests.some(request => request.subscriber === address && request.cipherId.eq(post.cipherId)),
+		}
+	})
 
 	return (
 		<div>
@@ -67,7 +84,24 @@ const Content: FC = (resolvedTheme, setTheme) => {
 							</div>
 						</div>
 						<div className={styles.postContainer}>
-							<Posts />
+							{myUnlockedPosts.length > 0 ? (
+								<div className="grid grid-rows-1 gap-6 p-4 w-full transition-all">
+									{myUnlockedPosts.map(sale => (
+										<Unlocked key={sale.requestId.toNumber()} {...sale} />
+									))}
+									{lockedPostsUser.map(post => (
+										<PostListing key={post.cipherId.toNumber()} {...post} />
+									))}
+								</div>
+							) : (
+								// 	<div className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-4 w-full transition-all">
+								// 	{creators.map(sale => (
+								// 		//<CreatorsSubscribedTo key={creator.toString()} {...creator} />
+								// 		<li>{sale.requestId.toNumber()}</li>
+								// 	))}
+								// </div>
+								''
+							)}
 						</div>
 					</div>
 					<div className={styles.suggested}>

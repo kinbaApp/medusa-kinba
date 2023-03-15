@@ -63,9 +63,7 @@ const Profile: NextPage = resolvedTheme => {
 
 	const requests = useGlobalStore(state => state.requests)
 	//since i'm not the creator, I added my address
-	const userPosts = useGlobalStore(state => state.posts).filter(
-		post => post.creator === (creatorAddress || '0x342Ed79c05E61Dfb7AF45df02100859e068E3a83')
-	)
+	const userPosts = useGlobalStore(state => state.posts).filter(post => post.creator === creatorAddress)
 	const posts = userPosts.map(post => {
 		return {
 			...post,
