@@ -56,6 +56,27 @@ const Profile: NextPage = resolvedTheme => {
 	// 		router.push(router.push(`user-profile/${address?.toString()}`))
 	// 	}
 	// })
+
+	//doing this to display the posts because something is wrong with the filter on like 68
+	const testPost = useGlobalStore(state => state.posts)
+
+	const requests = useGlobalStore(state => state.requests)
+	//since i'm not the creator, I added my address
+	const userPosts = useGlobalStore(state => state.posts).filter(post => post.creator === creatorAddress)
+	const posts = userPosts.map(post => {
+		return {
+			...post,
+			purchased: requests.some(request => request.subscriber === address && request.cipherId.eq(post.cipherId)),
+		}
+	})
+	const myUnlockedPosts = requests.filter(
+		request => request.subscriber == address && request.creator === creatorAddress
+	)
+	// console.log('requests', requests)
+	// console.log('posts', posts)
+	// console.log('userposts', userPosts)
+	// console.log('creatoraddress', creatorAddress)
+	console.log('testposts', testPost)
 	return (
 		<div>
 			<Head>
