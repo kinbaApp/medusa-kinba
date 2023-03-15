@@ -39,6 +39,7 @@ const Content: FC = (resolvedTheme, setTheme) => {
 			purchased: requests.some(request => request.subscriber === address && request.cipherId.eq(post.cipherId)),
 		}
 	})
+	console.log('locked post user', lockedPostsUser)
 
 	return (
 		<div>
@@ -89,9 +90,6 @@ const Content: FC = (resolvedTheme, setTheme) => {
 									{myUnlockedPosts.map(sale => (
 										<Unlocked key={sale.requestId.toNumber()} {...sale} />
 									))}
-									{lockedPostsUser.map(post => (
-										<PostListing key={post.cipherId.toNumber()} {...post} />
-									))}
 								</div>
 							) : (
 								// 	<div className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-4 w-full transition-all">
@@ -102,6 +100,9 @@ const Content: FC = (resolvedTheme, setTheme) => {
 								// </div>
 								''
 							)}
+							{lockedPostsUser.map(post => (
+								<PostListing key={post.cipherId.toNumber()} {...post} />
+							))}
 						</div>
 					</div>
 					<div className={styles.suggested}>
