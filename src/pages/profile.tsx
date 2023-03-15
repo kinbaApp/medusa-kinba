@@ -39,14 +39,14 @@ const Profile: NextPage = () => {
 
 	const isCreator = creatorContractAddress !== constants.AddressZero
 
-	useEffect(() => {
-		if (!isConnected) {
-			console.log('Not connected')
-		}
-		if (isCreator && isConnected) {
-			router.push(router.push(`user-profile/${address?.toString()}`))
-		}
-	})
+	// useEffect(() => {
+	// 	if (!isConnected) {
+	// 		console.log('Not connected')
+	// 	}
+	// 	if (isCreator && isConnected) {
+	// 		router.push(router.push(`user-profile/${address?.toString()}`))
+	// 	}
+	// })
 	return (
 		<div>
 			<Head>
