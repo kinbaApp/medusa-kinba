@@ -53,33 +53,9 @@ const Profile: NextPage = resolvedTheme => {
 	// 		console.log('Not connected')
 	// 	}
 	// 	if (isCreator && isConnected) {
-	// 		// @ts-ignore
-	// 		router.push(`/user-profile/${address?.toString()}`)
+	// 		router.push(router.push(`user-profile/${address?.toString()}`))
 	// 	}
 	// })
-
-	//doing this to display the posts because something is wrong with the filter on like 68
-	const testPost = useGlobalStore(state => state.posts)
-
-	const requests = useGlobalStore(state => state.requests)
-	//since i'm not the creator, I added my address
-	const userPosts = useGlobalStore(state => state.posts).filter(
-		post => post.creator === (creatorAddress || '0x342Ed79c05E61Dfb7AF45df02100859e068E3a83')
-	)
-	const posts = userPosts.map(post => {
-		return {
-			...post,
-			purchased: requests.some(request => request.subscriber === address && request.cipherId.eq(post.cipherId)),
-		}
-	})
-	const myUnlockedPosts = requests.filter(
-		request => request.subscriber == address && request.creator === creatorAddress
-	)
-	// console.log('requests', requests)
-	// console.log('posts', posts)
-	// console.log('userposts', userPosts)
-	// console.log('creatoraddress', creatorAddress)
-	console.log('testposts', testPost)
 	return (
 		<div>
 			<Head>

@@ -46,7 +46,7 @@ function Header({ setTheme, resolvedTheme }) {
 					<div className="flex justify-start lg:w-0 lg:flex-1">
 						<a href="https://medusanet.xyz">
 							<span className="sr-only">Medusa</span>
-							<img className="h-12 w-auto sm:h-16" src="/logo-white.gif" alt="" />
+							<img className="h-12 w-auto sm:h-16" src="/logo.png" alt="" />
 						</a>
 					</div>
 					<Link href="/">
