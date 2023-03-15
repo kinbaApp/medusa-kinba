@@ -100,9 +100,11 @@ const Content: FC = (resolvedTheme, setTheme) => {
 								// </div>
 								''
 							)}
-							{lockedPostsUser.map(post => (
-								<PostListing key={post.cipherId.toNumber()} {...post} />
-							))}
+							<div className="grid grid-rows-1 gap-6 p-4 w-full transition-all">
+								{lockedPostsUser.map(post => (
+									<PostListing key={post.cipherId.toNumber()} {...post} />
+								))}
+							</div>
 						</div>
 					</div>
 					<div className={styles.suggested}>
