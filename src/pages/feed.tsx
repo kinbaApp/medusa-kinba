@@ -22,6 +22,7 @@ import Link from 'next/link'
 
 const Content: FC = (resolvedTheme, setTheme) => {
 	const scrollRef = useRef(null)
+
 	return (
 		<div>
 			<Head>
