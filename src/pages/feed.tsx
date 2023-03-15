@@ -18,6 +18,7 @@ import { TfiReload } from 'react-icons/tfi'
 import { AiOutlineLeft } from 'react-icons/ai'
 import { AiOutlineRight } from 'react-icons/ai'
 import { TbFreeRights } from 'react-icons/tb'
+import Link from 'next/link'
 
 const Content: FC = (resolvedTheme, setTheme) => {
 	const scrollRef = useRef(null)
@@ -57,7 +58,11 @@ const Content: FC = (resolvedTheme, setTheme) => {
 						<div className={styles.homeContainer}>
 							<div className={`${styles.homeTitle} ${fonts.bodyText}`}>HOME</div>
 							<div className={styles.createButton}>
-								<PinkButton text={'PUBLISH NEW+'} />
+								<Link href="/newPost">
+									<a>
+										<PinkButton text={'PUBLISH NEW+'} />
+									</a>
+								</Link>
 							</div>
 						</div>
 						<div className={styles.postContainer}>

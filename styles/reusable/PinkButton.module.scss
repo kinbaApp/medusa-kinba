@@ -1,14 +1,15 @@
 .container {
-    width: 250px;
-    height: 50px; 
-    background: linear-gradient(180deg, #fd2ac4 15%, #bf23c3 49%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 30px;
-    .text {
-        color: white;
-        font-size: 16px;
-        letter-spacing: 1px;
-    }
+	width: 250px;
+	height: 50px;
+	background: linear-gradient(180deg, #fd2ac4 15%, #bf23c3 49%);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 30px;
+	cursor: pointer;
+	.text {
+		color: white;
+		font-size: 16px;
+		letter-spacing: 1px;
+	}
 }
