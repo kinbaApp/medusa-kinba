@@ -74,8 +74,8 @@ const Profile: NextPage = resolvedTheme => {
 	const myUnlockedPosts = requests.filter(
 		request => request.subscriber == address && request.creator === creatorAddress
 	)
-	console.log(testPost, 'testPost')
-	// console.log('requests', requests)
+	// console.log(testPost, 'testPost')
+	console.log('requests', requests)
 	// console.log('posts', posts)
 	// console.log('userposts', userPosts)
 	// console.log('creatoraddress', creatorAddress)

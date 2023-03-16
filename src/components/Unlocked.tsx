@@ -78,48 +78,14 @@ const Unlocked: FC<Request> = ({ subscriber, creator, requestId, cipherId }) => 
 				</div>
 				<div className={styles.postCaption}>
 					<div className={styles.description}>{post.description}</div>
-					<div>
+					<div className={styles.imageContainer}>
 						{/* <p className="mb-3">{BigNumber.from(0).eq(post.price) ? 'Free' : `${formatEther(post.price)} ETH`} </p> */}
-						<a
-							href={downloadLink}
-							download={post.name}
-							className="inline-flex items-center text-blue-600 hover:underline"
-						>
-							Download
-							<svg
-								className="ml-2 w-5 h-5"
-								fill="currentColor"
-								viewBox="0 0 20 20"
-								xmlns="http://www.w3.org/2000/svg"
-							>
-								<path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"></path>
-								<path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"></path>
-							</svg>
-						</a>
-
-						<a
-							href={ipfsGatewayLink(post.uri)}
-							target="_blank"
-							className="inline-flex items-center text-blue-600 hover:underline"
-							rel="noreferrer"
-						>
-							View Encrypted on IPFS
-							<svg
-								className="ml-2 w-5 h-5"
-								fill="currentColor"
-								viewBox="0 0 20 20"
-								xmlns="http://www.w3.org/2000/svg"
-							>
-								<path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"></path>
-								<path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"></path>
-							</svg>
-						</a>
 						{plaintext && isImage(plaintext) ? (
 							<Image
 								className={styles.image}
 								src={plaintext}
 								width={300}
-								height={300}
+								height={400}
 								alt="Decrypted Image"
 							/>
 						) : (
@@ -132,6 +98,42 @@ const Unlocked: FC<Request> = ({ subscriber, creator, requestId, cipherId }) => 
 								value={plaintext}
 							/>
 						)}
+						<div className={styles.downloadLinks}>
+							<a
+								href={downloadLink}
+								download={post.name}
+								className="inline-flex items-center text-blue-600 hover:underline"
+							>
+								Download
+								<svg
+									className="ml-2 w-5 h-5"
+									fill="currentColor"
+									viewBox="0 0 20 20"
+									xmlns="http://www.w3.org/2000/svg"
+								>
+									<path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"></path>
+									<path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"></path>
+								</svg>
+							</a>
+
+							<a
+								href={ipfsGatewayLink(post.uri)}
+								target="_blank"
+								className="inline-flex items-center text-blue-600 hover:underline"
+								rel="noreferrer"
+							>
+								View Encrypted on IPFS
+								<svg
+									className="ml-2 w-5 h-5"
+									fill="currentColor"
+									viewBox="0 0 20 20"
+									xmlns="http://www.w3.org/2000/svg"
+								>
+									<path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"></path>
+									<path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"></path>
+								</svg>
+							</a>
+						</div>
 					</div>
 				</div>
 				<div className={styles.iconsContainer}>

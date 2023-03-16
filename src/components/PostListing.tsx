@@ -196,9 +196,11 @@ const PostListing: FC<Post & { purchased: boolean }> = ({ creator, cipherId, uri
 						</div>
 					</div>
 				</div>
-				<div className={styles.image}>
+				<div className={styles.imageContainer}>
 					{/* I think the name should be the image? not too sure  */}
-					<img src={name} alt="" />
+					<div>
+						<img src={uri} alt="" />
+					</div>
 
 					<div>
 						<a

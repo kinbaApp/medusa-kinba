@@ -42,6 +42,7 @@ const Content: FC = (resolvedTheme, setTheme) => {
 	})
 	console.log('locked post user', lockedPostsUser)
 
+	console.log('posts:', posts)
 	return (
 		<div>
 			<Head>
@@ -103,7 +104,7 @@ const Content: FC = (resolvedTheme, setTheme) => {
 							)}
 							<div className="grid grid-rows-1 gap-6 p-4 w-full transition-all">
 								{lockedPostsUser.map(post => (
-									<PostListing key={post.cipherId.toNumber()} {...post} />
+									<PostListing key={post.cipherId.toNumber()} {...post} uri={post.uri} />
 								))}
 							</div>
 						</div>
