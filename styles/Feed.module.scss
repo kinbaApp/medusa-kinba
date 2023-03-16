@@ -1,5 +1,7 @@
 .container {
 	padding: 0 75px 0 0;
+	position: fixed;
+	overflow: hidden;
 	.intro {
 		object-fit: cover;
 		position: fixed;
@@ -25,6 +27,7 @@
 		position: relative;
 		.sidebar {
 			grid-column: 1/2;
+			position: sticky;
 		}
 		.content {
 			background-color: white;
@@ -41,6 +44,10 @@
 					padding: 20px 0;
 					border-bottom: 1px solid lightgrey;
 				}
+			}
+			.postContainer {
+				overflow: scroll !important;
+				max-height: 80vh;
 			}
 		}
 		.suggested {

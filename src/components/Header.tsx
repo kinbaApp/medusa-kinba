@@ -44,10 +44,12 @@ function Header({ setTheme, resolvedTheme }) {
 			<div className="mx-auto max-w-7xl px-4 sm:px-6">
 				<div className="flex items-center justify-between border-b-2 border-black dark:border-gray-100 py-6 md:justify-start md:space-x-10">
 					<div className="flex justify-start lg:w-0 lg:flex-1">
-						<a href="/">
-							{/* <span className="sr-only">Medusa</span> */}
-							<img className="h-12 w-auto sm:h-16" src="/logo-white.gif" alt="" />
-						</a>
+						<Link href="/">
+							<a>
+								{/* <span className="sr-only">Medusa</span> */}
+								<img className="h-12 w-auto sm:h-16" src="/logo-white.gif" alt="" />
+							</a>
+						</Link>
 					</div>
 					<Link href="/">
 						<a className="mr-4 p-6">Home</a>
