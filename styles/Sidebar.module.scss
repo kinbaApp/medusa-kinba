@@ -1,16 +1,17 @@
 .outerContainer {
 	position: sticky;
 	top: 0;
-	left: 0; 
+	left: 0;
 	height: 100%;
-    .logo {
-        position: absolute;
-        top: 25px;
+	background-color: transparent;
+	.logo {
+		position: absolute;
+		top: 25px;
 		left: 35px;
-		@media(max-width: 1300px){
+		@media (max-width: 1300px) {
 			left: 0;
 		}
-    }
+	}
 	.container {
 		display: flex;
 		width: 100%;
@@ -21,11 +22,11 @@
 		align-items: flex-end;
 		gap: 2rem;
 		.feed:hover {
-            // create a hover effect
+			// create a hover effect
 			// background-color: black;
-            // border-radius: 50%;
-            // width: 25px;
-            // height: 25px;
+			// border-radius: 50%;
+			// width: 25px;
+			// height: 25px;
 		}
 	}
 }

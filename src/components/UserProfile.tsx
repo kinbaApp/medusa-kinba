@@ -21,7 +21,7 @@ import Ad from '@/components/reusable/Ad'
 import Link from 'next/link'
 import Modal from 'react-modal'
 
-const UserProfile = ({ creatorAddress }) => {
+const UserProfile = ({ creatorAddress, resolvedTheme }) => {
 	const { isConnected, address } = useAccount()
 	const [isOpen, setIsOpen] = useState(false)
 	const [subscriptionPrice, setSubscriptionPrice] = useState('')
@@ -161,6 +161,9 @@ const UserProfile = ({ creatorAddress }) => {
 					<img src="/Profile/kinbaBGv2.png" alt="" className={styles.intro} />
 				</div>
 				<div className={styles.main}>
+					<div className={styles.sidebar}>
+						<Sidebar resolvedTheme={resolvedTheme} />
+					</div>
 					<div className={styles.content}>
 						<div className={styles.headerImage}>
 							<img src="/Profile/layingdown.png" alt="" />
@@ -205,6 +208,7 @@ const UserProfile = ({ creatorAddress }) => {
 								</div>
 							</div>
 						</div>
+
 						<div className={styles.subscriptionInfo}>
 							<h2 className={`${styles.subTitle} ${fonts.extraBold}`}>SUBSCRIPTION</h2>
 							<p className={`${styles.offer} ${fonts.lightText}`}>

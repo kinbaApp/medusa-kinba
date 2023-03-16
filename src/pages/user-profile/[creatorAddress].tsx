@@ -30,15 +30,9 @@ const UserProfilePage = (resolvedTheme, setTheme) => {
 				<meta name="viewport" content="initial-scale=1.0, width=device-width" />
 			</Head>
 			<Toaster position="top-center" reverseOrder={true} />
-			<Header resolvedTheme={resolvedTheme} setTheme={setTheme} />
 			<div className="flex ">
-				<Sidebar resolvedTheme={resolvedTheme} />
 				<UserProfile creatorAddress={creatorAddress} />
 			</div>
-			{/* <div className=" flex md:flex-row bg-gray-100 dark:bg-gray-800 flex-col h-screen transition-height duration-75 ease-out">
-				<Sidebar resolvedTheme={resolvedTheme} />
-				<UserProfile creatorAddress={creatorAddress} />
-			</div> */}
 		</div>
 	)
 }
