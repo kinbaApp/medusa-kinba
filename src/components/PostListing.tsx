@@ -219,23 +219,23 @@ const PostListing: FC<Post & { purchased: boolean }> = ({ creator, cipherId, uri
 							</svg>
 						</a>
 					</div>
-				</div>
-				<div className={styles.iconsContainer}>
-					<div className={styles.left}>
-						<div className={styles.top}>
-							<AiOutlineHeart size={'25px'} color="gray" />
-							<TbMessageCircle2 size={'25px'} color="gray" />
-							<div className={styles.tip}>
-								<CiDollar size={'25px'} color="gray" />
-								<p className={`${fonts.lightText} ${styles.tipText}`}>SEND TIP</p>
+					<div className={styles.iconsContainer}>
+						<div className={styles.left}>
+							<div className={styles.top}>
+								<AiOutlineHeart size={'25px'} color="gray" />
+								<TbMessageCircle2 size={'25px'} color="gray" />
+								<div className={styles.tip}>
+									<CiDollar size={'25px'} color="gray" />
+									<p className={`${fonts.lightText} ${styles.tipText}`}>SEND TIP</p>
+								</div>
+							</div>
+							<div className={styles.postLikeCount}>
+								<p>139 Likes</p>
 							</div>
 						</div>
-						<div className={styles.postLikeCount}>
-							<p>139 Likes</p>
+						<div className={styles.right}>
+							<BsBookmark size={'25px'} color="gray" />
 						</div>
-					</div>
-					<div className={styles.right}>
-						<BsBookmark size={'25px'} color="gray" />
 					</div>
 				</div>
 			</div>

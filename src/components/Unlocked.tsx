@@ -9,6 +9,10 @@ import { useSigner } from 'wagmi'
 import { MdOutlineMoreHoriz } from 'react-icons/md'
 import styles from '../../styles/PostListing.module.scss'
 import fonts from '../../styles/Fonts.module.scss'
+import { AiOutlineHeart } from 'react-icons/ai'
+import { TbMessageCircle2 } from 'react-icons/tb'
+import { CiDollar } from 'react-icons/ci'
+import { BsBookmark } from 'react-icons/bs'
 const Unlocked: FC<Request> = ({ subscriber, creator, requestId, cipherId }) => {
 	const medusa = useGlobalStore(state => state.medusa)
 	const { data: signer, isSuccess: isSignerLoaded } = useSigner()
@@ -128,6 +132,24 @@ const Unlocked: FC<Request> = ({ subscriber, creator, requestId, cipherId }) => 
 								value={plaintext}
 							/>
 						)}
+					</div>
+				</div>
+				<div className={styles.iconsContainer}>
+					<div className={styles.left}>
+						<div className={styles.top}>
+							<AiOutlineHeart size={'25px'} color="gray" />
+							<TbMessageCircle2 size={'25px'} color="gray" />
+							<div className={styles.tip}>
+								<CiDollar size={'25px'} color="gray" />
+								<p className={`${fonts.lightText} ${styles.tipText}`}>SEND TIP</p>
+							</div>
+						</div>
+						<div className={styles.postLikeCount}>
+							<p>139 Likes</p>
+						</div>
+					</div>
+					<div className={styles.right}>
+						<BsBookmark size={'25px'} color="gray" />
 					</div>
 				</div>
 			</div>

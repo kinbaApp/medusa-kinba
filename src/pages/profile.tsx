@@ -25,6 +25,7 @@ import Ad from '@/components/reusable/Ad'
 import useGlobalStore from '@/stores/globalStore'
 import PostListing from '@/components/PostListing'
 import Unlocked from '@/components/Unlocked'
+import Link from 'next/link'
 
 const Profile: NextPage = resolvedTheme => {
 	const { isConnected, address } = useAccount()
@@ -233,7 +234,11 @@ const Profile: NextPage = resolvedTheme => {
 								</p>
 							</div>
 							<div className={styles.publishButton}>
-								<PinkButton text={'PUBLISH NEW +'} />
+								<Link href="/newPost">
+									<a>
+										<PinkButton text={'PUBLISH NEW +'} />
+									</a>
+								</Link>
 							</div>
 						</div>
 					</div>

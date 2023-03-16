@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import useGlobalStore from '@/stores/globalStore'
-import { CONTRACT_ADDRESS, DONLYFANS_ABI, CREATOR_ABI } from '@/lib/consts'
+import { APP_NAME, CONTRACT_ADDRESS, DONLYFANS_ABI, CREATOR_ABI } from '@/lib/consts'
 import { useAccount, useContractRead, usePrepareContractWrite, useContractWrite, useWaitForTransaction } from 'wagmi'
 import PostListing from './PostListing'
 import { BigNumber, ethers } from 'ethers'
@@ -8,10 +8,36 @@ import { formatEther, getAddress, parseEther } from 'ethers/lib/utils'
 import Unlocked from './Unlocked'
 import { arbitrumGoerli } from 'wagmi/chains'
 import toast from 'react-hot-toast'
+import Head from 'next/head'
+import { Toaster } from 'react-hot-toast'
+import styles from '../../styles/Profile.module.scss'
+import fonts from '../../styles/Fonts.module.scss'
+import { Sidebar, CreateNewProfile } from '@/components'
+import { AiOutlinePicture } from 'react-icons/ai'
+import { BsCameraVideo } from 'react-icons/bs'
+import { AiOutlineHeart } from 'react-icons/ai'
+import PinkButton from '@/components/reusable/PinkButton'
+import Ad from '@/components/reusable/Ad'
+import Link from 'next/link'
+import Modal from 'react-modal'
 
 const UserProfile = ({ creatorAddress }) => {
 	const { isConnected, address } = useAccount()
+	const [isOpen, setIsOpen] = useState(false)
 	const [subscriptionPrice, setSubscriptionPrice] = useState('')
+	const customStyles = {
+		overlay: {
+			backgroundColor: 'rgba(0, 0, 0, 0.6)',
+		},
+		content: {
+			top: '50%',
+			left: '50%',
+			right: 'auto',
+			bottom: 'auto',
+			marginRight: '-50%',
+			transform: 'translate(-50%, -50%)',
+		},
+	}
 	const {
 		data: creatorContractAddress,
 		isError,
@@ -120,65 +146,208 @@ const UserProfile = ({ creatorAddress }) => {
 	}
 	return (
 		<div>
-			<p className="m-auto mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white truncate">
-				Creator Address: {creatorAddress}
-			</p>
-			<p className="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white truncate">
-				Price: {price ? (BigNumber.from(0).eq(price) ? 'Free' : `${formatEther(price)} ETH`) : 'no price'} ,
-				Period: {period ? formatEther(period) : 'undefined'} days
-			</p>
-			{!isSubscriber && (
-				<>
-					<div className="p-6 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
-						<div className="pt-4 text-center">
-							<label className="block">
-								<span className="text-lg font-mono font-light dark:text-white my-4">
-									Subscribe to see content!
-								</span>
+			<Head>
+				<title>{`${APP_NAME}`}</title>
+				<meta name="viewport" content="initial-scale=1.0, width=device-width" />
+			</Head>
+			<Toaster position="top-center" reverseOrder={true} />
+			<div className={styles.container}>
+				<div className={styles.video}>
+					{/* This is the Profile BG - You can comment out the img and use the video if you like */}
 
-								<input
-									required
-									type="number"
-									placeholder="ETH"
-									className="form-input my-5 block w-full dark:bg-gray-800 dark:text-white"
-									value={subscriptionPrice}
-									onChange={e => setSubscriptionPrice(e.target.value)}
-								/>
-							</label>
+					{/* <video loop autoPlay muted id="video" className={styles.intro}>
+						<source src="/Login/kinba.mp4" type="video/mp4" />
+					</video> */}
+					<img src="/Profile/kinbaBGv2.png" alt="" className={styles.intro} />
+				</div>
+				<div className={styles.main}>
+					<div className={styles.content}>
+						<div className={styles.headerImage}>
+							<img src="/Profile/layingdown.png" alt="" />
 						</div>
-						<button
-							disabled={!isConnected}
-							className="font-semibold mb-2 text-sm text-white py-2 px-3 rounded-sm transition-colors bg-indigo-600 dark:bg-indigo-800 hover:bg-black dark:hover:bg-gray-50 dark:hover:text-gray-900 hover:cursor-pointer disabled:cursor-not-allowed disabled:opacity-25"
-							onClick={() => subscribeToCreator()}
-						>
-							Subscribe
-						</button>
-					</div>
-					{/* <p className="text-base font-mono font-light dark:text-gray-300 ml-2">
+						<div className={styles.profilepic}>
+							<div className={styles.pinkring}>
+								<div className={styles.purplering}>
+									<div>
+										<img src="/Profile/girl.png" alt="" className={styles.image} />
+									</div>
+								</div>
+							</div>
+						</div>
+						<div className={styles.bio}>
+							<div className={styles.likeAndShare}>
+								{/* these two assets will eventually need functionality added  */}
+								<img src="/Profile/heartIcon.png" alt="" className={styles.likeIcon} />
+								<img src="/Profile/shareIcon.png" alt="" className={styles.shareIcon} />
+							</div>
+							<div className={styles.bottomhalf}>
+								{/* INTERPOLATE USER INFO HERE  */}
+								<div className={`${styles.nameAndPostInfo}`}>
+									<p className={`${styles.name} ${fonts.bold}`}>Anne Onyme</p>
+									<img src="/Profile/verified.png" alt="" className={styles.verified} />
+									<div className={styles.postsCount}>
+										<AiOutlinePicture size="20px" color="white" />
+										<p className={fonts.lightText}>643 ·</p>
+									</div>
+									<div className={styles.videoCount}>
+										<BsCameraVideo size="20px" color="white" />
+										<p className={fonts.lightText}>291 ·</p>
+									</div>
+
+									<div className={styles.likeCount}>
+										<AiOutlineHeart size="20px" color="white" />
+										<p className={fonts.lightText}>528.8K </p>
+									</div>
+								</div>
+								<div className={`${styles.username} ${fonts.lightText}`}>@anneonyme</div>
+								<div className={`${styles.bioText} ${fonts.lightText}`}>
+									Exclusive Anne Onyme Kinba profile {creatorAddress}
+								</div>
+							</div>
+						</div>
+						<div className={styles.subscriptionInfo}>
+							<h2 className={`${styles.subTitle} ${fonts.extraBold}`}>SUBSCRIPTION</h2>
+							<p className={`${styles.offer} ${fonts.lightText}`}>
+								Limited time offer: -80% for the first month!
+							</p>
+							<div className={styles.bannerContainer}>
+								<div className={styles.banner}>
+									<p className={`${styles.bannerText} ${fonts.lightText}`}>
+										Only {formatEther(price)} ETH - Limited Time Only - Exclusive Content
+									</p>
+									<div className={styles.smallpinkring}>
+										<div className={styles.smallpurplering}>
+											<img src="/Profile/girl.png" alt="" className={styles.smallpfp} />
+										</div>
+									</div>
+								</div>
+							</div>
+							<div className={styles.firstsubcontainer}>
+								<button onClick={() => setIsOpen(true)}>
+									<PinkButton text={'SUBSCRIBE'} />
+								</button>
+								<Modal isOpen={isOpen} onRequestClose={() => setIsOpen(false)} style={customStyles}>
+									<div className="p-6 max-w-sm bg-white rounded-lg border border-purple-200 shadow-md ">
+										<div className="pt-4 text-center">
+											<label className="block">
+												<span className="text-lg font-mono font-light  my-4 text-purple-600">
+													Subscribe to see content!
+												</span>
+
+												<input
+													required
+													type="number"
+													placeholder="ETH"
+													className="form-input my-5 block w-full "
+													value={subscriptionPrice}
+													onChange={e => setSubscriptionPrice(e.target.value)}
+												/>
+											</label>
+										</div>
+										<button
+											disabled={!isConnected}
+											className="font-semibold mb-2 text-sm text-white py-2 px-3 rounded-sm transition-colors bg-indigo-600 dark:bg-indigo-800 hover:bg-black dark:hover:bg-gray-50 dark:hover:text-gray-900 hover:cursor-pointer disabled:cursor-not-allowed disabled:opacity-25"
+											onClick={() => subscribeToCreator()}
+										>
+											Subscribe
+										</button>
+									</div>
+									<button onClick={() => setIsOpen(false)}>Close Modal</button>
+								</Modal>
+								<div className={styles.pinkLine}></div>
+								<div className={`${styles.price} ${fonts.lightText}`}>
+									{' '}
+									{formatEther(price)} ETH for {formatEther(period)} days
+								</div>
+							</div>
+							<div className={styles.date}>
+								<p>February 24th 2023</p>
+							</div>
+							<div className={styles.subContainer}>
+								<div className={`${styles.subscriptionSubTitle} ${fonts.bodyText}`}>
+									Subscription plans
+								</div>
+								<div className={styles.subPlans}>
+									<PinkButton text={'3 MONTHS - 50% OFF'} />
+									<div className={styles.pinkLine}></div>
+									<p className={`${styles.price} ${fonts.lightText}`}>{0.1} ETH total</p>
+								</div>
+							</div>
+						</div>
+
+						<p className="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white truncate">
+							Price:{' '}
+							{price ? (BigNumber.from(0).eq(price) ? 'Free' : `${formatEther(price)} ETH`) : 'no price'}{' '}
+							, Period: {period ? formatEther(period) : 'undefined'} days
+						</p>
+						{!isSubscriber && (
+							<>
+								{/* <p className="text-base font-mono font-light dark:text-gray-300 ml-2">
 						Subscribe to see the content!
 					</p> */}
-					<div className="grid grid-rows-1  gap-6 p-4 w-full transition-all">
-						{posts.map(post => (
-							<PostListing key={post.cipherId.toNumber()} {...post} />
-						))}
+								<div className="grid grid-rows-1  gap-6 p-4 w-full transition-all">
+									{posts.map(post => (
+										<PostListing key={post.cipherId.toNumber()} {...post} />
+									))}
+								</div>
+							</>
+						)}
+						{myUnlockedPosts.length > 0 ? (
+							<div className="grid grid-rows-1 gap-6 p-4 w-full transition-all">
+								{myUnlockedPosts.map(sale => (
+									<Unlocked key={sale.requestId.toNumber()} {...sale} />
+								))}
+							</div>
+						) : (
+							// 	<div className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-4 w-full transition-all">
+							// 	{creators.map(sale => (
+							// 		//<CreatorsSubscribedTo key={creator.toString()} {...creator} />
+							// 		<li>{sale.requestId.toNumber()}</li>
+							// 	))}
+							// </div>
+							''
+						)}
 					</div>
-				</>
-			)}
-			{myUnlockedPosts.length > 0 ? (
-				<div className="grid grid-rows-1 gap-6 p-4 w-full transition-all">
-					{myUnlockedPosts.map(sale => (
-						<Unlocked key={sale.requestId.toNumber()} {...sale} />
-					))}
+					{/* Adds are here  */}
+
+					<div className={styles.rightContainer}>
+						<div className={styles.top}>
+							<div className={styles.searchBar}>
+								<form>
+									<input type="search" placeholder="" className={styles.search} />
+									{/* <img src="/Profile/searchicon.png" alt="" className={styles.searchIcon} /> */}
+								</form>
+							</div>
+							<div className={styles.mainadvertisment}>
+								<Ad
+									image={'/Profile/girl.png'}
+									price={formatEther(price || 0.0)}
+									period={formatEther(period || 0.0)}
+									// subscriptionPrice={subscriptionPrice}
+									// isConnected={}
+									// subscribeToCreator={}
+									// setSubscriptionPrice={}
+								/>
+							</div>
+						</div>
+						<div className={styles.bottom}>
+							<div className={styles.privacypolicy}>
+								{/* These should be turned into links  */}
+								<p className={`${styles.privacy} ${fonts.lightText}`}>
+									Privacy. Cookie Notice. Terms of Service
+								</p>
+							</div>
+							<div className={styles.publishButton}>
+								<Link href="/newPost">
+									<a>
+										<PinkButton text={'PUBLISH NEW +'} />
+									</a>
+								</Link>
+							</div>
+						</div>
+					</div>
 				</div>
-			) : (
-				// 	<div className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-4 w-full transition-all">
-				// 	{creators.map(sale => (
-				// 		//<CreatorsSubscribedTo key={creator.toString()} {...creator} />
-				// 		<li>{sale.requestId.toNumber()}</li>
-				// 	))}
-				// </div>
-				''
-			)}
+			</div>
 		</div>
 	)
 }
