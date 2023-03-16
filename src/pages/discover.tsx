@@ -10,6 +10,7 @@ import Header from '@/components/Header'
 import Posts from '@/components/Posts'
 import CreatorsList from '@/components/CreatorsList'
 import { Sidebar } from '@/components'
+import Connect from '@/components/reusable/Connect'
 
 const Discover: NextPage = (resolvedTheme, setTheme) => {
 	return (
@@ -19,7 +20,10 @@ const Discover: NextPage = (resolvedTheme, setTheme) => {
 				<meta name="viewport" content="initial-scale=1.0, width=device-width" />
 			</Head>
 			<Toaster position="top-center" reverseOrder={true} />
-			<Header resolvedTheme={resolvedTheme} setTheme={setTheme} />
+			{/* <Header resolvedTheme={resolvedTheme} setTheme={setTheme} /> */}
+			<div className="fixed top-0 right-10 bg-gray-100 dark:bg-gray-800 z-10">
+				<Connect />
+			</div>
 			<div className=" flex md:flex-row bg-gray-100 dark:bg-gray-800 flex-col h-screen transition-height duration-75 ease-out">
 				<Sidebar resolvedTheme={resolvedTheme} />
 

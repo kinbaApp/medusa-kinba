@@ -26,6 +26,7 @@ import useGlobalStore from '@/stores/globalStore'
 import PostListing from '@/components/PostListing'
 import Unlocked from '@/components/Unlocked'
 import Link from 'next/link'
+import Connect from '@/components/reusable/Connect'
 
 const Profile: NextPage = resolvedTheme => {
 	const { isConnected, address } = useAccount()
@@ -73,6 +74,7 @@ const Profile: NextPage = resolvedTheme => {
 	const myUnlockedPosts = requests.filter(
 		request => request.subscriber == address && request.creator === creatorAddress
 	)
+	console.log(testPost, 'testPost')
 	// console.log('requests', requests)
 	// console.log('posts', posts)
 	// console.log('userposts', userPosts)
@@ -216,6 +218,7 @@ const Profile: NextPage = resolvedTheme => {
 
 					<div className={styles.rightContainer}>
 						<div className={styles.top}>
+							<Connect />
 							<div className={styles.searchBar}>
 								<form>
 									<input type="search" placeholder="" className={styles.search} />

@@ -1,3 +1,11 @@
+.pleaseConnect {
+	width: 100%;
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
 .container {
 	position: fixed;
 	.intro {
@@ -16,7 +24,7 @@
 	.main {
 		display: grid;
 		grid-template-columns: 0.4fr 1fr 0.75fr;
-		min-height: 100vh;
+		// min-height: 100vh;
 		position: relative;
 		.sidebar {
 			grid-column: 1/2;
@@ -219,9 +227,10 @@
 			display: none;
 		}
 		.rightContainer {
-			padding: 20px 30px;
+			padding: 0px 30px;
 			display: grid;
 			grid-template-rows: 1fr 1fr;
+			height: 95vh;
 			.searchBar {
 				position: relative;
 				width: 100%;

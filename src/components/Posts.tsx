@@ -17,7 +17,7 @@ const Posts: FC = creator => {
 			purchased: requests.some(request => request.subscriber === address && request.cipherId.eq(post.cipherId)),
 		}
 	})
-	console.log('posts', posts)
+
 	//get all the creators and fetch the price
 	const [creator_fetched] = useGlobalStore(state => state.creators).filter(
 		creator => creator.creatorAddress === creatorAddress
@@ -74,7 +74,7 @@ const Posts: FC = creator => {
 			<div>
 				<div>
 					{posts.map(post => (
-						<PostListing key={post.cipherId.toNumber()} {...post} />
+						<PostListing key={post.cipherId.toNumber()} {...post} purchased />
 					))}
 				</div>
 			</div>

@@ -20,6 +20,7 @@ import PinkButton from '@/components/reusable/PinkButton'
 import Ad from '@/components/reusable/Ad'
 import Link from 'next/link'
 import Modal from 'react-modal'
+import Connect from './reusable/Connect'
 
 const UserProfile = ({ creatorAddress, resolvedTheme }) => {
 	const { isConnected, address } = useAccount()
@@ -74,6 +75,8 @@ const UserProfile = ({ creatorAddress, resolvedTheme }) => {
 	// console.log('price is', price?.toNumber())
 	//const price = parseInt(creator.price, 16)
 	const userPosts = useGlobalStore(state => state.posts).filter(post => post.creator === creatorAddress)
+	// const userPosts = useGlobalStore(state => state.posts)
+
 	const posts = userPosts.map(post => {
 		return {
 			...post,
@@ -83,6 +86,10 @@ const UserProfile = ({ creatorAddress, resolvedTheme }) => {
 	const myUnlockedPosts = requests.filter(
 		request => request.subscriber == address && request.creator === creatorAddress
 	)
+
+	// console.log('userPosts:', userPosts)
+	// console.log('posts:', posts)
+	// console.log('requestts:', requests)
 
 	const { config: configSubscribe } = usePrepareContractWrite({
 		address: CONTRACT_ADDRESS,
@@ -142,7 +149,12 @@ const UserProfile = ({ creatorAddress, resolvedTheme }) => {
 
 	//const userPost = posts.some(post => post.creator === creatorAddress)
 	if (!isConnected) {
-		return <div>Please connect your wallet</div>
+		return (
+			<div className={styles.pleaseConnect}>
+				Please connect your wallet
+				<Connect />
+			</div>
+		)
 	}
 	return (
 		<div>
@@ -316,6 +328,7 @@ const UserProfile = ({ creatorAddress, resolvedTheme }) => {
 
 					<div className={styles.rightContainer}>
 						<div className={styles.top}>
+							<Connect />
 							<div className={styles.searchBar}>
 								<form>
 									<input type="search" placeholder="" className={styles.search} />

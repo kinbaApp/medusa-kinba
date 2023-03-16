@@ -17,6 +17,7 @@ import { UserProfile, Sidebar } from '@/components'
 import App from './_app'
 import { useTheme } from 'next-themes'
 import { resolve } from 'path'
+import Connect from '@/components/reusable/Connect'
 
 const Home: FC = () => {
 	const provider = useProvider()
@@ -140,9 +141,13 @@ const Home: FC = () => {
 
 			<Toaster position="top-center" reverseOrder={true} />
 
-			<Header resolvedTheme={resolvedTheme} setTheme={setTheme} />
+			{/* <Header resolvedTheme={resolvedTheme} setTheme={setTheme} /> */}
+			<div className="fixed top-0 right-10 bg-gray-100 dark:bg-gray-800 z-10">
+				<Connect />
+			</div>
 			<div className=" flex md:flex-row bg-gray-100 dark:bg-gray-800 flex-col h-screen transition-height duration-75 ease-out">
 				<Sidebar resolvedTheme={resolvedTheme} />
+
 				<div className="pb-2 flex-1 h-screen overflow-y-scroll" ref={scrollRef}>
 					<div className="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-800 sm:items-center py-4 sm:pt-0">
 						<div className="max-w-6xl mx-auto px-6  pt-10 lg:px-8">
