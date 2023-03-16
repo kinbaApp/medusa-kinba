@@ -323,6 +323,10 @@ const UserProfile = ({ creatorAddress }) => {
 									image={'/Profile/girl.png'}
 									price={formatEther(price || 0.0)}
 									period={formatEther(period || 0.0)}
+									// subscriptionPrice={subscriptionPrice}
+									// isConnected={}
+									// subscribeToCreator={}
+									// setSubscriptionPrice={}
 								/>
 							</div>
 						</div>
