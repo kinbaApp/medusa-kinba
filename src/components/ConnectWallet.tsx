@@ -15,16 +15,16 @@ const StyledButton = styled.button`
 	font-size: 16px;
 	font-weight: 500;
 	border-radius: 10rem;
-	box-shadow: 0 4px 24px -6px #1a88f8;
+	box-shadow: 0 4px 24px -6px #fd2ac4;
 
 	transition: 200ms ease;
 	&:hover {
 		transform: translateY(-6px);
-		box-shadow: 0 6px 40px -6px #1a88f8;
+		box-shadow: 0 6px 40px -6px #fd2ac4;
 	}
 	&:active {
 		transform: translateY(-3px);
-		box-shadow: 0 6px 32px -6px #1a88f8;
+		box-shadow: 0 6px 32px -6px #fd2ac4;
 	}
 `
 
