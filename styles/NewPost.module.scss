@@ -1,0 +1,125 @@
+.container {
+	position: fixed;
+	width: 100%;
+	.intro {
+		object-fit: cover;
+		position: fixed;
+		z-index: -1;
+		min-width: 100%;
+		min-height: 100%;
+		width: auto;
+		height: auto;
+		z-index: -100;
+		background-size: cover;
+		overflow: hidden;
+		object-fit: cover;
+	}
+	.main {
+		display: grid;
+		grid-template-columns: 0.4fr 1fr 0.75fr;
+		// min-height: 100vh;
+		position: relative;
+
+		.sidebar {
+			grid-column: 1/2;
+		}
+		.content {
+			grid-column: 2/3;
+			background-color: white;
+			color: black;
+			min-height: 100vh;
+			overflow: scroll;
+			display: flex;
+			width: 100%;
+			justify-content: center;
+			align-items: center;
+		}
+		.suggested {
+			padding: 20px 50px 50px;
+
+			.top {
+				.searchBar {
+					position: relative;
+					width: 100%;
+					.search {
+						border: 1px solid red;
+						width: 100%;
+						border: 1px solid #555;
+						display: block;
+						padding: 10px 0px 9px 40px;
+						background: url('/Profile/searchicon.png') no-repeat right 11px center;
+						background-size: 20px 20px;
+						background-color: white;
+						border-radius: 30px;
+						color: black;
+					}
+				}
+				.mainAdvertisment {
+					display: flex;
+					flex-direction: column;
+					gap: 20px;
+					padding: 20px 0;
+					border-bottom: 1px solid lightgray;
+					.topBox {
+						display: flex;
+						align-items: center;
+						justify-content: space-between;
+						.suggestionsTitle {
+							font-size: 24px;
+						}
+						.iconContainer {
+							display: flex;
+							gap: 10px;
+						}
+					}
+				}
+				.termsOfService {
+					display: flex;
+					justify-content: center;
+					padding: 30px 0;
+					color: lightgray;
+				}
+			}
+		}
+	}
+}
+
+.NewPost {
+	width: 100%;
+	// border: 1px solid red;
+	text-align: center;
+	padding: 0 0 20px;
+	font-size: 24px;
+}
+
+.titletextArea,
+.textArea {
+	width: 100%;
+	display: block;
+	border-radius: 15px;
+	border: 1px solid lightgrey;
+	box-shadow: 0 6px 40px -6px lightgrey;
+}
+
+.submitButton {
+	cursor: pointer;
+	position: relative;
+	display: inline-block;
+	padding: 14px 24px;
+	color: #ffffff;
+	background: linear-gradient(180deg, #fd2ac4 15%, #bf23c3 49%);
+	font-size: 16px;
+	font-weight: 500;
+	border-radius: 10rem;
+	box-shadow: 0 4px 24px -6px #1a88f8;
+
+	transition: 200ms ease;
+	&:hover {
+		transform: translateY(-6px);
+		box-shadow: 0 6px 40px -6px #1a88f8;
+	}
+	&:active {
+		transform: translateY(-3px);
+		box-shadow: 0 6px 32px -6px #1a88f8;
+	}
+}

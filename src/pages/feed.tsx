@@ -121,7 +121,7 @@ const Content: FC = (resolvedTheme, setTheme) => {
 							<div className={styles.mainAdvertisment}>
 								{/* <Ad image={'/Profile/girl.png'} price={'$2.25'} /> */}
 								<div className={styles.topBox}>
-									<h3 className={`${fonts.bodyText} ${styles.suggestionsTitle}`}>SUGGESTIONS</h3>
+									<p className={`${fonts.bodyText} ${styles.suggestionsTitle}`}>SUGGESTIONS</p>
 									<div className={styles.iconContainer}>
 										<TbFreeRights size="25px" />
 										<TfiReload size="20px" />

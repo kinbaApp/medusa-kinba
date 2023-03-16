@@ -10,6 +10,8 @@ import toast from 'react-hot-toast'
 import { ipfsGatewayLink } from '@/lib/utils'
 import useGlobalStore from '@/stores/globalStore'
 import { Base64 } from 'js-base64'
+import styles from '../../styles/NewPost.module.scss'
+import fonts from '../../styles/Fonts.module.scss'
 
 const PostForm: FC = () => {
 	const medusa = useGlobalStore(state => state.medusa)
@@ -146,7 +148,7 @@ const PostForm: FC = () => {
 	return (
 		<>
 			<form className="lg:w lg:mx-auto" onSubmit={handleSubmit}>
-				<h1 className="text-2xl font-mono font-light dark:text-white mt-10 mb-6">Creator, post here</h1>
+				<h1 className={`${styles.NewPost} ${fonts.bold}`}>New Post</h1>
 				<div className="flex items-center justify-center">
 					<label className="w-64 flex flex-col items-center px-4 py-6 rounded-lg shadow-lg tracking-wide border border-blue cursor-pointer hover:bg-gray-800 hover:text-white dark:hover:text-blue-400">
 						<svg
@@ -164,12 +166,13 @@ const PostForm: FC = () => {
 
 				<div className="pt-8 text-center">
 					<label className="block">
-						<span className="text-lg font-mono font-light dark:text-white my-4">Name</span>
+						<span className={`${styles.postTitle} ${fonts.bold}`}>Post Title</span>
 						<input
 							required
 							type="text"
 							placeholder="dEaD-creds.txt"
-							className="form-input my-5 block w-full dark:bg-gray-800 dark:text-white"
+							className={styles.titletextArea}
+							// className="form-input my-5 block w-full dark:bg-gray-800 dark:text-white"
 							value={name}
 							onChange={e => setName(e.target.value)}
 						/>
@@ -191,11 +194,12 @@ const PostForm: FC = () => {
 				</div> */}
 
 				<div className="pt-4 text-center">
-					<span className="text-lg font-mono font-light dark:text-white my-4">Description</span>
+					<span className={`${styles.caption} ${fonts.bold}`}>Caption</span>
 					<label className="py-3 block">
 						<textarea
 							required
-							className="form-textarea mt-1 block w-full h-24 dark:bg-gray-800 dark:text-white"
+							className={styles.textArea}
+							// className="form-textarea mt-1 block w-full h-24 dark:bg-gray-800 dark:text-white"
 							rows={3}
 							placeholder="Buy access to the private key for the 0xdEaD address"
 							value={description}
@@ -207,13 +211,14 @@ const PostForm: FC = () => {
 					<button
 						type="submit"
 						disabled={isLoading || submitting}
-						className="font-mono font-semibold mt-5 text-xl text-white py-4 px-4 rounded-sm transition-colors bg-indigo-600 dark:bg-indigo-800 hover:bg-black dark:hover:bg-gray-50 dark:hover:text-gray-900 hover:cursor-pointer disabled:cursor-not-allowed disabled:opacity-25"
+						className={styles.submitButton}
+						// className="font-mono font-semibold mt-5 text-xl text-white py-4 px-4 rounded-sm transition-colors bg-indigo-600 dark:bg-indigo-800 hover:bg-black dark:hover:bg-gray-50 dark:hover:text-gray-900 hover:cursor-pointer disabled:cursor-not-allowed disabled:opacity-25"
 					>
 						{isLoading || submitting
 							? 'Submitting...'
 							: medusa?.keypair
 							? 'Post your content'
-							: 'Please sign in'}
+							: 'Please Sign in'}
 					</button>
 				</div>
 				{(isPrepareError || isError) && <div>Error: {(prepareError || error)?.message}</div>}
