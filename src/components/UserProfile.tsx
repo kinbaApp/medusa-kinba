@@ -213,7 +213,7 @@ const UserProfile = ({ creatorAddress }) => {
 							<div className={styles.bannerContainer}>
 								<div className={styles.banner}>
 									<p className={`${styles.bannerText} ${fonts.lightText}`}>
-										Only {formatEther(price)} ETH - Limited Time Only - Exclusive Nudes
+										Only {formatEther(price)} ETH - Limited Time Only - Exclusive Content
 									</p>
 									<div className={styles.smallpinkring}>
 										<div className={styles.smallpurplering}>
@@ -275,40 +275,6 @@ const UserProfile = ({ creatorAddress }) => {
 							</div>
 						</div>
 
-						{/* Adds are here  */}
-
-						<div className={styles.rightContainer}>
-							<div className={styles.top}>
-								<div className={styles.searchBar}>
-									<form>
-										<input type="search" placeholder="" className={styles.search} />
-										{/* <img src="/Profile/searchicon.png" alt="" className={styles.searchIcon} /> */}
-									</form>
-								</div>
-								<div className={styles.mainadvertisment}>
-									<Ad
-										image={'/Profile/girl.png'}
-										price={formatEther(price || 0.0)}
-										period={formatEther(period || 0.0)}
-									/>
-								</div>
-							</div>
-							<div className={styles.bottom}>
-								<div className={styles.privacypolicy}>
-									{/* These should be turned into links  */}
-									<p className={`${styles.privacy} ${fonts.lightText}`}>
-										Privacy. Cookie Notice. Terms of Service
-									</p>
-								</div>
-								<div className={styles.publishButton}>
-									<Link href="/newPost">
-										<a>
-											<PinkButton text={'PUBLISH NEW +'} />
-										</a>
-									</Link>
-								</div>
-							</div>
-						</div>
 						<p className="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white truncate">
 							Price:{' '}
 							{price ? (BigNumber.from(0).eq(price) ? 'Free' : `${formatEther(price)} ETH`) : 'no price'}{' '}
@@ -341,6 +307,40 @@ const UserProfile = ({ creatorAddress }) => {
 							// </div>
 							''
 						)}
+					</div>
+					{/* Adds are here  */}
+
+					<div className={styles.rightContainer}>
+						<div className={styles.top}>
+							<div className={styles.searchBar}>
+								<form>
+									<input type="search" placeholder="" className={styles.search} />
+									{/* <img src="/Profile/searchicon.png" alt="" className={styles.searchIcon} /> */}
+								</form>
+							</div>
+							<div className={styles.mainadvertisment}>
+								<Ad
+									image={'/Profile/girl.png'}
+									price={formatEther(price || 0.0)}
+									period={formatEther(period || 0.0)}
+								/>
+							</div>
+						</div>
+						<div className={styles.bottom}>
+							<div className={styles.privacypolicy}>
+								{/* These should be turned into links  */}
+								<p className={`${styles.privacy} ${fonts.lightText}`}>
+									Privacy. Cookie Notice. Terms of Service
+								</p>
+							</div>
+							<div className={styles.publishButton}>
+								<Link href="/newPost">
+									<a>
+										<PinkButton text={'PUBLISH NEW +'} />
+									</a>
+								</Link>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
