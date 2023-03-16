@@ -23,6 +23,7 @@ import { AiOutlineRight } from 'react-icons/ai'
 import { TbFreeRights } from 'react-icons/tb'
 import Link from 'next/link'
 import PostListing from '@/components/PostListing'
+import Connect from '@/components/reusable/Connect'
 
 const Content: FC = (resolvedTheme, setTheme) => {
 	const scrollRef = useRef(null)
@@ -48,7 +49,7 @@ const Content: FC = (resolvedTheme, setTheme) => {
 				<meta name="viewport" content="initial-scale=1.0, width=device-width" />
 			</Head>
 			<Toaster position="top-center" reverseOrder={true} />
-			<Header resolvedTheme={resolvedTheme} setTheme={setTheme} />
+			{/* <Header resolvedTheme={resolvedTheme} setTheme={setTheme} /> */}
 
 			{/* <div className=" flex md:flex-row bg-gray-100 dark:bg-gray-800 flex-col h-screen transition-height duration-75 ease-out">
 				<Sidebar resolvedTheme={resolvedTheme} />
@@ -108,6 +109,7 @@ const Content: FC = (resolvedTheme, setTheme) => {
 						</div>
 					</div>
 					<div className={styles.suggested}>
+						<Connect />
 						<div className={styles.top}>
 							<div className={styles.searchBar}>
 								<form>
