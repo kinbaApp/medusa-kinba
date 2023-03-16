@@ -154,6 +154,7 @@ const Home: FC = () => {
 							<CreateNewProfile />
 
 							<Subscription />
+							<Posts />
 
 							{/* <PurchasedSecrets /> */}
 							{/* <CreatorsList /> */}
