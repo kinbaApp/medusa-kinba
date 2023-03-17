@@ -26,9 +26,10 @@ const CreatorsList: FC = () => {
 		abi: DONLYFANS_ABI,
 		eventName: 'NewCreatorProfileCreated',
 		listener(creatorAddress, creatorContractAddress, price, period) {
-			if (creatorAddress == address) {
-				addCreator({ creatorAddress, price, period })
-			}
+			//if (creatorAddress == address) {
+			console.log('creator found', creatorAddress)
+			addCreator({ creatorAddress, price, period })
+			//}
 		},
 	})
 	useEffect(() => {
@@ -36,6 +37,7 @@ const CreatorsList: FC = () => {
 			const iface = new ethers.utils.Interface(DONLYFANS_ABI)
 			const creatorsListFilter = donlyFans.filters.NewCreatorProfileCreated()
 			const newCreatorsProfile = await donlyFans.queryFilter(creatorsListFilter)
+			console.log(newCreatorsProfile)
 
 			if (iface && newCreatorsProfile) {
 				const creators = newCreatorsProfile.reverse().map((filterTopic: any) => {
@@ -60,7 +62,7 @@ const CreatorsList: FC = () => {
 
 	return (
 		<>
-			<h1 className="text-2xl font-mono font-light dark:text-white mt-10 mb-6">List of creators</h1>
+			<h1 className="text-2xl font-mono font-light dark:text-white mt-10 mb-6">List of creators!</h1>
 
 			{creators.map(creator => (
 				<li key={creator.creatorAddress}>

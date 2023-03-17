@@ -44,7 +44,12 @@ const Ad = ({ image, price, period }) => {
 				<PinkButton text={'SUBSCRIBE'} />
 			</button>
 			<Modal isOpen={isOpen} onRequestClose={() => setIsOpen(false)} style={customStyles}>
-				<SubscribeToCreatorPopUp />
+				<SubscribeToCreatorPopUp
+				// subscriptionPrice={}
+				// isConnected={}
+				// subscribeToCreator={}
+				// setSubscriptionPrice={}
+				/>
 			</Modal>
 
 			<div className={styles.bottomDetails}>

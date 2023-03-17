@@ -229,7 +229,7 @@ const UserProfile = ({ creatorAddress, resolvedTheme }) => {
 							<div className={styles.bannerContainer}>
 								<div className={styles.banner}>
 									<p className={`${styles.bannerText} ${fonts.lightText}`}>
-										Only {formatEther(price)} ETH - Limited Time Only - Exclusive Content
+										Only {formatEther(price || 0.0)} ETH - Limited Time Only - Exclusive Content
 									</p>
 									<div className={styles.smallpinkring}>
 										<div className={styles.smallpurplering}>
@@ -273,7 +273,7 @@ const UserProfile = ({ creatorAddress, resolvedTheme }) => {
 								<div className={styles.pinkLine}></div>
 								<div className={`${styles.price} ${fonts.lightText}`}>
 									{' '}
-									{formatEther(price)} ETH for {formatEther(period)} days
+									{formatEther(price || 0.0)} ETH for {formatEther(period || 0.0)} days
 								</div>
 							</div>
 							<div className={styles.date}>
