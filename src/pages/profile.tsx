@@ -82,15 +82,17 @@ const Profile: NextPage = resolvedTheme => {
 	console.log('testposts', testPost)
 	return (
 		<div>
-			<Head>
-				<title>{`${APP_NAME}`}</title>
-				<meta name="viewport" content="initial-scale=1.0, width=device-width" />
-			</Head>
-			<Toaster position="top-center" reverseOrder={true} />
-			{/* <Header /> */}
-			{/* <div className=" flex md:flex-row bg-gray-100 dark:bg-gray-800 flex-col h-screen transition-height duration-75 ease-out"> */}
+			isCreator ? (router.push(`user-profile/${address?.toString()}`)): (
+			<div>
+				<Head>
+					<title>{`${APP_NAME}`}</title>
+					<meta name="viewport" content="initial-scale=1.0, width=device-width" />
+				</Head>
+				<Toaster position="top-center" reverseOrder={true} />
+				{/* <Header /> */}
+				{/* <div className=" flex md:flex-row bg-gray-100 dark:bg-gray-800 flex-col h-screen transition-height duration-75 ease-out"> */}
 
-			{/* <div className="relative flex justify-center min-h-screen bg-gray-100 dark:bg-gray-800 sm:items-center py-2 sm:pt-0">
+				{/* <div className="relative flex justify-center min-h-screen bg-gray-100 dark:bg-gray-800 sm:items-center py-2 sm:pt-0">
 					<div className="my-auto relative flex justify-center py-2 px-6 sm:pt-0 ">
 						<WithdrawFund />
 					</div>
@@ -116,142 +118,124 @@ const Profile: NextPage = resolvedTheme => {
 						</Link>
 					</div>
 				</div> */}
-			{/* </div> */}
-			<div className={styles.container}>
-				<div className={styles.video}>
-					{/* This is the Profile BG - You can comment out the img and use the video if you like */}
+				{/* </div> */}
 
-					{/* <video loop autoPlay muted id="video" className={styles.intro}>
+				<div className={styles.container}>
+					<div className={styles.video}>
+						{/* This is the Profile BG - You can comment out the img and use the video if you like */}
+
+						{/* <video loop autoPlay muted id="video" className={styles.intro}>
 						<source src="/Login/kinba.mp4" type="video/mp4" />
 					</video> */}
-					<img src="/Profile/kinbaBGv2.png" alt="" className={styles.intro} />
-				</div>
-				<div className={styles.main}>
-					{/* All of this data will need to be taken from the users account  */}
-					{/* Hard coding all images and info untitl i access db */}
-					<div className={styles.sidebar}>
-						<Sidebar resolvedTheme={resolvedTheme} />
+						<img src="/Profile/kinbaBGv2.png" alt="" className={styles.intro} />
 					</div>
-					<div className={styles.content}>
-						<div className={styles.headerImage}>
-							<img src="/Profile/layingdown.png" alt="" />
+					<div className={styles.main}>
+						{/* All of this data will need to be taken from the users account  */}
+						{/* Hard coding all images and info untitl i access db */}
+						<div className={styles.sidebar}>
+							<Sidebar resolvedTheme={resolvedTheme} />
 						</div>
-						<div className={styles.profilepic}>
-							<div className={styles.pinkring}>
-								<div className={styles.purplering}>
-									<div>
-										<img src="/Profile/girl.png" alt="" className={styles.image} />
-									</div>
-								</div>
+						<div className={styles.content}>
+							<div className={styles.headerImage}>
+								<img src="/Profile/layingdown.png" alt="" />
 							</div>
-						</div>
-						<div className={styles.bio}>
-							<div className={styles.likeAndShare}>
-								{/* these two assets will eventually need functionality added  */}
-								<img src="/Profile/heartIcon.png" alt="" className={styles.likeIcon} />
-								<img src="/Profile/shareIcon.png" alt="" className={styles.shareIcon} />
-							</div>
-							<div className={styles.bottomhalf}>
-								{/* INTERPOLATE USER INFO HERE  */}
-								<div className={`${styles.nameAndPostInfo}`}>
-									<p className={`${styles.name} ${fonts.bold}`}>Anne Onyme</p>
-									<img src="/Profile/verified.png" alt="" className={styles.verified} />
-									<div className={styles.postsCount}>
-										<AiOutlinePicture size="20px" color="white" />
-										<p className={fonts.lightText}>643 ·</p>
-									</div>
-									<div className={styles.videoCount}>
-										<BsCameraVideo size="20px" color="white" />
-										<p className={fonts.lightText}>291 ·</p>
-									</div>
-
-									<div className={styles.likeCount}>
-										<AiOutlineHeart size="20px" color="white" />
-										<p className={fonts.lightText}>528.8K </p>
-									</div>
-								</div>
-								<div className={`${styles.username} ${fonts.lightText}`}>@anneonyme</div>
-								<div className={`${styles.bioText} ${fonts.lightText}`}>
-									Exclusive Anne Onyme Kinba profile
-								</div>
-							</div>
-						</div>
-						<div className={styles.subscriptionInfo}>
-							<h2 className={`${styles.subTitle} ${fonts.extraBold}`}>SUBSCRIPTION</h2>
-							<p className={`${styles.offer} ${fonts.lightText}`}>
-								Limited time offer: -80% for the first month!
-							</p>
-							<div className={styles.bannerContainer}>
-								<div className={styles.banner}>
-									<p className={`${styles.bannerText} ${fonts.lightText}`}>
-										Only $2.25 - Limited Time Only - Exclusive Nudes
-									</p>
-									<div className={styles.smallpinkring}>
-										<div className={styles.smallpurplering}>
-											<img src="/Profile/girl.png" alt="" className={styles.smallpfp} />
+							<div className={styles.profilepic}>
+								<div className={styles.pinkring}>
+									<div className={styles.purplering}>
+										<div>
+											<img src="/Profile/girl.png" alt="" className={styles.image} />
 										</div>
 									</div>
 								</div>
 							</div>
-							<div className={styles.firstsubcontainer}>
-								<PinkButton text={'SUBSCRIBE'} />
-								<div className={styles.pinkLine}></div>
-								<div className={`${styles.price} ${fonts.lightText}`}>$2.25 for 1 month</div>
-							</div>
-							<div className={styles.date}>
-								<p>February 24th 2023</p>
-							</div>
-							<div className={styles.subContainer}>
-								<div className={`${styles.subscriptionSubTitle} ${fonts.bodyText}`}>
-									Subscription plans
-								</div>
-								<div className={styles.subPlans}>
-									<PinkButton text={'3 MONTHS - 50% OFF'} />
-									<div className={styles.pinkLine}></div>
-									<p className={`${styles.price} ${fonts.lightText}`}>$29 total</p>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					{/* Adds are here  */}
-
-					<div className={styles.rightContainer}>
-						<div className={styles.top}>
-							<Connect />
-							<div className={styles.searchBar}>
-								<form>
-									<input type="search" placeholder="" className={styles.search} />
-									{/* <img src="/Profile/searchicon.png" alt="" className={styles.searchIcon} /> */}
-								</form>
-							</div>
-							<div className={styles.mainadvertisment}>
-								<Ad image={'/Profile/girl.png'} price={'$2.25'} />
-							</div>
-						</div>
-						<div className={styles.bottom}>
-							<div className={styles.privacypolicy}>
-								{/* These should be turned into links  */}
-								<p className={`${styles.privacy} ${fonts.lightText}`}>
-									Privacy. Cookie Notice. Terms of Service
+							<div className={styles.bio}></div>
+							<div className={styles.subscriptionInfo}>
+								<h2 className={`${styles.subTitle} ${fonts.extraBold}`}>SUBSCRIPTION</h2>
+								<p className={`${styles.offer} ${fonts.lightText}`}>
+									Limited time offer: -80% for the first month!
 								</p>
+								<div className={styles.bannerContainer}>
+									<div className={styles.banner}>
+										<p className={`${styles.bannerText} ${fonts.lightText}`}>
+											Only $2.25 - Limited Time Only - Exclusive Nudes
+										</p>
+										<div className={styles.smallpinkring}>
+											<div className={styles.smallpurplering}>
+												<img src="/Profile/girl.png" alt="" className={styles.smallpfp} />
+											</div>
+										</div>
+									</div>
+								</div>
+								<div className={styles.firstsubcontainer}>
+									<PinkButton text={'SUBSCRIBE'} />
+									<div className={styles.pinkLine}></div>
+									<div className={`${styles.price} ${fonts.lightText}`}>$2.25 for 1 month</div>
+								</div>
+								<div className={styles.date}>
+									<p>February 24th 2023</p>
+								</div>
+								<div className={styles.subContainer}>
+									<div className={`${styles.subscriptionSubTitle} ${fonts.bodyText}`}>
+										Subscription plans
+									</div>
+									<div className={styles.subPlans}>
+										<PinkButton text={'3 MONTHS - 50% OFF'} />
+										<div className={styles.pinkLine}></div>
+										<p className={`${styles.price} ${fonts.lightText}`}>$29 total</p>
+									</div>
+								</div>
 							</div>
-							<div className={styles.publishButton}>
-								<Link href="/newPost">
-									<a>
-										<PinkButton text={'PUBLISH NEW +'} />
-									</a>
-								</Link>
+							<div className="  m-10 px-20  ">
+								{isConnected ? (
+									isCreator ? (
+										'You are a creator'
+									) : (
+										<CreateNewProfile />
+									)
+								) : (
+									'Please connect your wallet'
+								)}{' '}
+							</div>
+						</div>
+
+						{/* Adds are here  */}
+
+						<div className={styles.rightContainer}>
+							<div className={styles.top}>
+								<Connect />
+								<div className={styles.searchBar}>
+									<form>
+										<input type="search" placeholder="" className={styles.search} />
+										{/* <img src="/Profile/searchicon.png" alt="" className={styles.searchIcon} /> */}
+									</form>
+								</div>
+								<div className={styles.mainadvertisment}>
+									<Ad image={'/Profile/girl.png'} price={'$2.25'} />
+								</div>
+							</div>
+							<div className={styles.bottom}>
+								<div className={styles.privacypolicy}>
+									{/* These should be turned into links  */}
+									<p className={`${styles.privacy} ${fonts.lightText}`}>
+										Privacy. Cookie Notice. Terms of Service
+									</p>
+								</div>
+								<div className={styles.publishButton}>
+									<Link href="/newPost">
+										<a>
+											<PinkButton text={'PUBLISH NEW +'} />
+										</a>
+									</Link>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-				{/* <div className={styles.posts}>
+					{/* <div className={styles.posts}>
 					{testPost.map(post => (
 						<PostListing purchased={false} key={post.cipherId.toNumber()} {...post} />
 					))}
 				</div> */}
-				{/* {myUnlockedPosts.length > 0 ? (
+					{/* {myUnlockedPosts.length > 0 ? (
 					<div className={styles.unlockedContainer}>
 						{myUnlockedPosts.map(sale => (
 							<Unlocked key={sale.requestId.toNumber()} {...sale} />
@@ -260,7 +244,9 @@ const Profile: NextPage = resolvedTheme => {
 				) : (
 					<div>nothing is working</div>
 				)} */}
+				</div>
 			</div>
+			)
 		</div>
 	)
 }

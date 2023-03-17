@@ -1,6 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
-import { useAccount } from 'wagmi'
+import { useAccount, useContractRead } from 'wagmi'
+import { APP_NAME, DONLYFANS_ABI, CONTRACT_ADDRESS, ORACLE_ADDRESS } from '@/lib/consts'
 import styles from '../../styles/Sidebar.module.scss'
 import { VscHome } from 'react-icons/vsc'
 import { BsBell } from 'react-icons/bs'
@@ -13,9 +14,27 @@ import { CiCircleMore } from 'react-icons/ci'
 import { AiOutlinePlus } from 'react-icons/ai'
 import Image from 'next/image'
 import fonts from '../../styles/Fonts.module.scss'
+import { arbitrumGoerli } from 'wagmi/chains'
+import { constants } from 'ethers'
 
 const Sidebar = ({ resolvedTheme }) => {
 	const { address, isConnected } = useAccount()
+	const {
+		data: creatorContractAddress,
+		isError,
+		isLoading,
+	} = useContractRead({
+		address: CONTRACT_ADDRESS,
+		abi: DONLYFANS_ABI,
+		functionName: 'getCreatorContractAddress',
+		args: [address],
+		chainId: arbitrumGoerli.id,
+		onSuccess(data) {
+			console.log('Success', creatorContractAddress)
+		},
+	})
+
+	const isCreator = creatorContractAddress !== constants.AddressZero
 	return (
 		<div className={styles.outerContainer}>
 			<div className={styles.logo}>
@@ -109,16 +128,25 @@ const Sidebar = ({ resolvedTheme }) => {
 					</Link>
 				</div>
 				<div className={styles.feed}>
-					<Link href="/profile">
-						<a>
-							<IoPersonCircleSharp size="25px" color={resolvedTheme === 'light' ? 'black' : 'white'} />
-						</a>
-					</Link>
-					<Link href="/profile">
-						<a>
-							<p className={`${styles.navText} ${fonts.lightText}`}>My Profile</p>
-						</a>
-					</Link>
+					{isCreator ? (
+						<>
+							<Link href={`user-profile/${address.toString()}`}>
+								<a>
+									<IoPersonCircleSharp
+										size="25px"
+										color={resolvedTheme === 'light' ? 'black' : 'white'}
+									/>
+								</a>
+							</Link>
+							<Link href={`user-profile/${address.toString()}`}>
+								<a>
+									<p className={`${styles.navText} ${fonts.lightText}`}>My Profile</p>
+								</a>
+							</Link>
+						</>
+					) : (
+						<></>
+					)}
 				</div>
 				<div className={styles.feed}>
 					<Link href="/">
