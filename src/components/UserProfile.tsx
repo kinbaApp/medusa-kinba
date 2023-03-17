@@ -1,7 +1,16 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import useGlobalStore from '@/stores/globalStore'
 import { APP_NAME, CONTRACT_ADDRESS, DONLYFANS_ABI, CREATOR_ABI } from '@/lib/consts'
-import { useAccount, useContractRead, usePrepareContractWrite, useContractWrite, useWaitForTransaction } from 'wagmi'
+import {
+	useProvider,
+	useAccount,
+	useContractRead,
+	usePrepareContractWrite,
+	useContractWrite,
+	useWaitForTransaction,
+	useContract,
+	useContractEvent,
+} from 'wagmi'
 import PostListing from './PostListing'
 import { BigNumber, ethers } from 'ethers'
 import { formatEther, getAddress, parseEther } from 'ethers/lib/utils'
@@ -23,6 +32,7 @@ import Modal from 'react-modal'
 import Connect from './reusable/Connect'
 
 const UserProfile = ({ creatorAddress, resolvedTheme }) => {
+	const provider = useProvider()
 	const { isConnected, address } = useAccount()
 	const [isOpen, setIsOpen] = useState(false)
 	const [subscriptionPrice, setSubscriptionPrice] = useState('')
@@ -64,6 +74,101 @@ const UserProfile = ({ creatorAddress, resolvedTheme }) => {
 		args: [address],
 		chainId: arbitrumGoerli.id,
 	})
+	const updatePosts = useGlobalStore(state => state.updatePosts)
+	const updateRequests = useGlobalStore(state => state.updateRequests)
+	const updateDecryptions = useGlobalStore(state => state.updateDecryptions)
+	const addPost = useGlobalStore(state => state.addPost)
+	const addRequest = useGlobalStore(state => state.addRequest)
+	const addDecryption = useGlobalStore(state => state.addDecryption)
+	const addSubscriber = useGlobalStore(state => state.addSubscriber)
+	useContractEvent({
+		address: CONTRACT_ADDRESS,
+		abi: DONLYFANS_ABI,
+		eventName: 'NewSubscriber',
+		listener(creator, subscriber, price) {
+			if (subscriber == address) {
+				addSubscriber({ creator, subscriber, price })
+			}
+		},
+	})
+	useContractEvent({
+		address: CONTRACT_ADDRESS,
+		abi: DONLYFANS_ABI,
+		eventName: 'NewPost',
+		listener(creator, cipherId, name, description, uri) {
+			addPost({ creator, cipherId, name, description, uri })
+		},
+	})
+
+	useContractEvent({
+		address: CONTRACT_ADDRESS,
+		abi: DONLYFANS_ABI,
+		eventName: 'NewPostRequest',
+		listener(subscriber, creator, requestId, cipherId) {
+			if (subscriber === address) {
+				addRequest({ subscriber, creator, requestId, cipherId })
+			}
+		},
+	})
+
+	useContractEvent({
+		address: CONTRACT_ADDRESS,
+		abi: DONLYFANS_ABI,
+		eventName: 'PostDecryption',
+		listener(requestId, ciphertext) {
+			addDecryption({ requestId, ciphertext })
+		},
+	})
+
+	const donlyFans = useContract({
+		address: CONTRACT_ADDRESS,
+		abi: DONLYFANS_ABI,
+		signerOrProvider: provider,
+	})
+
+	useEffect(() => {
+		const getEvents = async () => {
+			const iface = new ethers.utils.Interface(DONLYFANS_ABI)
+
+			const newPostFilter = donlyFans.filters.NewPost()
+			console.log(newPostFilter)
+			const newPosts = await donlyFans.queryFilter(newPostFilter)
+
+			if (iface && newPosts) {
+				const posts = newPosts.reverse().map((filterTopic: any) => {
+					const result = iface.parseLog(filterTopic)
+					const { creator, cipherId, name, description, uri } = result.args
+					return { creator, cipherId, name, description, uri } as Post
+				})
+				updatePosts(posts)
+			}
+
+			const newRequestFilter = donlyFans.filters.NewPostRequest(address)
+			const newRequests = await donlyFans.queryFilter(newRequestFilter)
+
+			if (iface && newRequests) {
+				const requests = newRequests.reverse().map((filterTopic: any) => {
+					const result = iface.parseLog(filterTopic)
+					const { subscriber, creator, requestId, cipherId } = result.args
+					return { subscriber, creator, requestId, cipherId } as Request
+				})
+				updateRequests(requests)
+			}
+
+			const postDecryptionFilter = donlyFans.filters.PostDecryption()
+			const postDecryptions = await donlyFans.queryFilter(postDecryptionFilter)
+
+			if (iface && postDecryptions) {
+				const decryptions = postDecryptions.reverse().map((filterTopic: any) => {
+					const result = iface.parseLog(filterTopic)
+					const { requestId, ciphertext } = result.args
+					return { requestId, ciphertext } as Decryption
+				})
+				updateDecryptions(decryptions)
+			}
+		}
+		getEvents()
+	}, [address])
 
 	const requests = useGlobalStore(state => state.requests)
 	const [creator] = useGlobalStore(state => state.creators).filter(
@@ -76,16 +181,19 @@ const UserProfile = ({ creatorAddress, resolvedTheme }) => {
 	//const price = parseInt(creator.price, 16)
 	const userPosts = useGlobalStore(state => state.posts).filter(post => post.creator === creatorAddress)
 	// const userPosts = useGlobalStore(state => state.posts)
-
-	const posts = userPosts.map(post => {
+	const myUnlockedPosts = requests.filter(
+		request => request.subscriber == address && request.creator === creatorAddress
+	)
+	const posts = useGlobalStore(state => state.posts)
+	const lockedPosts = posts.filter(post => !myUnlockedPosts.some(request => request.cipherId.eq(post.cipherId)))
+	console.log('locked post', lockedPosts)
+	const lockedPostsUser = lockedPosts.map(post => {
 		return {
 			...post,
 			purchased: requests.some(request => request.subscriber === address && request.cipherId.eq(post.cipherId)),
 		}
 	})
-	const myUnlockedPosts = requests.filter(
-		request => request.subscriber == address && request.creator === creatorAddress
-	)
+	console.log('locked post user', lockedPostsUser)
 
 	// console.log('userPosts:', userPosts)
 	// console.log('posts:', posts)
@@ -300,18 +408,22 @@ const UserProfile = ({ creatorAddress, resolvedTheme }) => {
 							{price ? (BigNumber.from(0).eq(price) ? 'Free' : `${formatEther(price)} ETH`) : 'no price'}{' '}
 							, Period: {period ? formatEther(period) : 'undefined'} days
 						</p>
-						{!isSubscriber && (
-							<>
-								{/* <p className="text-base font-mono font-light dark:text-gray-300 ml-2">
+
+						<>
+							{/* <p className="text-base font-mono font-light dark:text-gray-300 ml-2">
 						Subscribe to see the content!
 					</p> */}
-								<div className="grid grid-rows-1  gap-6 p-4 w-full transition-all">
-									{posts.map(post => (
-										<PostListing key={post.cipherId.toNumber()} {...post} />
-									))}
-								</div>
-							</>
-						)}
+
+							{/* <div className="grid grid-rows-1  gap-6 p-4 w-full transition-all">
+								{posts.map(post => (
+									<PostListing key={post.cipherId.toNumber()} {...post} />
+								))}
+							</div> */}
+							{lockedPostsUser.map(post => (
+								<PostListing key={post.cipherId.toNumber()} {...post} uri={post.uri} />
+							))}
+						</>
+
 						{myUnlockedPosts.length > 0 ? (
 							<div className="grid grid-rows-1 gap-6 p-4 w-full transition-all">
 								{myUnlockedPosts.map(sale => (
@@ -358,6 +470,15 @@ const UserProfile = ({ creatorAddress, resolvedTheme }) => {
 								<p className={`${styles.privacy} ${fonts.lightText}`}>
 									Privacy. Cookie Notice. Terms of Service
 								</p>
+							</div>
+							<div>
+								{creatorAddress === address && (
+									<Link href="/listofsubscribers">
+										<a>
+											<PinkButton text={'Subscriber List'} />
+										</a>
+									</Link>
+								)}
 							</div>
 							<div className={styles.publishButton}>
 								<Link href="/newPost">

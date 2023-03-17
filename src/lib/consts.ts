@@ -1,5 +1,5 @@
 export const APP_NAME = 'Kinba' as const
-export const CONTRACT_ADDRESS = '0xe54A3936A2E584BE4Dfc53F047ED760593e9491a' as const
+export const CONTRACT_ADDRESS = '0x4A1E7Deef47B6038501a83bA558Ffcc20B93C913' as const
 export const ORACLE_ADDRESS = '0xf1d5A4481F44fe0818b6E7Ef4A60c0c9b29E3118' as const
 
 // The <const> assertion enables wagmi to infer the correct types when using the ABI in hooks

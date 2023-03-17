@@ -185,7 +185,6 @@ const Content: FC = (resolvedTheme, setTheme) => {
 							</div>
 						</div>
 						<div className={styles.postContainer}>
-							<h1>Unlocked</h1>
 							{myUnlockedPosts.length > 0 ? (
 								<div className="grid grid-rows-1 gap-6 p-4 w-full transition-all">
 									{myUnlockedPosts.map(sale => (
@@ -201,7 +200,7 @@ const Content: FC = (resolvedTheme, setTheme) => {
 								// </div>
 								''
 							)}
-							<h1>locked</h1>
+
 							<div className="grid grid-rows-1 gap-6 p-4 w-full transition-all">
 								{lockedPostsUser.map(post => (
 									<PostListing key={post.cipherId.toNumber()} {...post} uri={post.uri} />

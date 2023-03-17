@@ -35,12 +35,14 @@ const Unlocked: FC<Request> = ({ subscriber, creator, requestId, cipherId }) => 
 			console.log('Downloading encrypted content from ipfs')
 			const ipfsDownload = ipfsGatewayLink(post.uri)
 			const response = await fetch(ipfsDownload)
+
 			const encryptedContents = Base64.toUint8Array(await response.text())
 
 			try {
 				const decryptedBytes = await medusa.decrypt(ciphertext, encryptedContents)
 				const msg = new TextDecoder().decode(decryptedBytes)
 				setPlaintext(msg)
+				console.log('here')
 				if (isFile(msg)) {
 					const fileData = msg.split(',')[1]
 					setDownloadLink(window.URL.createObjectURL(new Blob([Base64.toUint8Array(fileData)])))
@@ -49,6 +51,7 @@ const Unlocked: FC<Request> = ({ subscriber, creator, requestId, cipherId }) => 
 				}
 			} catch (e) {
 				setPlaintext('Decryption failed')
+				console.log(e)
 			}
 		}
 		decryptContent()
