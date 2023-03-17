@@ -1,4 +1,7 @@
-import { FC, useEffect, useRef, useState } from 'react'
+import React, { FC, useEffect, useRef, useState } from 'react'
+import styles from '../../styles/Login.module.scss'
+import Input from '@material-ui/core/Input'
+import Image from 'next/image'
 import Head from 'next/head'
 import { useAccount, useContract, useContractEvent, useProvider, useSigner } from 'wagmi'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
@@ -16,12 +19,12 @@ import CreatorsList from '@/components/CreatorsList'
 import { UserProfile, Sidebar } from '@/components'
 import App from './_app'
 import { useTheme } from 'next-themes'
-import { resolve } from 'path'
-import Connect from '@/components/reusable/Connect'
+import Content from './Feed'
+import Login from './Login'
 
 const Home: FC = () => {
 	const provider = useProvider()
-	const { address } = useAccount()
+	const { address, isConnected } = useAccount()
 	const scrollRef = useRef(null)
 
 	// const [mounted, setMounted] = useState(false)
@@ -132,45 +135,7 @@ const Home: FC = () => {
 	// 	return null
 	// }
 
-	return (
-		<>
-			<Head>
-				<title>{`${APP_NAME}`}</title>
-				<meta name="viewport" content="initial-scale=1.0, width=device-width" />
-			</Head>
-
-			<Toaster position="top-center" reverseOrder={true} />
-
-			{/* <Header resolvedTheme={resolvedTheme} setTheme={setTheme} /> */}
-			<div className="fixed top-0 right-10 bg-gray-100 dark:bg-gray-800 z-10">
-				<Connect />
-			</div>
-			<div className=" flex md:flex-row bg-gray-100 dark:bg-gray-800 flex-col h-screen transition-height duration-75 ease-out">
-				<Sidebar resolvedTheme={resolvedTheme} />
-
-				<div className="pb-2 flex-1 h-screen overflow-y-scroll" ref={scrollRef}>
-					<div className="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-800 sm:items-center py-4 sm:pt-0">
-						<div className="max-w-6xl mx-auto px-6  pt-10 lg:px-8">
-							{/* <h1 className="text-6xl font-mono font-light dark:text-white">{APP_NAME}</h1> */}
-
-							{/* <p className="text-lg font-mono font-light dark:text-white ml-2">
-							New creator? Create a profile below:
-						</p> */}
-							<CreateNewProfile />
-
-							<Subscription />
-							{/* <Posts /> */}
-
-							{/* <PurchasedSecrets /> */}
-							{/* <CreatorsList /> */}
-
-							{/* <CreatorsList /> */}
-						</div>
-					</div>
-				</div>
-			</div>
-		</>
-	)
+	return <>{isConnected ? <Content /> : <Login />}</>
 }
 
 export default Home

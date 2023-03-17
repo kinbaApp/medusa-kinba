@@ -11,6 +11,7 @@ import Posts from '@/components/Posts'
 import CreatorsList from '@/components/CreatorsList'
 import { Sidebar } from '@/components'
 import Connect from '@/components/reusable/Connect'
+import Subscription from '@/components/Subscribe'
 
 const Discover: NextPage = (resolvedTheme, setTheme) => {
 	return (
@@ -30,6 +31,7 @@ const Discover: NextPage = (resolvedTheme, setTheme) => {
 				<div className="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-800 sm:items-center py-4 sm:pt-0">
 					<div className="max-w-6xl mx-auto px-6 lg:px-8">
 						<CreatorsList />
+						<Subscription />
 					</div>
 				</div>
 			</div>
