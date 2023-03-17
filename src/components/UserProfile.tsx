@@ -337,6 +337,7 @@ const UserProfile = ({ creatorAddress, resolvedTheme }) => {
 							</div>
 							<div className={styles.mainadvertisment}>
 								<Ad
+									creatorAddress={creatorAddress}
 									image={'/Profile/girl.png'}
 									price={formatEther(price || 0.0)}
 									period={formatEther(period || 0.0)}
