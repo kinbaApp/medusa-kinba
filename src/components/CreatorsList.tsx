@@ -8,6 +8,8 @@ import CreateNewProfile from './CreateNewProfile'
 import CreatorsSubscribedTo from './CreatorsSubscribedTo'
 import Link from 'next/link'
 import { APP_NAME, DONLYFANS_ABI, CONTRACT_ADDRESS, ORACLE_ADDRESS } from '@/lib/consts'
+import styles from '../../styles/NewPost.module.scss'
+import fonts from '../../styles/Fonts.module.scss'
 
 const CreatorsList: FC = () => {
 	const { address } = useAccount()
@@ -62,7 +64,7 @@ const CreatorsList: FC = () => {
 
 	return (
 		<>
-			<h1 className="text-2xl font-mono font-light dark:text-white mt-10 mb-6">List of creators!</h1>
+			<h1 className={`${styles.NewPost} ${fonts.bold}`}>List of creators</h1>
 
 			{creators.map(creator => (
 				<li key={creator.creatorAddress}>

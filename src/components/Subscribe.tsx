@@ -7,6 +7,8 @@ import { FC, useState } from 'react'
 import toast from 'react-hot-toast'
 import { useAccount, useContractWrite, usePrepareContractWrite, useWaitForTransaction } from 'wagmi'
 import { arbitrumGoerli } from 'wagmi/chains'
+import styles from '../../styles/NewPost.module.scss'
+import fonts from '../../styles/Fonts.module.scss'
 
 const Subscription: FC = () => {
 	const { isConnected } = useAccount()
@@ -72,20 +74,17 @@ const Subscription: FC = () => {
 	}
 
 	return (
-		<div className="p-6 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
-			<h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white truncate">
-				{'Subscribe to creator: '}
-			</h5>
-			{/* <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{description}</p> */}
+		<div className="lg:w lg:mx-auto pt-8">
+			<h5 className={`${styles.NewPost} ${fonts.bold}`}>{'Subscribe to creator: '}</h5>
 
 			<div className="pt-4 text-center">
 				<label className="block">
-					<span className="text-lg font-mono font-light dark:text-white my-4">Creator Address</span>
+					<span className={`${styles.caption} ${fonts.bold}`}>Creator Address</span>
 					<input
 						required
 						type="string"
 						placeholder="0x00..."
-						className="form-input my-5 block w-full dark:bg-gray-800 dark:text-white"
+						className={styles.titletextArea}
 						value={creatorAddress}
 						onChange={e => setCreatorAddress(e.target.value)}
 					/>
@@ -93,26 +92,26 @@ const Subscription: FC = () => {
 			</div>
 			<div className="pt-4 text-center">
 				<label className="block">
-					<span className="text-lg font-mono font-light dark:text-white my-4">Price</span>
+					<span className={`${styles.caption} ${fonts.bold}`}>Price</span>
 					<input
 						required
 						type="number"
 						placeholder="ETH"
-						className="form-input my-5 block w-full dark:bg-gray-800 dark:text-white"
+						className={styles.titletextArea}
 						value={price}
 						onChange={e => setPrice(e.target.value)}
 					/>
 				</label>
 			</div>
-
-			<button
-				disabled={!isConnected || subscribed}
-				className="font-semibold mb-2 text-sm text-white py-2 px-3 rounded-sm transition-colors bg-indigo-600 dark:bg-indigo-800 hover:bg-black dark:hover:bg-gray-50 dark:hover:text-gray-900 hover:cursor-pointer disabled:cursor-not-allowed disabled:opacity-25"
-				onClick={() => subscribeToCreator()}
-			>
-				{subscribed ? 'Subscribed' : isConnected ? 'Subscribe to unlock content' : 'Connect your wallet'}
-			</button>
-
+			<div className="text-center w-full pt-4">
+				<button
+					disabled={!isConnected || subscribed}
+					className={styles.submitButton}
+					onClick={() => subscribeToCreator()}
+				>
+					{subscribed ? 'Subscribed' : isConnected ? 'Subscribe to unlock content' : 'Connect your wallet'}
+				</button>
+			</div>
 			{/* <div>
 				<a
 					href={ipfsGatewayLink(uri)}
