@@ -150,7 +150,7 @@ const PostForm: FC = () => {
 			<form className="lg:w lg:mx-auto" onSubmit={handleSubmit}>
 				<h1 className={`${styles.NewPost} ${fonts.bold}`}>New Post</h1>
 				<div className="flex items-center justify-center">
-					<label className="w-64 flex flex-col items-center px-4 py-6 rounded-lg shadow-lg tracking-wide border border-blue cursor-pointer hover:bg-gray-800 hover:text-white dark:hover:text-blue-400">
+					<label className="w-64 flex flex-col items-center px-4 py-6 rounded-lg shadow-lg tracking-wide border border-blue cursor-pointer hover:bg-purple-800 hover:text-white dark:hover:text-blue-400">
 						<svg
 							className="w-8 h-8"
 							fill="currentColor"

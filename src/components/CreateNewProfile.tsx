@@ -7,6 +7,8 @@ import { FC, useState } from 'react'
 import toast from 'react-hot-toast'
 import { useAccount, useContractWrite, usePrepareContractWrite, useWaitForTransaction } from 'wagmi'
 import { arbitrumGoerli } from 'wagmi/chains'
+import styles from '../../styles/NewPost.module.scss'
+import fonts from '../../styles/Fonts.module.scss'
 
 const CreateNewProfile: FC = () => {
 	const { isConnected } = useAccount()
@@ -82,20 +84,18 @@ const CreateNewProfile: FC = () => {
 	}
 
 	return (
-		<div className="p-6  max-w-xl bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
-			<h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white ">
-				{'Click here to create a new profile '}
-			</h5>
+		<div className="lg:w lg:mx-auto">
+			<h5 className={`${styles.NewPost} ${fonts.bold}`}>{'Click here to create a new profile '}</h5>
 			{/* <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{description}</p> */}
 
-			<div className="pt-4 text-center">
+			<div className="pt-8 text-center">
 				<label className="block">
-					<span className="text-lg font-mono font-light dark:text-white my-4">Price</span>
+					<span className={`${styles.postTitle} ${fonts.bold}`}>Price</span>
 					<input
 						required
 						type="number"
 						placeholder="ETH"
-						className="form-input my-5 block w-full dark:bg-gray-800 dark:text-white"
+						className={styles.textArea}
 						value={price}
 						onChange={e => setPrice(e.target.value)}
 					/>
@@ -103,29 +103,30 @@ const CreateNewProfile: FC = () => {
 			</div>
 			<div className="pt-4 text-center">
 				<label className="block">
-					<span className="text-lg font-mono font-light dark:text-white my-4">Subscription Period</span>
+					<span className={`${styles.postTitle} ${fonts.bold}`}>Subscription Period</span>
 					<input
 						required
 						type="number"
 						placeholder="days"
-						className="form-input my-5 block w-full dark:bg-gray-800 dark:text-white"
+						className={styles.textArea}
 						value={period}
 						onChange={e => setPeriod(e.target.value)}
 					/>
 				</label>
 			</div>
-
-			<button
-				disabled={!isConnected || submitting} //|| profileCreated}
-				className="font-semibold mb-2 text-sm text-white py-2 px-3 rounded-sm transition-colors bg-indigo-600 dark:bg-indigo-800 hover:bg-black dark:hover:bg-gray-50 dark:hover:text-gray-900 hover:cursor-pointer disabled:cursor-not-allowed disabled:opacity-25"
-				onClick={() => createNewProfile()}
-			>
-				{submitting
-					? 'Profile Created'
-					: isConnected
-					? 'Create a profile to post original content'
-					: 'Connect your wallet'}
-			</button>
+			<div className="text-center w-full my-6">
+				<button
+					disabled={!isConnected || submitting} //|| profileCreated}
+					className={styles.submitButton}
+					onClick={() => createNewProfile()}
+				>
+					{submitting
+						? 'Profile Created'
+						: isConnected
+						? 'Create a profile to post original content'
+						: 'Connect your wallet'}
+				</button>
+			</div>
 		</div>
 	)
 }

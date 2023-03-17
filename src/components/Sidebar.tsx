@@ -128,7 +128,7 @@ const Sidebar = ({ resolvedTheme }) => {
 					</Link>
 				</div>
 				<div className={styles.feed}>
-					{isCreator ? (
+					{isCreator && address ? (
 						<>
 							<Link href={`user-profile/${address.toString()}`}>
 								<a>
@@ -145,7 +145,22 @@ const Sidebar = ({ resolvedTheme }) => {
 							</Link>
 						</>
 					) : (
-						<></>
+						<>
+							{' '}
+							<Link href="/newProfile">
+								<a>
+									<IoPersonCircleSharp
+										size="25px"
+										color={resolvedTheme === 'light' ? 'black' : 'white'}
+									/>
+								</a>
+							</Link>
+							<Link href="/newProfile">
+								<a>
+									<p className={`${styles.navText} ${fonts.lightText}`}>My Profile</p>
+								</a>
+							</Link>
+						</>
 					)}
 				</div>
 				<div className={styles.feed}>
