@@ -1,5 +1,5 @@
 export const APP_NAME = 'Kinba' as const
-export const CONTRACT_ADDRESS = '0xF3c97CD465dca84972D022A2dE54Ae12DAcB98d8' as const
+export const CONTRACT_ADDRESS = '0xe54A3936A2E584BE4Dfc53F047ED760593e9491a' as const
 export const ORACLE_ADDRESS = '0xf1d5A4481F44fe0818b6E7Ef4A60c0c9b29E3118' as const
 
 // The <const> assertion enables wagmi to infer the correct types when using the ABI in hooks
@@ -23,6 +23,11 @@ export const DONLYFANS_ABI = <const>[
 	{
 		inputs: [],
 		name: 'CreatorDoesNotExist',
+		type: 'error',
+	},
+	{
+		inputs: [],
+		name: 'NotOwnerOfPost',
 		type: 'error',
 	},
 	{
@@ -373,6 +378,19 @@ export const DONLYFANS_ABI = <const>[
 	{
 		inputs: [
 			{
+				internalType: 'uint256',
+				name: 'cipherId',
+				type: 'uint256',
+			},
+		],
+		name: 'deletePost',
+		outputs: [],
+		stateMutability: 'nonpayable',
+		type: 'function',
+	},
+	{
+		inputs: [
+			{
 				internalType: 'address',
 				name: 'creatorAddress',
 				type: 'address',
@@ -422,6 +440,19 @@ export const DONLYFANS_ABI = <const>[
 				internalType: 'address[]',
 				name: '',
 				type: 'address[]',
+			},
+		],
+		stateMutability: 'view',
+		type: 'function',
+	},
+	{
+		inputs: [],
+		name: 'mainAddress',
+		outputs: [
+			{
+				internalType: 'address',
+				name: '',
+				type: 'address',
 			},
 		],
 		stateMutability: 'view',
@@ -519,6 +550,25 @@ export const DONLYFANS_ABI = <const>[
 	{
 		inputs: [
 			{
+				internalType: 'address',
+				name: 'dest',
+				type: 'address',
+			},
+		],
+		name: 'payments',
+		outputs: [
+			{
+				internalType: 'uint256',
+				name: '',
+				type: 'uint256',
+			},
+		],
+		stateMutability: 'view',
+		type: 'function',
+	},
+	{
+		inputs: [
+			{
 				internalType: 'uint256',
 				name: '',
 				type: 'uint256',
@@ -602,6 +652,26 @@ export const DONLYFANS_ABI = <const>[
 		stateMutability: 'nonpayable',
 		type: 'function',
 	},
+	{
+		inputs: [],
+		name: 'withdraw',
+		outputs: [],
+		stateMutability: 'nonpayable',
+		type: 'function',
+	},
+	{
+		inputs: [
+			{
+				internalType: 'address payable',
+				name: 'payee',
+				type: 'address',
+			},
+		],
+		name: 'withdrawPayments',
+		outputs: [],
+		stateMutability: 'nonpayable',
+		type: 'function',
+	},
 ]
 
 export const CREATOR_ABI = <const>[
@@ -678,6 +748,19 @@ export const CREATOR_ABI = <const>[
 		type: 'function',
 	},
 	{
+		inputs: [
+			{
+				internalType: 'uint256',
+				name: 'newPrice',
+				type: 'uint256',
+			},
+		],
+		name: 'changePrice',
+		outputs: [],
+		stateMutability: 'nonpayable',
+		type: 'function',
+	},
+	{
 		inputs: [],
 		name: 'getSubscribers',
 		outputs: [
@@ -717,6 +800,19 @@ export const CREATOR_ABI = <const>[
 				internalType: 'bool',
 				name: '',
 				type: 'bool',
+			},
+		],
+		stateMutability: 'view',
+		type: 'function',
+	},
+	{
+		inputs: [],
+		name: 'mainAddress',
+		outputs: [
+			{
+				internalType: 'address',
+				name: '',
+				type: 'address',
 			},
 		],
 		stateMutability: 'view',

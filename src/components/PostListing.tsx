@@ -105,6 +105,7 @@ const PostListing: FC<Post & { purchased: boolean }> = ({ creator, cipherId, uri
 		toast.loading('Unlocking secret...')
 		requestPost?.()
 		console.log(requestPost)
+		event.preventDefault()
 	}
 
 	const { config: configSubscribe } = usePrepareContractWrite({

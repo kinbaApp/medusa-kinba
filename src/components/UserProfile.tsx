@@ -221,75 +221,79 @@ const UserProfile = ({ creatorAddress, resolvedTheme }) => {
 							</div>
 						</div>
 
-						<div className={styles.subscriptionInfo}>
-							<h2 className={`${styles.subTitle} ${fonts.extraBold}`}>SUBSCRIPTION</h2>
-							<p className={`${styles.offer} ${fonts.lightText}`}>
-								Limited time offer: -80% for the first month!
-							</p>
-							<div className={styles.bannerContainer}>
-								<div className={styles.banner}>
-									<p className={`${styles.bannerText} ${fonts.lightText}`}>
-										Only {formatEther(price || 0.0)} ETH - Limited Time Only - Exclusive Content
-									</p>
-									<div className={styles.smallpinkring}>
-										<div className={styles.smallpurplering}>
-											<img src="/Profile/girl.png" alt="" className={styles.smallpfp} />
+						{isSubscriber ? (
+							'You are subscribed to this profile!'
+						) : (
+							<div className={styles.subscriptionInfo}>
+								<h2 className={`${styles.subTitle} ${fonts.extraBold}`}>SUBSCRIPTION</h2>
+								<p className={`${styles.offer} ${fonts.lightText}`}>
+									Limited time offer: -80% for the first month!
+								</p>
+								<div className={styles.bannerContainer}>
+									<div className={styles.banner}>
+										<p className={`${styles.bannerText} ${fonts.lightText}`}>
+											Only {formatEther(price || 0.0)} ETH - Limited Time Only - Exclusive Content
+										</p>
+										<div className={styles.smallpinkring}>
+											<div className={styles.smallpurplering}>
+												<img src="/Profile/girl.png" alt="" className={styles.smallpfp} />
+											</div>
 										</div>
 									</div>
 								</div>
-							</div>
-							<div className={styles.firstsubcontainer}>
-								<button onClick={() => setIsOpen(true)}>
-									<PinkButton text={'SUBSCRIBE'} />
-								</button>
-								<Modal isOpen={isOpen} onRequestClose={() => setIsOpen(false)} style={customStyles}>
-									<div className="p-6 max-w-sm bg-white rounded-lg border border-purple-200 shadow-md ">
-										<div className="pt-4 text-center">
-											<label className="block">
-												<span className="text-lg font-mono font-light  my-4 text-purple-600">
-													Subscribe to see content!
-												</span>
+								<div className={styles.firstsubcontainer}>
+									<button onClick={() => setIsOpen(true)}>
+										<PinkButton text={'SUBSCRIBE'} />
+									</button>
+									<Modal isOpen={isOpen} onRequestClose={() => setIsOpen(false)} style={customStyles}>
+										<div className="p-6 max-w-sm bg-white rounded-lg border border-purple-200 shadow-md ">
+											<div className="pt-4 text-center">
+												<label className="block">
+													<span className="text-lg font-mono font-light  my-4 text-purple-600">
+														Subscribe to see content!
+													</span>
 
-												<input
-													required
-													type="number"
-													placeholder="ETH"
-													className="form-input my-5 block w-full "
-													value={subscriptionPrice}
-													onChange={e => setSubscriptionPrice(e.target.value)}
-												/>
-											</label>
+													<input
+														required
+														type="number"
+														placeholder="ETH"
+														className="form-input my-5 block w-full "
+														value={subscriptionPrice}
+														onChange={e => setSubscriptionPrice(e.target.value)}
+													/>
+												</label>
+											</div>
+											<button
+												disabled={!isConnected}
+												className="font-semibold mb-2 text-sm text-white py-2 px-3 rounded-sm transition-colors bg-indigo-600 dark:bg-indigo-800 hover:bg-black dark:hover:bg-gray-50 dark:hover:text-gray-900 hover:cursor-pointer disabled:cursor-not-allowed disabled:opacity-25"
+												onClick={() => subscribeToCreator()}
+											>
+												Subscribe
+											</button>
 										</div>
-										<button
-											disabled={!isConnected}
-											className="font-semibold mb-2 text-sm text-white py-2 px-3 rounded-sm transition-colors bg-indigo-600 dark:bg-indigo-800 hover:bg-black dark:hover:bg-gray-50 dark:hover:text-gray-900 hover:cursor-pointer disabled:cursor-not-allowed disabled:opacity-25"
-											onClick={() => subscribeToCreator()}
-										>
-											Subscribe
-										</button>
-									</div>
-									<button onClick={() => setIsOpen(false)}>Close Modal</button>
-								</Modal>
-								<div className={styles.pinkLine}></div>
-								<div className={`${styles.price} ${fonts.lightText}`}>
-									{' '}
-									{formatEther(price || 0.0)} ETH for {formatEther(period || 0.0)} days
-								</div>
-							</div>
-							<div className={styles.date}>
-								<p>February 24th 2023</p>
-							</div>
-							<div className={styles.subContainer}>
-								<div className={`${styles.subscriptionSubTitle} ${fonts.bodyText}`}>
-									Subscription plans
-								</div>
-								<div className={styles.subPlans}>
-									<PinkButton text={'3 MONTHS - 50% OFF'} />
+										<button onClick={() => setIsOpen(false)}>Close Modal</button>
+									</Modal>
 									<div className={styles.pinkLine}></div>
-									<p className={`${styles.price} ${fonts.lightText}`}>{0.1} ETH total</p>
+									<div className={`${styles.price} ${fonts.lightText}`}>
+										{' '}
+										{formatEther(price || 0.0)} ETH for {formatEther(period || 0.0)} days
+									</div>
+								</div>
+								<div className={styles.date}>
+									<p>February 24th 2023</p>
+								</div>
+								<div className={styles.subContainer}>
+									<div className={`${styles.subscriptionSubTitle} ${fonts.bodyText}`}>
+										Subscription plans
+									</div>
+									<div className={styles.subPlans}>
+										<PinkButton text={'3 MONTHS - 50% OFF'} />
+										<div className={styles.pinkLine}></div>
+										<p className={`${styles.price} ${fonts.lightText}`}>{0.1} ETH total</p>
+									</div>
 								</div>
 							</div>
-						</div>
+						)}
 
 						<p className="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white truncate">
 							Price:{' '}

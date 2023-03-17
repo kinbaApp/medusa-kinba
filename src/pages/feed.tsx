@@ -6,7 +6,17 @@ import Unlocked from '../components/Unlocked'
 import { ThemeProvider } from 'next-themes'
 import Head from 'next/head'
 import { APP_NAME, DONLYFANS_ABI, CONTRACT_ADDRESS, ORACLE_ADDRESS } from '@/lib/consts'
-import { useAccount, useContractRead, usePrepareContractWrite, useContractWrite, useWaitForTransaction } from 'wagmi'
+import { ethers } from 'ethers'
+import {
+	useAccount,
+	useContractRead,
+	usePrepareContractWrite,
+	useContractWrite,
+	useProvider,
+	useWaitForTransaction,
+	useContractEvent,
+	useContract,
+} from 'wagmi'
 import { Toaster } from 'react-hot-toast'
 import PurchasedSecrets from '@/components/PurchasedSecrets'
 import Header from '@/components/Header'
@@ -28,6 +38,94 @@ import Connect from '@/components/reusable/Connect'
 const Content: FC = (resolvedTheme, setTheme) => {
 	const scrollRef = useRef(null)
 	const { isConnected, address } = useAccount()
+	const provider = useProvider()
+
+	const updatePosts = useGlobalStore(state => state.updatePosts)
+	const updateRequests = useGlobalStore(state => state.updateRequests)
+	const updateDecryptions = useGlobalStore(state => state.updateDecryptions)
+	const addPost = useGlobalStore(state => state.addPost)
+	const addRequest = useGlobalStore(state => state.addRequest)
+	const addDecryption = useGlobalStore(state => state.addDecryption)
+
+	useContractEvent({
+		address: CONTRACT_ADDRESS,
+		abi: DONLYFANS_ABI,
+		eventName: 'NewPost',
+		listener(creator, cipherId, name, description, uri) {
+			addPost({ creator, cipherId, name, description, uri })
+		},
+	})
+
+	useContractEvent({
+		address: CONTRACT_ADDRESS,
+		abi: DONLYFANS_ABI,
+		eventName: 'NewPostRequest',
+		listener(subscriber, creator, requestId, cipherId) {
+			if (subscriber === address) {
+				addRequest({ subscriber, creator, requestId, cipherId })
+			}
+		},
+	})
+
+	useContractEvent({
+		address: CONTRACT_ADDRESS,
+		abi: DONLYFANS_ABI,
+		eventName: 'PostDecryption',
+		listener(requestId, ciphertext) {
+			addDecryption({ requestId, ciphertext })
+		},
+	})
+
+	const donlyFans = useContract({
+		address: CONTRACT_ADDRESS,
+		abi: DONLYFANS_ABI,
+		signerOrProvider: provider,
+	})
+
+	useEffect(() => {
+		const getEvents = async () => {
+			const iface = new ethers.utils.Interface(DONLYFANS_ABI)
+
+			const newPostFilter = donlyFans.filters.NewPost()
+			console.log(newPostFilter)
+			const newPosts = await donlyFans.queryFilter(newPostFilter)
+
+			if (iface && newPosts) {
+				const posts = newPosts.reverse().map((filterTopic: any) => {
+					const result = iface.parseLog(filterTopic)
+					const { creator, cipherId, name, description, uri } = result.args
+					return { creator, cipherId, name, description, uri } as Post
+				})
+				updatePosts(posts)
+			}
+
+			const newRequestFilter = donlyFans.filters.NewPostRequest(address)
+			const newRequests = await donlyFans.queryFilter(newRequestFilter)
+
+			if (iface && newRequests) {
+				const requests = newRequests.reverse().map((filterTopic: any) => {
+					const result = iface.parseLog(filterTopic)
+					const { subscriber, creator, requestId, cipherId } = result.args
+					return { subscriber, creator, requestId, cipherId } as Request
+				})
+				updateRequests(requests)
+			}
+
+			const postDecryptionFilter = donlyFans.filters.PostDecryption()
+			const postDecryptions = await donlyFans.queryFilter(postDecryptionFilter)
+
+			if (iface && postDecryptions) {
+				const decryptions = postDecryptions.reverse().map((filterTopic: any) => {
+					const result = iface.parseLog(filterTopic)
+					const { requestId, ciphertext } = result.args
+					return { requestId, ciphertext } as Decryption
+				})
+				updateDecryptions(decryptions)
+			}
+		}
+		getEvents()
+	}, [address])
+
 	const requests = useGlobalStore(state => state.requests)
 	const myUnlockedPosts = requests.filter(request => request.subscriber === address)
 	console.log('unlocked posts', myUnlockedPosts)
@@ -87,6 +185,7 @@ const Content: FC = (resolvedTheme, setTheme) => {
 							</div>
 						</div>
 						<div className={styles.postContainer}>
+							<h1>Unlocked</h1>
 							{myUnlockedPosts.length > 0 ? (
 								<div className="grid grid-rows-1 gap-6 p-4 w-full transition-all">
 									{myUnlockedPosts.map(sale => (
@@ -102,6 +201,7 @@ const Content: FC = (resolvedTheme, setTheme) => {
 								// </div>
 								''
 							)}
+							<h1>locked</h1>
 							<div className="grid grid-rows-1 gap-6 p-4 w-full transition-all">
 								{lockedPostsUser.map(post => (
 									<PostListing key={post.cipherId.toNumber()} {...post} uri={post.uri} />
