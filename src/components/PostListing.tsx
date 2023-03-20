@@ -200,10 +200,10 @@ const PostListing: FC<Post & { purchased: boolean }> = ({ creator, cipherId, uri
 				<div className={styles.imageContainer}>
 					{/* I think the name should be the image? not too sure  */}
 					<div>
-						<img src={uri} alt="" />
+						<img src={uri} alt="" className={styles.image} />
 					</div>
 
-					<div>
+					<div className={styles.ipfs}>
 						<a
 							href={ipfsGatewayLink(uri)}
 							target="_blank"

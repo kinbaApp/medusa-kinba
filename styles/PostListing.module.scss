@@ -1,9 +1,9 @@
 .container {
-	border-bottom: 1px solid lightgray;
+	border: 1px solid lightgray;
 	width: 100%;
 	.postHeader {
 		border-bottom: 1px solid lightgray;
-		padding: 20px 0;
+		padding: 0px 20px 10px;
 		.pfp {
 			// position: absolute;
 			transform: translateY(50px);
@@ -37,6 +37,13 @@
 		flex-direction: column;
 		justify-content: center;
 		gap: 10px;
+		padding: 20px;
+		.image {
+			min-height: 300px;
+		}
+		.ipfs {
+			border-top: 1px solid grey;
+		}
 		.downloadLinks {
 			display: flex;
 			gap: 20px;

@@ -355,9 +355,9 @@ const UserProfile = ({ creatorAddress, resolvedTheme }) => {
 									</button>
 									<Modal isOpen={isOpen} onRequestClose={() => setIsOpen(false)} style={customStyles}>
 										<div className="p-6 max-w-sm bg-white rounded-lg border border-purple-200 shadow-md ">
-											<div className="pt-4 text-center">
+											<div className="pt-4 text-center text-black">
 												<label className="block">
-													<span className="text-lg font-mono font-light  my-4 text-purple-600">
+													<span className="text-lg font-mono font-light  my-4 text-purple-600 ">
 														Subscribe to see content!
 													</span>
 
@@ -365,7 +365,7 @@ const UserProfile = ({ creatorAddress, resolvedTheme }) => {
 														required
 														type="number"
 														placeholder="ETH"
-														className="form-input my-5 block w-full "
+														className="form-input my-5 block w-full text-black"
 														value={subscriptionPrice}
 														onChange={e => setSubscriptionPrice(e.target.value)}
 													/>

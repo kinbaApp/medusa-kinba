@@ -63,7 +63,7 @@ function Header({ setTheme, resolvedTheme }) {
             >
                 Faucet
             </button> */}
-						{/* <ThemeSwitcher resolvedTheme={resolvedTheme} setTheme={setTheme} /> */}
+						<ThemeSwitcher resolvedTheme={resolvedTheme} setTheme={setTheme} />
 						<ConnectWallet />
 						{isConnected && <Signin />}
 					</div>
