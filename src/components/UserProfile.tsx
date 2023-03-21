@@ -185,7 +185,7 @@ const UserProfile = ({ creatorAddress, resolvedTheme }) => {
 		request => request.subscriber == address && request.creator === creatorAddress
 	)
 	const posts = useGlobalStore(state => state.posts)
-	const lockedPosts = posts.filter(post => !myUnlockedPosts.some(request => request.cipherId.eq(post.cipherId)))
+	const lockedPosts = userPosts.filter(post => !myUnlockedPosts.some(request => request.cipherId.eq(post.cipherId)))
 	console.log('locked post', lockedPosts)
 	const lockedPostsUser = lockedPosts.map(post => {
 		return {
@@ -328,7 +328,6 @@ const UserProfile = ({ creatorAddress, resolvedTheme }) => {
 								</div>
 							</div>
 						</div>
-
 						{isSubscriber ? (
 							'You are subscribed to this profile!'
 						) : (
@@ -402,23 +401,21 @@ const UserProfile = ({ creatorAddress, resolvedTheme }) => {
 								</div>
 							</div>
 						)}
-
 						<p className="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white truncate">
 							Price:{' '}
 							{price ? (BigNumber.from(0).eq(price) ? 'Free' : `${formatEther(price)} ETH`) : 'no price'}{' '}
 							, Period: {period ? formatEther(period) : 'undefined'} days
 						</p>
-
 						<>
 							{/* <p className="text-base font-mono font-light dark:text-gray-300 ml-2">
 						Subscribe to see the content!
 					</p> */}
-
 							{/* <div className="grid grid-rows-1  gap-6 p-4 w-full transition-all">
 								{posts.map(post => (
 									<PostListing key={post.cipherId.toNumber()} {...post} />
 								))}
 							</div> */}
+
 							{lockedPostsUser.map(post => (
 								<PostListing key={post.cipherId.toNumber()} {...post} uri={post.uri} />
 							))}
