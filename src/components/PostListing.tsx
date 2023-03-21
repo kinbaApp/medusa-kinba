@@ -15,6 +15,7 @@ import { AiOutlineHeart } from 'react-icons/ai'
 import { TbMessageCircle2 } from 'react-icons/tb'
 import { CiDollar } from 'react-icons/ci'
 import { BsBookmark } from 'react-icons/bs'
+import { useRouter } from 'next/router'
 const PostListing: FC<Post & { purchased: boolean }> = ({ creator, cipherId, uri, name, description, purchased }) => {
 	const { isConnected, address } = useAccount()
 	//const isSubscriber = true
@@ -157,6 +158,9 @@ const PostListing: FC<Post & { purchased: boolean }> = ({ creator, cipherId, uri
 		subscribe?.()
 		console.log(configSubscribe)
 	}
+	const router = useRouter()
+	const pathName = router.pathname
+	console.log('query', pathName)
 
 	return (
 		<>
@@ -185,14 +189,16 @@ const PostListing: FC<Post & { purchased: boolean }> = ({ creator, cipherId, uri
 									{purchased ? 'Purchased' : isConnected ? 'Access Post' : 'Connect your wallet'}
 								</button>
 							) : (
-								<Link href={`user-profile/${creatorAddress.toString()}`}>
-									<a
-										className="font-semibold mb-2 text-sm text-white py-2 px-3 rounded-sm transition-colors bg-indigo-600 dark:bg-indigo-800 hover:bg-black dark:hover:bg-gray-50 dark:hover:text-gray-900 hover:cursor-pointer disabled:cursor-not-allowed disabled:opacity-25
+								pathName != '/user-profile/[creatorAddress]' && (
+									<Link href={`/user-profile/${creatorAddress.toString()}`}>
+										<a
+											className="font-semibold mb-2 text-sm text-white py-2 px-3 rounded-sm transition-colors bg-indigo-600 dark:bg-indigo-800 hover:bg-black dark:hover:bg-gray-50 dark:hover:text-gray-900 hover:cursor-pointer disabled:cursor-not-allowed disabled:opacity-25
 "
-									>
-										Subscribe
-									</a>
-								</Link>
+										>
+											Subscribe
+										</a>
+									</Link>
+								)
 							)}
 						</div>
 					</div>
