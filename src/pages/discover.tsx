@@ -1,4 +1,5 @@
 import type { NextPage } from 'next'
+import { useRef } from 'react'
 import 'tailwindcss/tailwind.css'
 import PostForm from '@/components/PostForm'
 import { ThemeProvider } from 'next-themes'
@@ -21,6 +22,7 @@ import { AiOutlineRight } from 'react-icons/ai'
 import { TbFreeRights } from 'react-icons/tb'
 
 const Discover: NextPage = (resolvedTheme, setTheme) => {
+	const myRef = useRef(null)
 	return (
 		<>
 			<Head>
@@ -44,7 +46,7 @@ const Discover: NextPage = (resolvedTheme, setTheme) => {
 						<Sidebar />
 					</div>
 					<div className={styles.content}>
-						<div className="max-w-6xl mx-auto px-6 lg:px-8">
+						<div className="max-w-6xl mx-auto px-6 lg:px-8" ref={myRef}>
 							<CreatorsList />
 							<Subscription />
 						</div>
