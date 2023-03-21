@@ -82,10 +82,11 @@ const Unlocked: FC<Request> = ({ subscriber, creator, requestId, cipherId }) => 
 				</div>
 				<div className={styles.postCaption}>
 					<div className={styles.description}>{post.description}</div>
-					<div className={styles.imageContainer}>
+					<div className={plaintext && isImage(plaintext) ? styles.imageContainer : styles.captionContainer}>
 						{/* <p className="mb-3">{BigNumber.from(0).eq(post.price) ? 'Free' : `${formatEther(post.price)} ETH`} </p> */}
 						{plaintext && isImage(plaintext) ? (
-							<div>
+							<div className={styles.imgBorder}>
+								{/* {plaintext ? } */}
 								<img className={styles.image} src={plaintext} alt="Decrypted Image" />
 							</div>
 						) : (
