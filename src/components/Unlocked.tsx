@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { FC, useEffect, useState } from 'react'
 import Image from 'next/image'
 import useGlobalStore, { Request } from '@/stores/globalStore'
@@ -84,22 +85,19 @@ const Unlocked: FC<Request> = ({ subscriber, creator, requestId, cipherId }) => 
 					<div className={styles.imageContainer}>
 						{/* <p className="mb-3">{BigNumber.from(0).eq(post.price) ? 'Free' : `${formatEther(post.price)} ETH`} </p> */}
 						{plaintext && isImage(plaintext) ? (
-							<Image
-								className={styles.image}
-								src={plaintext}
-								width={300}
-								height={400}
-								alt="Decrypted Image"
-							/>
+							<div>
+								<img className={styles.image} src={plaintext} alt="Decrypted Image" />
+							</div>
 						) : (
-							<textarea
-								readOnly
-								disabled
-								className="form-textarea mt-1 block w-full h-24 dark:bg-gray-800 dark:text-white"
-								rows={3}
-								placeholder="Encrypted Content"
-								value={plaintext}
-							/>
+							// <textarea
+							// 	readOnly
+							// 	disabled
+							// 	className="form-textarea mt-1 block w-full h-24 dark:bg-gray-800 dark:text-white"
+							// 	rows={3}
+							// 	placeholder="Encrypted Content"
+							// 	value={plaintext}
+							// />
+							<span></span>
 						)}
 						<div className={styles.downloadLinks}>
 							<a

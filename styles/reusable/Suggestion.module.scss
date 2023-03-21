@@ -1,14 +1,15 @@
 .container {
 	width: 100%;
 	border-radius: 15px;
-	height: 125px;
+	height: 150px;
 	overflow: hidden;
-
 	// position: relative;
 	.bgImage {
+		// position: absolute;
 		width: 100%;
 		overflow: hidden !important;
 		z-index: 0;
+		height: 100%;
 		position: relative;
 		// border-radius: 30px;
 		.moreIcon {
@@ -38,10 +39,9 @@
 			.text {
 				display: flex;
 				flex-direction: column;
-				// border: 1px solid white;
+				color: white;
 				width: 100%;
 				justify-content: flex-end;
-				// align-items: flex-start;
 				padding: 0 10px;
 				.nameAndCheckmark {
 					display: flex;

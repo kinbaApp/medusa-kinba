@@ -1,6 +1,6 @@
 .container {
 	width: 250px;
-	height: 50px;
+	height: 60px;
 	background: linear-gradient(180deg, #fd2ac4 15%, #bf23c3 49%);
 	display: flex;
 	align-items: center;
@@ -11,5 +11,7 @@
 		color: white;
 		font-size: 16px;
 		letter-spacing: 1px;
+		padding: 20px;
+		text-align: center;
 	}
 }

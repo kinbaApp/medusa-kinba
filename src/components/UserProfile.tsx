@@ -329,7 +329,9 @@ const UserProfile = ({ creatorAddress, resolvedTheme }) => {
 							</div>
 						</div>
 						{isSubscriber ? (
-							'You are subscribed to this profile!'
+							<div className={styles.youAreSubscribedButton}>
+								<p className={fonts.bodyText}>You are subscribed to this profile! </p>
+							</div>
 						) : (
 							<div className={styles.subscriptionInfo}>
 								<h2 className={`${styles.subTitle} ${fonts.extraBold}`}>SUBSCRIPTION</h2>
@@ -401,11 +403,13 @@ const UserProfile = ({ creatorAddress, resolvedTheme }) => {
 								</div>
 							</div>
 						)}
-						<p className="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white truncate">
+						{/* <p className="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white truncate"> */}
+						<div>
 							Price:{' '}
 							{price ? (BigNumber.from(0).eq(price) ? 'Free' : `${formatEther(price)} ETH`) : 'no price'}{' '}
 							, Period: {period ? formatEther(period) : 'undefined'} days
-						</p>
+						</div>
+						{/* </p> */}
 						<>
 							{/* <p className="text-base font-mono font-light dark:text-gray-300 ml-2">
 						Subscribe to see the content!

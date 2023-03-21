@@ -15,6 +15,7 @@ import { AiOutlineHeart } from 'react-icons/ai'
 import { TbMessageCircle2 } from 'react-icons/tb'
 import { CiDollar } from 'react-icons/ci'
 import { BsBookmark } from 'react-icons/bs'
+import PinkButton from './reusable/PinkButton'
 const PostListing: FC<Post & { purchased: boolean }> = ({ creator, cipherId, uri, name, description, purchased }) => {
 	const { isConnected, address } = useAccount()
 	//const isSubscriber = true
@@ -199,8 +200,13 @@ const PostListing: FC<Post & { purchased: boolean }> = ({ creator, cipherId, uri
 				</div>
 				<div className={styles.imageContainer}>
 					{/* I think the name should be the image? not too sure  */}
-					<div>
-						<img src={uri} alt="" className={styles.image} />
+					<div className={styles.blurContainer}>
+						{/* <img src={uri} alt="" className={styles.image} /> */}
+						{/* <div className={styles.blur}></div> */}
+					</div>
+					<div className={styles.blursubbutton}>
+						<img className={styles.lock} src="/Posts/lock2.png" alt="" />
+						<PinkButton text={'Subscribe'} />
 					</div>
 
 					<div className={styles.ipfs}>

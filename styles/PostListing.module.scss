@@ -38,9 +38,40 @@
 		justify-content: center;
 		gap: 10px;
 		padding: 20px;
-		.image {
+
+		position: relative;
+		.blurContainer {
+			height: 100%;
+			width: 100%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			background-color: rgb(161, 159, 159);
+			// backdrop-filter: blur(10px);
 			min-height: 300px;
+			filter: blur(10px);
 		}
+
+		.blursubbutton {
+			position: absolute;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			top: 0;
+			left: 0;
+			flex-direction: column;
+			// transform: translateY(10%);
+			height: 300px;
+			width: 100%;
+			.lock {
+				height: 100px;
+				width: 100px;
+			}
+		}
+		.blurContainer > * {
+			filter: none;
+		}
+
 		.ipfs {
 			border-top: 1px solid grey;
 		}
