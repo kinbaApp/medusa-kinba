@@ -15,11 +15,8 @@ import { AiOutlineHeart } from 'react-icons/ai'
 import { TbMessageCircle2 } from 'react-icons/tb'
 import { CiDollar } from 'react-icons/ci'
 import { BsBookmark } from 'react-icons/bs'
-<<<<<<< HEAD
 import PinkButton from './reusable/PinkButton'
-=======
 import { useRouter } from 'next/router'
->>>>>>> 193b9362f85098102fb8f2ba7c9273734d6b41fb
 const PostListing: FC<Post & { purchased: boolean }> = ({ creator, cipherId, uri, name, description, purchased }) => {
 	const { isConnected, address } = useAccount()
 	//const isSubscriber = true

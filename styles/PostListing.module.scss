@@ -30,6 +30,16 @@
 			}
 		}
 	}
+	.captionContainer {
+		width: 100%;
+		max-height: 400px;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		gap: 10px;
+		padding: 20px;
+		position: relative;
+	}
 	.imageContainer {
 		width: 100%;
 		min-height: 400px;
@@ -38,8 +48,15 @@
 		justify-content: center;
 		gap: 10px;
 		padding: 20px;
-
 		position: relative;
+		.imgBorder {
+			min-height: 300px;
+
+			> .image {
+				width: 100%;
+				height: auto;
+			}
+		}
 		.blurContainer {
 			height: 100%;
 			width: 100%;
@@ -78,6 +95,10 @@
 		.downloadLinks {
 			display: flex;
 			gap: 20px;
+			bottom: 0;
+
+			position: absolute;
+			left: 0;
 		}
 	}
 	.iconsContainer {

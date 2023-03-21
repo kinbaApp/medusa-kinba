@@ -404,11 +404,11 @@ const UserProfile = ({ creatorAddress, resolvedTheme }) => {
 							</div>
 						)}
 						{/* <p className="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white truncate"> */}
-						<div>
+						{/* <div className={styles.priceAndPeriod}>
 							Price:{' '}
 							{price ? (BigNumber.from(0).eq(price) ? 'Free' : `${formatEther(price)} ETH`) : 'no price'}{' '}
 							, Period: {period ? formatEther(period) : 'undefined'} days
-						</div>
+						</div> */}
 						{/* </p> */}
 						<>
 							{/* <p className="text-base font-mono font-light dark:text-gray-300 ml-2">
