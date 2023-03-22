@@ -4,65 +4,82 @@ import useGlobalStore, { Post, Subscribe, Creator } from '@/stores/globalStore'
 import { BigNumber } from 'ethers'
 import { formatEther, parseEther } from 'ethers/lib/utils'
 import { FC, useState, useEffect } from 'react'
+import { ethers } from 'ethers'
 import toast from 'react-hot-toast'
-import { useAccount, useContractWrite, usePrepareContractWrite, useWaitForTransaction } from 'wagmi'
+import {
+	useAccount,
+	useProvider,
+	useContract,
+	useContractWrite,
+	usePrepareContractWrite,
+	useWaitForTransaction,
+	useContractEvent,
+} from 'wagmi'
 import { arbitrumGoerli } from 'wagmi/chains'
 import { useSigner } from 'wagmi'
+import styles from '../../styles/SubscribersList.module.scss'
+import fonts from '../../styles/Fonts.module.scss'
 
 const CreatorsSubscribedTo: FC<Creator> = ({ creatorAddress }) => {
-	const { isConnected } = useAccount()
+	const { isConnected, address } = useAccount()
+	const provider = useProvider()
 	const [price, setPrice] = useState('')
 	//const [creatorAddress, setCreatorAddress] = useState('')
 
-	const medusa = useGlobalStore(state => state.medusa)
-	const { data: signer, isSuccess: isSignerLoaded } = useSigner()
-	//let evmPoint = null
-	// if (medusa?.keypair) {
-	// 	const { x, y } = medusa.keypair.pubkey.toEvm()
-	// 	evmPoint = { x, y }
-	// }
-
-	const creators = useGlobalStore(state => state.creators)
-	const following = useGlobalStore(state => state.followings)
-
-	const creator = creators.find(creator => creator.creatorAddress == creatorAddress)
-	//const decryption = decryptions.find(d => d.requestId.eq(requestId))
-	const [plaintext, setPlaintext] = useState('Sign in to subscribe')
-	const [downloadLink, setDownloadLink] = useState('')
-
+	const addSubscriber = useGlobalStore(state => state.addSubscriber)
+	const updateSubscribe = useGlobalStore(state => state.updateSubscribe)
+	useContractEvent({
+		address: CONTRACT_ADDRESS,
+		abi: DONLYFANS_ABI,
+		eventName: 'NewSubscriber',
+		listener(creator, subscriber, price) {
+			if (subscriber == address) {
+				addSubscriber({ creator, subscriber, price })
+			}
+		},
+	})
+	const donlyFans = useContract({
+		address: CONTRACT_ADDRESS,
+		abi: DONLYFANS_ABI,
+		signerOrProvider: provider,
+	})
 	useEffect(() => {
-		const subscribeToCreator = async () => {
-			if (!following || !signer || !medusa?.keypair) return
+		const getEvents = async () => {
+			const iface = new ethers.utils.Interface(DONLYFANS_ABI)
 
-			// const { ciphertext } = decryption
+			const newPostFilter = donlyFans.filters.NewSubscriber(address)
 
-			// console.log('Downloading encrypted content from ipfs')
-			// const ipfsDownload = ipfsGatewayLink(post.uri)
-			// const response = await fetch(ipfsDownload)
-			// const encryptedContents = Base64.toUint8Array(await response.text())
+			const newSubscribers = await donlyFans.queryFilter(newSubscriber)
 
-			// try {
-			// 	const decryptedBytes = await medusa.decrypt(ciphertext, encryptedContents)
-			// 	const msg = new TextDecoder().decode(decryptedBytes)
-			// 	setPlaintext(msg)
-			// 	if (isFile(msg)) {
-			// 		const fileData = msg.split(',')[1]
-			// 		setDownloadLink(window.URL.createObjectURL(new Blob([Base64.toUint8Array(fileData)])))
-			// 	} else {
-			// 		setDownloadLink(window.URL.createObjectURL(new Blob([msg])))
-			// 	}
-			// } catch (e) {
-			// 	setPlaintext('Decryption failed')
-			// }
+			if (iface && newSubscribers) {
+				const subscribers = newSubscribers.reverse().map((filterTopic: any) => {
+					const result = iface.parseLog(filterTopic)
+					const { subscriber, creator, price } = result.args
+					return { subscriber, creator, price } as Post
+				})
+				updateSubscribe(subscribers)
+			}
 		}
-		subscribeToCreator()
-	}, [following, isSignerLoaded, medusa?.keypair])
+		getEvents()
+	}, [address])
 
+	const subscribers = useGlobalStore(state => state.subscribers)
+
+	const creatorsSubscribedTo = subscribers.filter(subscribe => subscribe.subscriber === address)
+	console.log(creatorsSubscribedTo)
+	const listCreators = creatorsSubscribedTo.map(subscribe => (
+		//<CreatorsSubscribedTo key={creator.toString()} {...creator} />
+
+		<li key={subscribe.creator}>{subscribe.creator.toString()}</li>
+	))
 	return (
-		<div className="p-6 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
-			<h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white truncate">
-				{creator.creatorAddress}
-			</h5>
+		<div className={styles.followersContainer}>
+			{creatorsSubscribedTo &&
+				creatorsSubscribedTo?.map(subscribe => (
+					<div className={styles.listItem} key={subscribe.creator.toString()}>
+						{subscribe.creator}
+					</div>
+				))}
 		</div>
 	)
 }
