@@ -72,12 +72,6 @@ const newPost = () => {
 									banner="Profile/sitting.png"
 									name={'ThePolePrincess'}
 								/>
-								<Suggestion
-									pfp={'/Profile/girl3.png'}
-									username={'@hereForAGoodtime'}
-									banner="Profile/sitting2.png"
-									name={'YourFavoriteGirl'}
-								/>
 							</div>
 							<div className={styles.termsOfService}>
 								<p className={` ${fonts.lightText}`}>Privacy · Cookie Notice · Terms of Service</p>
