@@ -8,9 +8,10 @@ import CreateNewProfile from './CreateNewProfile'
 import CreatorsSubscribedTo from './CreatorsSubscribedTo'
 import Link from 'next/link'
 import { APP_NAME, DONLYFANS_ABI, CONTRACT_ADDRESS, ORACLE_ADDRESS } from '@/lib/consts'
-import styles from '../../styles/NewPost.module.scss'
+import styles from '../../styles/CreatorsList.module.scss'
 import fonts from '../../styles/Fonts.module.scss'
 import Suggestion from './reusable/Suggestion'
+import DiscoverSuggestion from '../components/reusable/DiscoverSuggestion'
 
 const CreatorsList: FC = () => {
 	const { address } = useAccount()
@@ -65,29 +66,42 @@ const CreatorsList: FC = () => {
 	))
 
 	return (
-		<>
+		<div className="pt-6">
 			<h1 className={`${styles.NewPost} ${fonts.bold}`}>List of creators</h1>
-			<div style={{ overflow: 'auto' }}>
+			<div style={{ overflow: 'auto' }} className={styles.creatorContainer}>
 				{creators.map(creator => (
-					<ul className="list-none hover:list-inside">
+					<ul className="list-none hover:list-inside" key={creator.creatorAddress}>
 						<li key={creator.creatorAddress}>
 							<Link href={`user-profile/${creator?.creatorAddress.toString()}`}>
 								{/* {creator.creatorAddress.toString()} */}
 
-								<a className=" px-1">
+								{/* <a className=" px-1">
 									<Suggestion
 										pfp={'/Profile/girl.png'}
 										username={creator.creatorAddress.toString()}
-										banner="Profile/layingdown.png"
+										banner="/Profile/layingdown.png"
 										name={'LovelyLayla'}
 									/>
+								</a> */}
+
+								<a>
+									<div className={styles.creator}>
+										<DiscoverSuggestion
+											pfp={'/Profile/girl.png'}
+											username={`${creator.creatorAddress
+												.slice(0, 5)
+												.toString()}...${creator.creatorAddress.slice(-3).toString()}`}
+											banner="/Profile/layingdown.png"
+											name={'LovelyLayla'}
+										/>
+									</div>
 								</a>
 							</Link>
 						</li>
 					</ul>
 				))}
 			</div>
-		</>
+		</div>
 	)
 }
 

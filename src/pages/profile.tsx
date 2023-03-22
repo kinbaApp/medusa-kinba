@@ -28,7 +28,7 @@ import Unlocked from '@/components/Unlocked'
 import Link from 'next/link'
 import Connect from '@/components/reusable/Connect'
 
-const Profile: NextPage = resolvedTheme => {
+const Profile: NextPage = () => {
 	const { isConnected, address } = useAccount()
 	const router = useRouter()
 	const { creatorAddress } = router.query
@@ -133,7 +133,7 @@ const Profile: NextPage = resolvedTheme => {
 						{/* All of this data will need to be taken from the users account  */}
 						{/* Hard coding all images and info untitl i access db */}
 						<div className={styles.sidebar}>
-							<Sidebar resolvedTheme={resolvedTheme} />
+							<Sidebar />
 						</div>
 						<div className={styles.content}>
 							<div className={styles.headerImage}>

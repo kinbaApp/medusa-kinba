@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from '../../../styles/reusable/Suggestion.module.scss'
+import styles from '../../../styles/reusable/DiscoverSuggestion.module.scss'
 import PinkButton from './PinkButton'
 import fonts from '../../../styles/Fonts.module.scss'
 import { IoMdMore } from 'react-icons/io'

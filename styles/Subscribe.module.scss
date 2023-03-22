@@ -1,0 +1,38 @@
+.NewPost {
+	width: 100%;
+	text-align: center;
+	padding: 0 0 20px;
+	font-size: 24px;
+}
+
+.titletextArea,
+.textArea {
+	width: 100%;
+	display: block;
+	border-radius: 15px;
+	border: 1px solid lightgrey;
+	box-shadow: 0 6px 40px -6px lightgrey;
+}
+
+.submitButton {
+	cursor: pointer;
+	position: relative;
+	display: inline-block;
+	padding: 14px 24px;
+	color: #ffffff;
+	background: linear-gradient(180deg, #fd2ac4 15%, #bf23c3 49%);
+	font-size: 16px;
+	font-weight: 500;
+	border-radius: 10rem;
+	box-shadow: 0 4px 24px -6px #1a88f8;
+
+	transition: 200ms ease;
+	&:hover {
+		transform: translateY(-6px);
+		box-shadow: 0 6px 40px -6px #1a88f8;
+	}
+	&:active {
+		transform: translateY(-3px);
+		box-shadow: 0 6px 32px -6px #1a88f8;
+	}
+}

@@ -69,7 +69,7 @@ const newProfile = () => {
 								<Suggestion
 									pfp={'/Profile/girl2.png'}
 									username={'@poleQueen'}
-									banner="Profile/sitting.png"
+									banner="Profile/sitting2.png"
 									name={'ThePolePrincess'}
 								/>
 							</div>

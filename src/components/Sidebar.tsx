@@ -17,7 +17,7 @@ import fonts from '../../styles/Fonts.module.scss'
 import { arbitrumGoerli } from 'wagmi/chains'
 import { constants } from 'ethers'
 
-const Sidebar = ({ resolvedTheme }) => {
+const Sidebar = () => {
 	const { address, isConnected } = useAccount()
 	const {
 		data: creatorContractAddress,
@@ -44,36 +44,36 @@ const Sidebar = ({ resolvedTheme }) => {
 				<div className={styles.feed}>
 					<Link href="/feed">
 						<a>
-							<VscHome size="25px" color={resolvedTheme === 'light' ? 'black' : 'white'} />
+							<VscHome size="25px" color={'white'} />
 						</a>
 					</Link>
 					<Link href="/feed">
 						<a>
-							<p className={`${styles.navText} ${fonts.lightText}`}>Home</p>
+							<p className={`${styles.navText} ${fonts.bodyText}`}>Home</p>
 						</a>
 					</Link>
 				</div>
 				<div className={styles.feed}>
 					<Link href="/">
 						<a>
-							<BsBell size="25px" color={resolvedTheme === 'light' ? 'black' : 'white'} />
+							<BsBell size="25px" color={'white'} />
 						</a>
 					</Link>
 					<Link href="/">
 						<a>
-							<p className={`${styles.navText} ${fonts.lightText}`}>Notifications</p>
+							<p className={`${styles.navText} ${fonts.bodyText}`}>Notifications</p>
 						</a>
 					</Link>
 				</div>
 				<div className={styles.feed}>
 					<Link href="/">
 						<a>
-							<BiMessageSquareDetail size="25px" color={resolvedTheme === 'light' ? 'black' : 'white'} />
+							<BiMessageSquareDetail size="25px" color={'white'} />
 						</a>
 					</Link>
 					<Link href="/">
 						<a>
-							<p className={`${styles.navText} ${fonts.lightText}`}>Messages</p>
+							<p className={`${styles.navText} ${fonts.bodyText}`}>Messages</p>
 						</a>
 					</Link>
 				</div>
@@ -81,12 +81,12 @@ const Sidebar = ({ resolvedTheme }) => {
 				<div className={styles.feed}>
 					<Link href="/newPost">
 						<a>
-							<AiOutlinePlus size="25px" color={resolvedTheme === 'light' ? 'black' : 'white'} />
+							<AiOutlinePlus size="25px" color={'white'} />
 						</a>
 					</Link>
 					<Link href="/newPost">
 						<a>
-							<p className={`${styles.navText} ${fonts.lightText}`}>New Post</p>
+							<p className={`${styles.navText} ${fonts.bodyText}`}>New Post</p>
 						</a>
 					</Link>
 				</div>
@@ -94,36 +94,36 @@ const Sidebar = ({ resolvedTheme }) => {
 				<div className={styles.feed}>
 					<Link href="/">
 						<a>
-							<FiBookmark size="25px" color={resolvedTheme === 'light' ? 'black' : 'white'} />
+							<FiBookmark size="25px" color={'white'} />
 						</a>
 					</Link>
 					<Link href="/">
 						<a>
-							<p className={`${styles.navText} ${fonts.lightText}`}>Bookmarks</p>
+							<p className={`${styles.navText} ${fonts.bodyText}`}>Bookmarks</p>
 						</a>
 					</Link>
 				</div>
 				<div className={styles.feed}>
 					<Link href="/discover">
 						<a>
-							<MdFormatListBulleted size="25px" color={resolvedTheme === 'light' ? 'black' : 'white'} />
+							<MdFormatListBulleted size="25px" color={'white'} />
 						</a>
 					</Link>
 					<Link href="/discover">
 						<a>
-							<p className={`${styles.navText} ${fonts.lightText}`}>Discover</p>
+							<p className={`${styles.navText} ${fonts.bodyText}`}>Discover</p>
 						</a>
 					</Link>
 				</div>
 				<div className={styles.feed}>
 					<Link href="/">
 						<a>
-							<BsPersonHeart size="25px" color={resolvedTheme === 'light' ? 'black' : 'white'} />
+							<BsPersonHeart size="25px" color={'white'} />
 						</a>
 					</Link>
 					<Link href="/">
 						<a>
-							<p className={`${styles.navText} ${fonts.lightText}`}>Subscriptions</p>
+							<p className={`${styles.navText} ${fonts.bodyText}`}>Subscriptions</p>
 						</a>
 					</Link>
 				</div>
@@ -132,15 +132,12 @@ const Sidebar = ({ resolvedTheme }) => {
 						<>
 							<Link href={`user-profile/${address.toString()}`}>
 								<a>
-									<IoPersonCircleSharp
-										size="25px"
-										color={resolvedTheme === 'light' ? 'black' : 'white'}
-									/>
+									<IoPersonCircleSharp size="25px" color={'white'} />
 								</a>
 							</Link>
 							<Link href={`user-profile/${address.toString()}`}>
 								<a>
-									<p className={`${styles.navText} ${fonts.lightText}`}>My Profile</p>
+									<p className={`${styles.navText} ${fonts.bodyText}`}>My Profile</p>
 								</a>
 							</Link>
 						</>
@@ -149,15 +146,12 @@ const Sidebar = ({ resolvedTheme }) => {
 							{' '}
 							<Link href="/newProfile">
 								<a>
-									<IoPersonCircleSharp
-										size="25px"
-										color={resolvedTheme === 'light' ? 'black' : 'white'}
-									/>
+									<IoPersonCircleSharp size="25px" color={'white'} />
 								</a>
 							</Link>
 							<Link href="/newProfile">
 								<a>
-									<p className={`${styles.navText} ${fonts.lightText}`}>My Profile</p>
+									<p className={`${styles.navText} ${fonts.bodyText}`}>My Profile</p>
 								</a>
 							</Link>
 						</>
@@ -166,12 +160,12 @@ const Sidebar = ({ resolvedTheme }) => {
 				<div className={styles.feed}>
 					<Link href="/">
 						<a>
-							<CiCircleMore size="25px" color={resolvedTheme === 'light' ? 'black' : 'white'} />
+							<CiCircleMore size="25px" color={'white'} />
 						</a>
 					</Link>
 					<Link href="/">
 						<a>
-							<p className={`${styles.navText} ${fonts.lightText}`}>More</p>
+							<p className={`${styles.navText} ${fonts.bodyText}`}>More</p>
 						</a>
 					</Link>
 				</div>

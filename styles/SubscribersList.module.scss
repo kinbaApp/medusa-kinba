@@ -1,0 +1,51 @@
+.container {
+	padding: 50px;
+	.header {
+		font-size: 24px;
+		border-bottom: 1px solid lightgrey;
+		.title {
+			font-family: 'Montserrat';
+		}
+	}
+	.activityContainer {
+		.topHalf {
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+			padding: 20px 0;
+			color: rgb(165, 162, 162);
+			.iconsContainer {
+				display: flex;
+				gap: 10px;
+				cursor: pointer;
+			}
+		}
+		.bottomHalf {
+			display: flex;
+			flex-direction: row;
+			gap: 15px;
+			.all,
+			.active,
+			.expired,
+			.attreq {
+				background-color: rgb(238, 236, 236);
+				padding: 2px 15px;
+				border-radius: 20px;
+				cursor: pointer;
+				font-size: 12px;
+			}
+			.all:hover,
+			.active:hover,
+			.expired:hover,
+			.attreq:hover {
+				background-color: #f7a0e0;
+			}
+		}
+	}
+	.followersContainer {
+		padding: 40px 0;
+		> div {
+			padding: 10px 0;
+		}
+	}
+}

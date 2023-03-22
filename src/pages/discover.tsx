@@ -13,7 +13,7 @@ import CreatorsList from '@/components/CreatorsList'
 import { Sidebar } from '@/components'
 import Connect from '@/components/reusable/Connect'
 import Subscription from '@/components/Subscribe'
-import styles from '../../styles/NewPost.module.scss'
+import styles from '../../styles/Discover.module.scss'
 import fonts from '../../styles/Fonts.module.scss'
 import Suggestion from '@/components/reusable/Suggestion'
 import { TfiReload } from 'react-icons/tfi'
@@ -21,7 +21,7 @@ import { AiOutlineLeft } from 'react-icons/ai'
 import { AiOutlineRight } from 'react-icons/ai'
 import { TbFreeRights } from 'react-icons/tb'
 
-const Discover: NextPage = (resolvedTheme, setTheme) => {
+const Discover: NextPage = () => {
 	const myRef = useRef(null)
 	return (
 		<>
@@ -46,7 +46,7 @@ const Discover: NextPage = (resolvedTheme, setTheme) => {
 						<Sidebar />
 					</div>
 					<div className={styles.content}>
-						<div className="max-w-6xl mx-auto px-6 lg:px-8" ref={myRef}>
+						<div className={styles.innerContent} ref={myRef}>
 							<CreatorsList />
 							<Subscription />
 						</div>
@@ -75,13 +75,13 @@ const Discover: NextPage = (resolvedTheme, setTheme) => {
 								<Suggestion
 									pfp={'/Profile/girl.png'}
 									username={'@Prettyprincess'}
-									banner="Profile/layingdown.png"
+									banner="/Profile/layingdown.png"
 									name={'LovelyLayla'}
 								/>
 								<Suggestion
 									pfp={'/Profile/girl2.png'}
 									username={'@poleQueen'}
-									banner="Profile/sitting.png"
+									banner="/Profile/sitting2.png"
 									name={'ThePolePrincess'}
 								/>
 							</div>

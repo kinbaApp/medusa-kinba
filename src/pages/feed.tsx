@@ -35,7 +35,7 @@ import Link from 'next/link'
 import PostListing from '@/components/PostListing'
 import Connect from '@/components/reusable/Connect'
 
-const Content: FC = (resolvedTheme, setTheme) => {
+const Content: FC = () => {
 	const scrollRef = useRef(null)
 	const { isConnected, address } = useAccount()
 	const provider = useProvider()
@@ -171,7 +171,7 @@ const Content: FC = (resolvedTheme, setTheme) => {
 				{/* <div className={styles.header}>HEADER GOES HERE</div> */}
 				<div className={styles.main}>
 					<div className={styles.sidebar}>
-						<Sidebar resolvedTheme={resolvedTheme} />
+						<Sidebar />
 					</div>
 					<div className={styles.content}>
 						<div className={styles.homeContainer}>
@@ -231,13 +231,13 @@ const Content: FC = (resolvedTheme, setTheme) => {
 								<Suggestion
 									pfp={'/Profile/girl.png'}
 									username={'@Prettyprincess'}
-									banner="Profile/layingdown.png"
+									banner="/Profile/layingdown.png"
 									name={'LovelyLayla'}
 								/>
 								<Suggestion
 									pfp={'/Profile/girl2.png'}
 									username={'@poleQueen'}
-									banner="Profile/sitting.png"
+									banner="/Profile/sitting2.png"
 									name={'ThePolePrincess'}
 								/>
 							</div>

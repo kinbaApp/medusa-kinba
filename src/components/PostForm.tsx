@@ -10,7 +10,7 @@ import toast from 'react-hot-toast'
 import { ipfsGatewayLink } from '@/lib/utils'
 import useGlobalStore from '@/stores/globalStore'
 import { Base64 } from 'js-base64'
-import styles from '../../styles/NewPost.module.scss'
+import styles from '../../styles/PostForm.module.scss'
 import fonts from '../../styles/Fonts.module.scss'
 
 const PostForm: FC = () => {

@@ -28,7 +28,9 @@ const Home: FC = () => {
 	const scrollRef = useRef(null)
 
 	// const [mounted, setMounted] = useState(false)
-	const { resolvedTheme, setTheme } = useTheme()
+
+	// We can reimpliment this if you want!
+	// const { resolvedTheme, setTheme } = useTheme()
 
 	const updatePosts = useGlobalStore(state => state.updatePosts)
 	const updateRequests = useGlobalStore(state => state.updateRequests)
@@ -125,15 +127,6 @@ const Home: FC = () => {
 		}
 		getEvents()
 	}, [address])
-
-	// useEffect(() => {
-	// 	setMounted(true)
-	// }, [])
-
-	// if (!mounted) {
-	// 	console.log('not mounted')
-	// 	return null
-	// }
 
 	return <>{isConnected ? <Content /> : <Login />}</>
 }

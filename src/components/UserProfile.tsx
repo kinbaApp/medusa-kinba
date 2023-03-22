@@ -19,7 +19,7 @@ import { arbitrumGoerli } from 'wagmi/chains'
 import toast from 'react-hot-toast'
 import Head from 'next/head'
 import { Toaster } from 'react-hot-toast'
-import styles from '../../styles/Profile.module.scss'
+import styles from '../../styles/UserProfile.module.scss'
 import fonts from '../../styles/Fonts.module.scss'
 import { Sidebar, CreateNewProfile } from '@/components'
 import { AiOutlinePicture } from 'react-icons/ai'
@@ -31,7 +31,7 @@ import Link from 'next/link'
 import Modal from 'react-modal'
 import Connect from './reusable/Connect'
 
-const UserProfile = ({ creatorAddress, resolvedTheme }) => {
+const UserProfile = ({ creatorAddress }) => {
 	const provider = useProvider()
 	const { isConnected, address } = useAccount()
 	const [isOpen, setIsOpen] = useState(false)
@@ -282,7 +282,7 @@ const UserProfile = ({ creatorAddress, resolvedTheme }) => {
 				</div>
 				<div className={styles.main}>
 					<div className={styles.sidebar}>
-						<Sidebar resolvedTheme={resolvedTheme} />
+						<Sidebar />
 					</div>
 					<div className={styles.content}>
 						<div className={styles.headerImage}>
@@ -472,21 +472,23 @@ const UserProfile = ({ creatorAddress, resolvedTheme }) => {
 									Privacy. Cookie Notice. Terms of Service
 								</p>
 							</div>
-							<div>
-								{creatorAddress === address && (
-									<Link href="/listofsubscribers">
+							<div className={styles.bottomButtons}>
+								<div className={styles.subList}>
+									{creatorAddress === address && (
+										<Link href="/listofsubscribers">
+											<a>
+												<PinkButton text={'SUBSCRIBER LIST'} />
+											</a>
+										</Link>
+									)}
+								</div>
+								<div className={styles.publishButton}>
+									<Link href="/newPost">
 										<a>
-											<PinkButton text={'Subscriber List'} />
+											<PinkButton text={'PUBLISH NEW +'} />
 										</a>
 									</Link>
-								)}
-							</div>
-							<div className={styles.publishButton}>
-								<Link href="/newPost">
-									<a>
-										<PinkButton text={'PUBLISH NEW +'} />
-									</a>
-								</Link>
+								</div>
 							</div>
 						</div>
 					</div>

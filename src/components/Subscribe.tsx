@@ -7,7 +7,7 @@ import { FC, useState } from 'react'
 import toast from 'react-hot-toast'
 import { useAccount, useContractWrite, usePrepareContractWrite, useWaitForTransaction } from 'wagmi'
 import { arbitrumGoerli } from 'wagmi/chains'
-import styles from '../../styles/NewPost.module.scss'
+import styles from '../../styles/Subscribe.module.scss'
 import fonts from '../../styles/Fonts.module.scss'
 
 const Subscription: FC = () => {

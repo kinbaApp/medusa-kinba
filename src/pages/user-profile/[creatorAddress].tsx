@@ -17,7 +17,7 @@ import CreatorsList from '@/components/CreatorsList'
 import UserProfile from '@/components/UserProfile'
 import { Sidebar } from '@/components'
 
-const UserProfilePage = (resolvedTheme, setTheme) => {
+const UserProfilePage = () => {
 	const router = useRouter()
 	const { address } = useAccount()
 	const { creatorAddress } = router.query

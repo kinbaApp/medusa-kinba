@@ -10,6 +10,7 @@ import Input from '@material-ui/core/Input'
 // import ConnectWallet from '@/components/ConnectWallet'
 import { ConnectKitButton } from 'connectkit'
 import styled from 'styled-components'
+import Link from 'next/link'
 
 const Login = () => {
 	const [values, setValues] = React.useState({
@@ -104,7 +105,13 @@ const Login = () => {
 
 						{/* This needs to be changed to redirect to a forgor password/create account screen */}
 						<div className={styles.redirectText}>
-							<a href="/login">Forgot Password?</a> · <a href="/login">Sign up for Kinba</a>
+							<Link href="/login">
+								<a>Forgot Password?</a>
+							</Link>{' '}
+							·{' '}
+							<Link href="/login">
+								<a>Sign up for Kinba</a>
+							</Link>
 						</div>
 
 						<div className={styles.twitterButton}>
