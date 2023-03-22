@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react'
+import { FC, useEffect, useRef } from 'react'
 import useGlobalStore from '@/stores/globalStore'
 import Post from './PostListing'
 import { ethers } from 'ethers'
@@ -10,10 +10,12 @@ import Link from 'next/link'
 import { APP_NAME, DONLYFANS_ABI, CONTRACT_ADDRESS, ORACLE_ADDRESS } from '@/lib/consts'
 import styles from '../../styles/NewPost.module.scss'
 import fonts from '../../styles/Fonts.module.scss'
+import Suggestion from './reusable/Suggestion'
 
 const CreatorsList: FC = () => {
 	const { address } = useAccount()
 	const provider = useProvider()
+	const myRef = useRef(null)
 	const updateCreators = useGlobalStore(state => state.updateCreators)
 	const addCreator = useGlobalStore(state => state.addCreator)
 
@@ -65,14 +67,26 @@ const CreatorsList: FC = () => {
 	return (
 		<>
 			<h1 className={`${styles.NewPost} ${fonts.bold}`}>List of creators</h1>
+			<div style={{ overflow: 'auto' }}>
+				{creators.map(creator => (
+					<ul className="list-none hover:list-inside">
+						<li key={creator.creatorAddress}>
+							<Link href={`user-profile/${creator?.creatorAddress.toString()}`}>
+								{/* {creator.creatorAddress.toString()} */}
 
-			{creators.map(creator => (
-				<li key={creator.creatorAddress}>
-					<Link href={`user-profile/${creator?.creatorAddress.toString()}`}>
-						{creator.creatorAddress.toString()}
-					</Link>
-				</li>
-			))}
+								<a className=" px-1">
+									<Suggestion
+										pfp={'/Profile/girl.png'}
+										username={creator.creatorAddress.toString()}
+										banner="Profile/layingdown.png"
+										name={'LovelyLayla'}
+									/>
+								</a>
+							</Link>
+						</li>
+					</ul>
+				))}
+			</div>
 		</>
 	)
 }

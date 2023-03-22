@@ -36,6 +36,7 @@ const Login = () => {
 	return (
 		<div>
 			{/* <Head></Head> */}
+
 			<div className={styles.container}>
 				<div className={styles.main}>
 					<div className={styles.videoContainer}>
