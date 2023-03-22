@@ -24,7 +24,7 @@
 	.main {
 		display: grid;
 		grid-template-columns: 0.4fr 1fr 0.75fr;
-		// min-height: 100vh;
+		min-height: 100vh;
 		position: relative;
 		.sidebar {
 			grid-column: 1/2;
@@ -33,7 +33,7 @@
 			grid-column: 2/3;
 			background-color: white;
 			color: black;
-			min-height: 100vh;
+			max-height: 100vh;
 			overflow: scroll;
 			display: grid;
 			position: relative;
