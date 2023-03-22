@@ -130,12 +130,12 @@ const Sidebar = () => {
 				<div className={styles.feed}>
 					{isCreator && address ? (
 						<>
-							<Link href={`user-profile/${address.toString()}`}>
+							<Link href={`/user-profile/${address.toString()}`}>
 								<a>
 									<IoPersonCircleSharp size="25px" color={'white'} />
 								</a>
 							</Link>
-							<Link href={`user-profile/${address.toString()}`}>
+							<Link href={`/user-profile/${address.toString()}`}>
 								<a>
 									<p className={`${styles.navText} ${fonts.bodyText}`}>My Profile</p>
 								</a>
