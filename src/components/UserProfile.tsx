@@ -357,7 +357,11 @@ const UserProfile = ({ creatorAddress }) => {
 								</div>
 							</div>
 						</div>
-						{isSubscriber ? (
+						{creatorAddress == address ? (
+							<div className={styles.youAreSubscribedButton}>
+								<p className={fonts.bodyText}>Welcome to your profile page! </p>
+							</div>
+						) : isSubscriber ? (
 							<div className={styles.youAreSubscribedButton}>
 								<p className={fonts.bodyText}>You are subscribed to this profile! </p>
 							</div>
