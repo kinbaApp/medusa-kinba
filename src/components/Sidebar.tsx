@@ -167,7 +167,7 @@ const Sidebar = () => {
 							<BsPersonHeart size="25px" color={'white'} />
 						</a>
 					</Link>
-					<Link href="/">
+					<Link href="/listOfSubscriptions">
 						<a>
 							<p className={`${styles.navText} ${fonts.bodyText}`}>Subscriptions</p>
 						</a>

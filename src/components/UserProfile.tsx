@@ -76,7 +76,7 @@ const UserProfile = ({ creatorAddress }) => {
 		chainId: arbitrumGoerli.id,
 	})
 
-	const [isSubscriber, setIsSubscriber] = useState(isAddressSubscriber)
+	//const [isSubscriber, setIsSubscriber] = useState(isAddressSubscriber)
 	const updatePosts = useGlobalStore(state => state.updatePosts)
 	const updateRequests = useGlobalStore(state => state.updateRequests)
 	const updateDecryptions = useGlobalStore(state => state.updateDecryptions)
@@ -199,11 +199,13 @@ const UserProfile = ({ creatorAddress }) => {
 			}
 		}
 		getEvents()
-	}, [address, isSubscriber])
+	}, [address])
 	const requests = useGlobalStore(state => state.requests)
 	const [creator] = useGlobalStore(state => state.creators).filter(
 		creator => creator.creatorAddress === creatorAddress
 	)
+	const subscribers = useGlobalStore(state => state.subscribers)
+	const isSubscriber = subscribers.some(item => item.creator === creatorAddress && item.subscriber === address)
 	const price = creator?.price
 	const period = creator?.period
 	const userPosts = useGlobalStore(state => state.posts).filter(post => post.creator === creatorAddress)
@@ -263,7 +265,7 @@ const UserProfile = ({ creatorAddress }) => {
 				</a>
 			)
 
-			setIsSubscriber(true)
+			//setIsSubscriber(true)
 			router.push(`/user-profile/${creatorAddress}`)
 		},
 		onError: e => {

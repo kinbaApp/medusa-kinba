@@ -6,6 +6,7 @@ import { formatEther, parseEther } from 'ethers/lib/utils'
 import { FC, useState, useEffect } from 'react'
 import { ethers } from 'ethers'
 import toast from 'react-hot-toast'
+import Link from 'next/link'
 import {
 	useAccount,
 	useProvider,
@@ -78,7 +79,9 @@ const CreatorsSubscribedTo: FC<Creator> = ({ creatorAddress }) => {
 			{creatorsSubscribedTo &&
 				creatorsSubscribedTo?.map(subscribe => (
 					<div className={styles.listItem} key={subscribe.creator.toString()}>
-						{subscribe.creator}
+						<Link href={`/user-profile/${subscribe.creator.toString()}`}>
+							<a>{subscribe.creator}</a>
+						</Link>
 					</div>
 				))}
 		</div>
