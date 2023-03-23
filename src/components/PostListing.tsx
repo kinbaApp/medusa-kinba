@@ -54,7 +54,7 @@ const PostListing: FC<Post & { purchased: boolean }> = ({ creator, cipherId, uri
 		},
 	})
 	const {
-		data: isSubscriber,
+		data: isAddressSubscriber,
 		isError: isErrorGetFoller,
 		isLoading: isLoadingGetFoller,
 	} = useContractRead({
@@ -179,7 +179,28 @@ const PostListing: FC<Post & { purchased: boolean }> = ({ creator, cipherId, uri
 		abi: DONLYFANS_ABI,
 		signerOrProvider: provider,
 	})
-	useEffect(() => {}, [address, isSubscriber])
+	useEffect(() => {
+		const getEvents = async () => {
+			const iface = new ethers.utils.Interface(DONLYFANS_ABI)
+
+			const newSubscriberFilter = donlyFans.filters.NewSubscriber()
+
+			const newSubscribers = await donlyFans.queryFilter(newSubscriberFilter)
+
+			if (iface && newSubscribers) {
+				const subscribers = newSubscribers.reverse().map((filterTopic: any) => {
+					const result = iface.parseLog(filterTopic)
+					const { subscriber, creator, price } = result.args
+					return { subscriber, creator, price } as Post
+				})
+				updateSubscribe(subscribers)
+			}
+		}
+		getEvents()
+	}, [address])
+
+	const subscribers = useGlobalStore(state => state.subscribers)
+	const isSubscriber = subscribers.some(item => item.creator === creatorAddress && item.subscriber === address)
 
 	return (
 		<>
