@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { ethers } from 'ethers'
 import Link from 'next/link'
-import { useAccount, useContractRead } from 'wagmi'
+import { useAccount, useContractRead, useContract, useContractEvent, useProvider } from 'wagmi'
 import { APP_NAME, DONLYFANS_ABI, CONTRACT_ADDRESS, ORACLE_ADDRESS } from '@/lib/consts'
 import styles from '../../styles/Sidebar.module.scss'
 import { VscHome } from 'react-icons/vsc'
@@ -16,25 +17,70 @@ import Image from 'next/image'
 import fonts from '../../styles/Fonts.module.scss'
 import { arbitrumGoerli } from 'wagmi/chains'
 import { constants } from 'ethers'
+import useGlobalStore from '@/stores/globalStore'
 
 const Sidebar = () => {
+	const provider = useProvider()
 	const { address, isConnected } = useAccount()
-	const {
-		data: creatorContractAddress,
-		isError,
-		isLoading,
-	} = useContractRead({
+	// const {
+	// 	data: creatorContractAddress,
+	// 	isError,
+	// 	isLoading,
+	// } = useContractRead({
+	// 	address: CONTRACT_ADDRESS,
+	// 	abi: DONLYFANS_ABI,
+	// 	functionName: 'getCreatorContractAddress',
+	// 	args: [address],
+	// 	chainId: arbitrumGoerli.id,
+	// 	onSuccess(data) {
+	// 		console.log('Success', creatorContractAddress)
+	// 	},
+	// })
+
+	//const isCreator = creatorContractAddress !== constants.AddressZero
+
+	const updateCreators = useGlobalStore(state => state.updateCreators)
+	const addCreator = useGlobalStore(state => state.addCreator)
+
+	const donlyFans = useContract({
 		address: CONTRACT_ADDRESS,
 		abi: DONLYFANS_ABI,
-		functionName: 'getCreatorContractAddress',
-		args: [address],
-		chainId: arbitrumGoerli.id,
-		onSuccess(data) {
-			console.log('Success', creatorContractAddress)
-		},
+		signerOrProvider: provider,
 	})
 
-	const isCreator = creatorContractAddress !== constants.AddressZero
+	useContractEvent({
+		address: CONTRACT_ADDRESS,
+		abi: DONLYFANS_ABI,
+		eventName: 'NewCreatorProfileCreated',
+		listener(creatorAddress, creatorContractAddress, price, period) {
+			//if (creatorAddress == address) {
+			console.log('creator found', creatorAddress)
+			addCreator({ creatorAddress, price, period })
+			//}
+		},
+	})
+	useEffect(() => {
+		const getEvents = async () => {
+			const iface = new ethers.utils.Interface(DONLYFANS_ABI)
+			const creatorsListFilter = donlyFans.filters.NewCreatorProfileCreated()
+			const newCreatorsProfile = await donlyFans.queryFilter(creatorsListFilter)
+			console.log(newCreatorsProfile)
+
+			if (iface && newCreatorsProfile) {
+				const creators = newCreatorsProfile.reverse().map((filterTopic: any) => {
+					const result = iface.parseLog(filterTopic)
+					const { creatorAddress, price, period } = result.args
+					return { creatorAddress, price, period } as Creator
+				})
+				updateCreators(creators)
+			}
+		}
+		getEvents()
+	}, [address])
+
+	const creators = useGlobalStore(state => state.creators)
+	const isCreator = creators.some(item => address === item.creatorAddress)
+
 	return (
 		<div className={styles.outerContainer}>
 			<div className={styles.logo}>

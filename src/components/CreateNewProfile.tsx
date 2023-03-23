@@ -9,9 +9,10 @@ import { useAccount, useContractWrite, usePrepareContractWrite, useWaitForTransa
 import { arbitrumGoerli } from 'wagmi/chains'
 import styles from '../../styles/CreateNewProfile.module.scss'
 import fonts from '../../styles/Fonts.module.scss'
-
+import { useRouter } from 'next/router'
 const CreateNewProfile: FC = () => {
-	const { isConnected } = useAccount()
+	const router = useRouter()
+	const { isConnected, address } = useAccount()
 	const [price, setPrice] = useState('')
 	const [period, setPeriod] = useState('')
 	const [submitting, setSubmitting] = useState(false)
@@ -69,6 +70,7 @@ const CreateNewProfile: FC = () => {
 					</svg>
 				</a>
 			)
+			router.push(`/user-profile/${address.toString()}`)
 		},
 		onError: e => {
 			toast.dismiss()

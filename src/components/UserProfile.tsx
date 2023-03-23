@@ -74,6 +74,8 @@ const UserProfile = ({ creatorAddress }) => {
 		args: [address],
 		chainId: arbitrumGoerli.id,
 	})
+
+	const [subscriber, setSubscriber] = useState(isSubscriber)
 	const updatePosts = useGlobalStore(state => state.updatePosts)
 	const updateRequests = useGlobalStore(state => state.updateRequests)
 	const updateDecryptions = useGlobalStore(state => state.updateDecryptions)
@@ -81,6 +83,8 @@ const UserProfile = ({ creatorAddress }) => {
 	const addRequest = useGlobalStore(state => state.addRequest)
 	const addDecryption = useGlobalStore(state => state.addDecryption)
 	const addSubscriber = useGlobalStore(state => state.addSubscriber)
+	const updateCreators = useGlobalStore(state => state.updateCreators)
+	const addCreator = useGlobalStore(state => state.addCreator)
 	useContractEvent({
 		address: CONTRACT_ADDRESS,
 		abi: DONLYFANS_ABI,
@@ -166,19 +170,28 @@ const UserProfile = ({ creatorAddress }) => {
 				})
 				updateDecryptions(decryptions)
 			}
+
+			const creatorsListFilter = donlyFans.filters.NewCreatorProfileCreated()
+			const newCreatorsProfile = await donlyFans.queryFilter(creatorsListFilter)
+			console.log(newCreatorsProfile)
+
+			if (iface && newCreatorsProfile) {
+				const creators = newCreatorsProfile.reverse().map((filterTopic: any) => {
+					const result = iface.parseLog(filterTopic)
+					const { creatorAddress, price, period } = result.args
+					return { creatorAddress, price, period } as Creator
+				})
+				updateCreators(creators)
+			}
 		}
 		getEvents()
-	}, [address])
-
+	}, [address, subscriber])
 	const requests = useGlobalStore(state => state.requests)
 	const [creator] = useGlobalStore(state => state.creators).filter(
 		creator => creator.creatorAddress === creatorAddress
 	)
 	const price = creator?.price
 	const period = creator?.period
-	// console.log(price)
-	// console.log('price is', price?.toNumber())
-	//const price = parseInt(creator.price, 16)
 	const userPosts = useGlobalStore(state => state.posts).filter(post => post.creator === creatorAddress)
 	// const userPosts = useGlobalStore(state => state.posts)
 	const myUnlockedPosts = requests.filter(
@@ -235,7 +248,8 @@ const UserProfile = ({ creatorAddress }) => {
 					</svg>
 				</a>
 			)
-			//setSubscribed(true)
+
+			setSubscriber(true)
 		},
 		onError: e => {
 			toast.dismiss()
@@ -328,7 +342,7 @@ const UserProfile = ({ creatorAddress }) => {
 								</div>
 							</div>
 						</div>
-						{isSubscriber ? (
+						{subscriber ? (
 							<div className={styles.youAreSubscribedButton}>
 								<p className={fonts.bodyText}>You are subscribed to this profile! </p>
 							</div>
