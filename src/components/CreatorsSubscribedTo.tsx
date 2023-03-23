@@ -47,9 +47,9 @@ const CreatorsSubscribedTo: FC<Creator> = ({ creatorAddress }) => {
 		const getEvents = async () => {
 			const iface = new ethers.utils.Interface(DONLYFANS_ABI)
 
-			const newPostFilter = donlyFans.filters.NewSubscriber(address)
+			const newSubscriberFilter = donlyFans.filters.NewSubscriber()
 
-			const newSubscribers = await donlyFans.queryFilter(newSubscriber)
+			const newSubscribers = await donlyFans.queryFilter(newSubscriberFilter)
 
 			if (iface && newSubscribers) {
 				const subscribers = newSubscribers.reverse().map((filterTopic: any) => {
@@ -74,6 +74,7 @@ const CreatorsSubscribedTo: FC<Creator> = ({ creatorAddress }) => {
 	))
 	return (
 		<div className={styles.followersContainer}>
+			<h1>Subscriptions</h1>
 			{creatorsSubscribedTo &&
 				creatorsSubscribedTo?.map(subscribe => (
 					<div className={styles.listItem} key={subscribe.creator.toString()}>

@@ -47,7 +47,9 @@ const ListOfSubs: NextPage = () => {
 					<div className={styles.sidebar}>
 						<Sidebar />
 					</div>
-					<div className={styles.content}>{/* <CreatorsSubscribedTo /> */}</div>
+					<div className={styles.content}>
+						<CreatorsSubscribedTo />
+					</div>
 					<div className={styles.suggested}>
 						<Connect />
 						<div className={styles.top}>

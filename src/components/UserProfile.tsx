@@ -86,6 +86,7 @@ const UserProfile = ({ creatorAddress }) => {
 	const addSubscriber = useGlobalStore(state => state.addSubscriber)
 	const updateCreators = useGlobalStore(state => state.updateCreators)
 	const addCreator = useGlobalStore(state => state.addCreator)
+	const updateSubscribe = useGlobalStore(state => state.updateSubscribe)
 	useContractEvent({
 		address: CONTRACT_ADDRESS,
 		abi: DONLYFANS_ABI,
@@ -183,6 +184,18 @@ const UserProfile = ({ creatorAddress }) => {
 					return { creatorAddress, price, period } as Creator
 				})
 				updateCreators(creators)
+			}
+			const newSubscriberFilter = donlyFans.filters.NewSubscriber()
+
+			const newSubscribers = await donlyFans.queryFilter(newSubscriberFilter)
+
+			if (iface && newSubscribers) {
+				const subscribers = newSubscribers.reverse().map((filterTopic: any) => {
+					const result = iface.parseLog(filterTopic)
+					const { subscriber, creator, price } = result.args
+					return { subscriber, creator, price } as Post
+				})
+				updateSubscribe(subscribers)
 			}
 		}
 		getEvents()

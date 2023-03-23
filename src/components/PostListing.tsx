@@ -3,9 +3,17 @@ import { ipfsGatewayLink } from '@/lib/utils'
 import useGlobalStore, { Post } from '@/stores/globalStore'
 import { BigNumber, ethers } from 'ethers'
 import { formatEther, getAddress, parseEther } from 'ethers/lib/utils'
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import toast from 'react-hot-toast'
-import { useAccount, useContractRead, useContractWrite, usePrepareContractWrite, useWaitForTransaction } from 'wagmi'
+import {
+	useAccount,
+	useContractRead,
+	useContractWrite,
+	usePrepareContractWrite,
+	useWaitForTransaction,
+	useContract,
+	useProvider,
+} from 'wagmi'
 import { arbitrumGoerli } from 'wagmi/chains'
 import Link from 'next/link'
 import styles from '../../styles/PostListing.module.scss'
@@ -19,8 +27,11 @@ import PinkButton from './reusable/PinkButton'
 import { useRouter } from 'next/router'
 const PostListing: FC<Post & { purchased: boolean }> = ({ creator, cipherId, uri, name, description, purchased }) => {
 	const { isConnected, address } = useAccount()
+	const provider = useProvider()
 	//const isSubscriber = true
 	const creatorAddress = creator
+	const addSubscriber = useGlobalStore(state => state.addSubscriber)
+	const updateSubscribe = useGlobalStore(state => state.updateSubscribe)
 
 	//get all the creators and fetch the price
 	const [creator_fetched] = useGlobalStore(state => state.creators).filter(
@@ -162,6 +173,13 @@ const PostListing: FC<Post & { purchased: boolean }> = ({ creator, cipherId, uri
 	const router = useRouter()
 	const pathName = router.pathname
 	console.log('query', pathName)
+
+	const donlyFans = useContract({
+		address: CONTRACT_ADDRESS,
+		abi: DONLYFANS_ABI,
+		signerOrProvider: provider,
+	})
+	useEffect(() => {}, [address, isSubscriber])
 
 	return (
 		<>
