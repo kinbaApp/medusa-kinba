@@ -30,9 +30,10 @@ import Ad from '@/components/reusable/Ad'
 import Link from 'next/link'
 import Modal from 'react-modal'
 import Connect from './reusable/Connect'
-
+import { useRouter } from 'next/router'
 const UserProfile = ({ creatorAddress }) => {
 	const provider = useProvider()
+	const router = useRouter()
 	const { isConnected, address } = useAccount()
 	const [isOpen, setIsOpen] = useState(false)
 	const [subscriptionPrice, setSubscriptionPrice] = useState('')
@@ -64,7 +65,7 @@ const UserProfile = ({ creatorAddress }) => {
 		},
 	})
 	const {
-		data: isSubscriber,
+		data: isAddressSubscriber,
 		isError: isErrorGetFoller,
 		isLoading: isLoadingGetFoller,
 	} = useContractRead({
@@ -75,7 +76,7 @@ const UserProfile = ({ creatorAddress }) => {
 		chainId: arbitrumGoerli.id,
 	})
 
-	const [subscriber, setSubscriber] = useState(isSubscriber)
+	const [isSubscriber, setIsSubscriber] = useState(isAddressSubscriber)
 	const updatePosts = useGlobalStore(state => state.updatePosts)
 	const updateRequests = useGlobalStore(state => state.updateRequests)
 	const updateDecryptions = useGlobalStore(state => state.updateDecryptions)
@@ -185,7 +186,7 @@ const UserProfile = ({ creatorAddress }) => {
 			}
 		}
 		getEvents()
-	}, [address, subscriber])
+	}, [address, isSubscriber])
 	const requests = useGlobalStore(state => state.requests)
 	const [creator] = useGlobalStore(state => state.creators).filter(
 		creator => creator.creatorAddress === creatorAddress
@@ -249,7 +250,8 @@ const UserProfile = ({ creatorAddress }) => {
 				</a>
 			)
 
-			setSubscriber(true)
+			setIsSubscriber(true)
+			router.push(`/user-profile/${creatorAddress}`)
 		},
 		onError: e => {
 			toast.dismiss()
@@ -342,7 +344,7 @@ const UserProfile = ({ creatorAddress }) => {
 								</div>
 							</div>
 						</div>
-						{subscriber ? (
+						{isSubscriber ? (
 							<div className={styles.youAreSubscribedButton}>
 								<p className={fonts.bodyText}>You are subscribed to this profile! </p>
 							</div>
