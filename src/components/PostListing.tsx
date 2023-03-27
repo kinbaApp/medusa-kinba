@@ -39,20 +39,20 @@ const PostListing: FC<Post & { purchased: boolean }> = ({ creator, cipherId, uri
 	)
 	const price_fetched = creator_fetched?.price
 
-	const {
-		data: creatorContractAddress,
-		isError,
-		isLoading,
-	} = useContractRead({
-		address: CONTRACT_ADDRESS,
-		abi: DONLYFANS_ABI,
-		functionName: 'getCreatorContractAddress',
-		args: [getAddress(creatorAddress) || ethers.constants.AddressZero],
-		chainId: arbitrumGoerli.id,
-		onSuccess(data) {
-			console.log('Success', creatorAddress)
-		},
-	})
+	// const {
+	// 	data: creatorContractAddress,
+	// 	isError,
+	// 	isLoading,
+	// } = useContractRead({
+	// 	address: CONTRACT_ADDRESS,
+	// 	abi: DONLYFANS_ABI,
+	// 	functionName: 'getCreatorContractAddress',
+	// 	args: [getAddress(creatorAddress) || ethers.constants.AddressZero],
+	// 	chainId: arbitrumGoerli.id,
+	// 	onSuccess(data) {
+	// 		console.log('Success', creatorAddress)
+	// 	},
+	// })
 	// const {
 	// 	data: isAddressSubscriber,
 	// 	isError: isErrorGetFoller,
@@ -82,10 +82,10 @@ const PostListing: FC<Post & { purchased: boolean }> = ({ creator, cipherId, uri
 		chainId: arbitrumGoerli.id,
 	})
 
-	const { data, write: requestPost } = useContractWrite(config)
+	const { data: dataRequestPost, write: requestPost } = useContractWrite(config)
 
 	useWaitForTransaction({
-		hash: data?.hash,
+		hash: dataRequestPost?.hash,
 		onSuccess: txData => {
 			toast.dismiss()
 			toast.success(
