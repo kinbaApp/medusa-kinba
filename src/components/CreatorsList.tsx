@@ -19,6 +19,8 @@ const CreatorsList: FC = () => {
 	const myRef = useRef(null)
 	const updateCreators = useGlobalStore(state => state.updateCreators)
 	const addCreator = useGlobalStore(state => state.addCreator)
+	const addSubscriber = useGlobalStore(state => state.addSubscriber)
+	const updateSubscribe = useGlobalStore(state => state.updateSubscribe)
 
 	const donlyFans = useContract({
 		address: CONTRACT_ADDRESS,
@@ -37,6 +39,16 @@ const CreatorsList: FC = () => {
 			//}
 		},
 	})
+	useContractEvent({
+		address: CONTRACT_ADDRESS,
+		abi: DONLYFANS_ABI,
+		eventName: 'NewSubscriber',
+		listener(creator, subscriber, price) {
+			if (subscriber == address) {
+				addSubscriber({ creator, subscriber, price })
+			}
+		},
+	})
 	useEffect(() => {
 		const getEvents = async () => {
 			const iface = new ethers.utils.Interface(DONLYFANS_ABI)
@@ -52,11 +64,27 @@ const CreatorsList: FC = () => {
 				})
 				updateCreators(creators)
 			}
+			const newSubscriberFilter = donlyFans.filters.NewSubscriber()
+
+			const newSubscribers = await donlyFans.queryFilter(newSubscriberFilter)
+
+			if (iface && newSubscribers) {
+				const subscribers = newSubscribers.reverse().map((filterTopic: any) => {
+					const result = iface.parseLog(filterTopic)
+					const { subscriber, creator, price } = result.args
+					return { subscriber, creator, price } as Post
+				})
+				updateSubscribe(subscribers)
+			}
 		}
 		getEvents()
 	}, [address])
+	const subscribers = useGlobalStore(state => state.subscribers)
 
-	const creators = useGlobalStore(state => state.creators)
+	const creatorsSubscribedTo = subscribers.filter(subscribe => subscribe.subscriber === address)
+	const creators = useGlobalStore(state => state.creators).filter(
+		item => !creatorsSubscribedTo.some(subscribe => item.creatorAddress === subscribe.creator)
+	)
 	//const listOfCreators = creators.filter(creator => creator.)
 	const uniqueCreators = Array.from(new Set(creators))
 	const listCreators = uniqueCreators.map(creator => (
