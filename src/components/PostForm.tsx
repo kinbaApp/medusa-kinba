@@ -2,7 +2,7 @@ import { FC, useState, useEffect } from 'react'
 import { usePrepareContractWrite, useContractWrite, useWaitForTransaction } from 'wagmi'
 import { arbitrumGoerli } from 'wagmi/chains'
 import { HGamalEVMCipher } from '@medusa-network/medusa-sdk'
-
+import { useRouter } from 'next/router'
 import { DONLYFANS_ABI, CONTRACT_ADDRESS } from '@/lib/consts'
 import { parseEther } from 'ethers/lib/utils'
 import storeCiphertext from '@/lib/storeCiphertext'
@@ -12,18 +12,24 @@ import useGlobalStore from '@/stores/globalStore'
 import { Base64 } from 'js-base64'
 import styles from '../../styles/PostForm.module.scss'
 import fonts from '../../styles/Fonts.module.scss'
+import { client } from '../lib/sanityClient'
 
 const PostForm: FC = () => {
 	const medusa = useGlobalStore(state => state.medusa)
-
+	const [fields, setFields] = useState(false)
+	const [title, setTitle] = useState('title')
+	const [about, setAbout] = useState('about')
+	const [destination, setDestination] = useState('http://sazouvi.com')
 	const [name, setName] = useState('')
 	const [description, setDescription] = useState('')
+	const [imageAsset, setImageAsset] = useState(null)
 	//const [price, setPrice] = useState('')
-
+	const [wrongImageType, setWrongImageType] = useState(false)
 	const [plaintext, setPlaintext] = useState('')
 	const [ciphertextKey, setCiphertextKey] = useState<HGamalEVMCipher>()
 	const [cid, setCid] = useState('')
 	const [submitting, setSubmitting] = useState(false)
+	const router = useRouter()
 
 	const {
 		config,
@@ -144,25 +150,95 @@ const PostForm: FC = () => {
 			console.log('File Input Error: ', error)
 		}
 	}
+	const uploadImage = (event: any) => {
+		console.log(event.target)
+		const { type, name } = event.target.files[0]
+		const selectedFile = event.target.files[0]
+		console.log('type', type)
+		if (
+			type === 'image/png' ||
+			type == 'image/svg' ||
+			type === 'image/gif' ||
+			type === 'image/jpg' ||
+			type === 'image/jpeg'
+		) {
+			console.log('right type')
+			setWrongImageType(false)
+			client.assets
+				.upload('image', event.target.files[0], {
+					contentType: type,
+					filename: name,
+				})
+				.then(document => {
+					setImageAsset(document)
+				})
+				.catch(error => {
+					console.log('Image upload error', error)
+				})
+			console.log('uploading to sanity')
+		} else {
+			console.log('wrong type')
+			setWrongImageType(true)
+		}
+	}
+	const savePost = () => {
+		if (title && about && destination && imageAsset?._id) {
+			const doc = {
+				_type: 'post',
+				title,
+				about,
+				destination,
+				userId: 'sarah',
+				image: {
+					_type: 'image',
+					asset: {
+						_type: 'reference',
+						_ref: imageAsset?._id,
+					},
+				},
+			}
+			client.create(doc).then(() => router.push('/feed'))
+			console.log('doc created')
+			console.log(doc)
+			console.log(imageAsset)
+		} else {
+			console.log('no doc')
+			setFields(true)
+			setTimeout(() => setFields(false), 2000)
+		}
+	}
 
 	return (
 		<>
-			<form className="lg:w lg:mx-auto" onSubmit={handleSubmit}>
+			<form className="lg:w lg:mx-auto" onSubmit={savePost}>
 				<h1 className={`${styles.NewPost} ${fonts.bold}`}>New Post</h1>
-				<div className="flex items-center justify-center">
-					<label className="w-64 flex flex-col items-center px-4 py-6 rounded-lg shadow-lg tracking-wide border border-blue cursor-pointer hover:bg-purple-800 hover:text-white dark:hover:text-blue-400">
-						<svg
-							className="w-8 h-8"
-							fill="currentColor"
-							xmlns="http://www.w3.org/2000/svg"
-							viewBox="0 0 20 20"
+				{!imageAsset ? (
+					<div className="flex items-center justify-center">
+						<label className="w-64 flex flex-col items-center px-4 py-6 rounded-lg shadow-lg tracking-wide border border-blue cursor-pointer hover:bg-purple-800 hover:text-white dark:hover:text-blue-400">
+							<svg
+								className="w-8 h-8"
+								fill="currentColor"
+								xmlns="http://www.w3.org/2000/svg"
+								viewBox="0 0 20 20"
+							>
+								<path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
+							</svg>
+							<span className="mt-2 text-base leading-normal">{name ?? 'SELECT A FILE'}</span>
+							<input type="file" className="hidden" onChange={uploadImage} />
+						</label>
+					</div>
+				) : (
+					<div className="relative h-full ">
+						<img src={imageAsset?.url} alt="uploaded-pic" className="h-full w-full" />
+						<button
+							type="button"
+							className="absolute bottom-3 right-3 p-3 rounded-full bg-white text-xl cursor-pointer outline-none hover:shadow-md transition-all duration-500 ease-in-out"
+							onClick={() => setImageAsset(null)}
 						>
-							<path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
-						</svg>
-						<span className="mt-2 text-base leading-normal">{name ?? 'SELECT A FILE'}</span>
-						<input type="file" className="hidden" onChange={handleFileChange} />
-					</label>
-				</div>
+							Remove
+						</button>
+					</div>
+				)}
 
 				<div className="pt-8 text-center">
 					<label className="block">
