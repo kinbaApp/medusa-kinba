@@ -415,7 +415,7 @@ const UserProfile = ({ creatorAddress }) => {
 												Subscribe
 											</button>
 										</div>
-										<button onClick={() => setIsOpen(false)}>Close Modal</button>
+										<button onClick={() => setIsOpen(false)}>Close </button>
 									</Modal>
 									<div className={styles.pinkLine}></div>
 									<div className={`${styles.price} ${fonts.lightText}`}>
@@ -456,7 +456,12 @@ const UserProfile = ({ creatorAddress }) => {
 							</div> */}
 
 							{lockedPostsUser.map(post => (
-								<PostListing key={post.cipherId.toNumber()} {...post} uri={post.uri} />
+								<PostListing
+									creator={creatorAddress}
+									key={post.cipherId.toNumber()}
+									{...post}
+									uri={post.uri}
+								/>
 							))}
 						</>
 

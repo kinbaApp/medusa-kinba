@@ -53,17 +53,17 @@ const PostListing: FC<Post & { purchased: boolean }> = ({ creator, cipherId, uri
 			console.log('Success', creatorAddress)
 		},
 	})
-	const {
-		data: isAddressSubscriber,
-		isError: isErrorGetFoller,
-		isLoading: isLoadingGetFoller,
-	} = useContractRead({
-		address: creatorContractAddress,
-		abi: CREATOR_ABI,
-		functionName: 'isSubscriber',
-		args: [address],
-		chainId: arbitrumGoerli.id,
-	})
+	// const {
+	// 	data: isAddressSubscriber,
+	// 	isError: isErrorGetFoller,
+	// 	isLoading: isLoadingGetFoller,
+	// } = useContractRead({
+	// 	address: creatorContractAddress,
+	// 	abi: CREATOR_ABI,
+	// 	functionName: 'isSubscriber',
+	// 	args: [address],
+	// 	chainId: arbitrumGoerli.id,
+	// })
 
 	const medusa = useGlobalStore(state => state.medusa)
 	let evmPoint = null
@@ -118,7 +118,6 @@ const PostListing: FC<Post & { purchased: boolean }> = ({ creator, cipherId, uri
 		toast.loading('Unlocking secret...')
 		requestPost?.()
 		console.log(requestPost)
-		event.preventDefault()
 	}
 
 	const { config: configSubscribe } = usePrepareContractWrite({
