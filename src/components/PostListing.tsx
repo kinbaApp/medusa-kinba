@@ -200,7 +200,9 @@ const PostListing: FC<Post & { purchased: boolean }> = ({ creator, cipherId, uri
 	}, [address])
 
 	const subscribers = useGlobalStore(state => state.subscribers)
-	const isSubscriber = subscribers.some(item => item.creator === creatorAddress && item.subscriber === address)
+	const isSubscriber =
+		subscribers.some(item => item.creator === creatorAddress && item.subscriber === address) ||
+		creatorAddress === address
 
 	return (
 		<>
@@ -245,13 +247,25 @@ const PostListing: FC<Post & { purchased: boolean }> = ({ creator, cipherId, uri
 				</div>
 				<div className={styles.imageContainer}>
 					{/* I think the name should be the image? not too sure  */}
+
 					<div className={styles.blurContainer}>
 						{/* <img src={uri} alt="" className={styles.image} /> */}
 						{/* <div className={styles.blur}></div> */}
 					</div>
-					<div className={styles.blursubbutton}>
-						<img className={styles.lock} src="/Posts/lock2.png" alt="" />
-						<PinkButton text={'Subscribe'} />
+					<div>
+						{!isSubscriber ? (
+							<div className={styles.blursubbutton}>
+								<img className={styles.lock} src="/Posts/lock2.png" alt="" />
+								<PinkButton text={'Subscribe'} />
+							</div>
+						) : (
+							<div className={styles.blursubbutton}>
+								<img className={styles.lock} src="/Posts/lock2.png" alt="" />
+								<button disabled={!isConnected || purchased} onClick={() => unlockSecret()}>
+									<PinkButton text={'Access post'} />
+								</button>
+							</div>
+						)}
 					</div>
 
 					<div className={styles.ipfs}>
