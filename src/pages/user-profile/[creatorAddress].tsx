@@ -16,6 +16,7 @@ import Posts from '@/components/Posts'
 import CreatorsList from '@/components/CreatorsList'
 import UserProfile from '@/components/UserProfile'
 import { Sidebar } from '@/components'
+import UserProfileSanity from '@/components/UserProfileSanity'
 
 const UserProfilePage = () => {
 	const router = useRouter()
@@ -31,7 +32,7 @@ const UserProfilePage = () => {
 			</Head>
 			<Toaster position="top-center" reverseOrder={true} />
 			<div className="flex ">
-				<UserProfile creatorAddress={creatorAddress} />
+				<UserProfileSanity creatorAddress={creatorAddress} />
 			</div>
 		</div>
 	)
