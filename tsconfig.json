@@ -20,6 +20,13 @@
 			"@images/*": ["public/images/*"]
 		}
 	},
-	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+	"include": [
+		"next-env.d.ts",
+		"**/*.ts",
+		"**/*.tsx",
+		"kinbasanity/schemas/post.js",
+		"kinbasanity/schemas/user.js",
+		"kinbasanity/schemas/index.js"
+	],
 	"exclude": ["node_modules"]
 }
