@@ -1,8 +1,10 @@
+'use client'
 import { FC, useState, useEffect } from 'react'
 import { usePrepareContractWrite, useContractWrite, useWaitForTransaction } from 'wagmi'
 import { arbitrumGoerli } from 'wagmi/chains'
 import { HGamalEVMCipher } from '@medusa-network/medusa-sdk'
-
+import addData from '@/firebase/firestore/addData'
+import getData from '@/firebase/firestore/getData'
 import { DONLYFANS_ABI, CONTRACT_ADDRESS } from '@/lib/consts'
 import { parseEther } from 'ethers/lib/utils'
 import storeCiphertext from '@/lib/storeCiphertext'
@@ -145,9 +147,25 @@ const PostForm: FC = () => {
 		}
 	}
 
+	const handleForm = async () => {
+		const data = {
+			name: 'John snow',
+			house: 'Stark',
+		}
+		const { result, error } = await addData('users', 'user-id', data)
+
+		if (error) {
+			return console.log(error)
+		}
+
+		const { result1, error1 } = await getData()
+
+		console.log('data got', result1)
+	}
+
 	return (
 		<>
-			<form className="lg:w lg:mx-auto" onSubmit={handleSubmit}>
+			<form className="lg:w lg:mx-auto" onSubmit={handleForm}>
 				<h1 className={`${styles.NewPost} ${fonts.bold}`}>New Post</h1>
 				<div className="flex items-center justify-center">
 					<label className="w-64 flex flex-col items-center px-4 py-6 rounded-lg shadow-lg tracking-wide border border-blue cursor-pointer hover:bg-purple-800 hover:text-white dark:hover:text-blue-400">
