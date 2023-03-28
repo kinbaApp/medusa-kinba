@@ -30,60 +30,60 @@ const PostForm: FC = () => {
 	const [submitting, setSubmitting] = useState(false)
 	const router = useRouter()
 
-	// const {
-	// 	config,
-	// 	error: prepareError,
-	// 	isError: isPrepareError,
-	// 	isSuccess: readyToSendTransaction,
-	// } = usePrepareContractWrite({
-	// 	address: CONTRACT_ADDRESS,
-	// 	abi: DONLYFANS_ABI,
-	// 	functionName: 'CreatePost',
-	// 	//args: [ciphertextKey, name, description, parseEther(price || '0.00'), `ipfs://${cid}/${name}`],
-	// 	args: [ciphertextKey, name, description, `ipfs://${cid}/${name}`],
-	// 	enabled: Boolean(cid),
-	// 	chainId: arbitrumGoerli.id,
-	// })
+	const {
+		config,
+		error: prepareError,
+		isError: isPrepareError,
+		isSuccess: readyToSendTransaction,
+	} = usePrepareContractWrite({
+		address: CONTRACT_ADDRESS,
+		abi: DONLYFANS_ABI,
+		functionName: 'CreatePost',
+		//args: [ciphertextKey, name, description, parseEther(price || '0.00'), `ipfs://${cid}/${name}`],
+		args: [ciphertextKey, name, description, `ipfs://${cid}/${name}`],
+		enabled: Boolean(cid),
+		chainId: arbitrumGoerli.id,
+	})
 
-	// const { data, error, isError, write: CreatePost } = useContractWrite(config)
+	const { data, error, isError, write: CreatePost } = useContractWrite(config)
 
-	// useEffect(() => {
-	// 	if (readyToSendTransaction) {
-	// 		toast.loading('Submitting secret to Medusa...')
-	// 		CreatePost?.()
-	// 		setCid('')
-	// 	}
-	// }, [readyToSendTransaction])
+	useEffect(() => {
+		if (readyToSendTransaction) {
+			toast.loading('Submitting secret to Medusa...')
+			CreatePost?.()
+			setCid('')
+		}
+	}, [readyToSendTransaction])
 
-	// const { isLoading, isSuccess } = useWaitForTransaction({
-	// 	hash: data?.hash,
-	// 	onSuccess: txData => {
-	// 		toast.dismiss()
-	// 		toast.success(
-	// 			<a
-	// 				href={`https://goerli.arbiscan.io/tx/${txData.transactionHash}`}
-	// 				className="inline-flex items-center text-blue-600 hover:underline"
-	// 				target="_blank"
-	// 				rel="noreferrer"
-	// 			>
-	// 				Secret successfully submitted to Medusa! View on Etherscan
-	// 				<svg
-	// 					className="ml-2 w-5 h-5"
-	// 					fill="currentColor"
-	// 					viewBox="0 0 20 20"
-	// 					xmlns="http://www.w3.org/2000/svg"
-	// 				>
-	// 					<path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"></path>
-	// 					<path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"></path>
-	// 				</svg>
-	// 			</a>
-	// 		)
-	// 	},
-	// 	onError: e => {
-	// 		toast.dismiss()
-	// 		toast.error(`Failed to submit secret to Medusa: ${e.message}`)
-	// 	},
-	// })
+	const { isLoading, isSuccess } = useWaitForTransaction({
+		hash: data?.hash,
+		onSuccess: txData => {
+			toast.dismiss()
+			toast.success(
+				<a
+					href={`https://goerli.arbiscan.io/tx/${txData.transactionHash}`}
+					className="inline-flex items-center text-blue-600 hover:underline"
+					target="_blank"
+					rel="noreferrer"
+				>
+					Secret successfully submitted to Medusa! View on Etherscan
+					<svg
+						className="ml-2 w-5 h-5"
+						fill="currentColor"
+						viewBox="0 0 20 20"
+						xmlns="http://www.w3.org/2000/svg"
+					>
+						<path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"></path>
+						<path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"></path>
+					</svg>
+				</a>
+			)
+		},
+		onError: e => {
+			toast.dismiss()
+			toast.error(`Failed to submit secret to Medusa: ${e.message}`)
+		},
+	})
 
 	const handleSubmit = async (event: any) => {
 		event.preventDefault()
@@ -225,6 +225,15 @@ const PostForm: FC = () => {
 		}
 	}
 
+	const submitPost = (event: any) => {
+		savePost()
+		handleSubmit(event)
+	}
+
+	const upload = (event: any) => {
+		uploadImage(event)
+		handleFileChange(event)
+	}
 	return (
 		<>
 			<form className="lg:w lg:mx-auto">
@@ -242,13 +251,13 @@ const PostForm: FC = () => {
 								<path d="M16.88 9.1A4 4 0 0 1 16 17H5a5 5 0 0 1-1-9.9V7a3 3 0 0 1 4.52-2.59A4.98 4.98 0 0 1 17 8c0 .38-.04.74-.12 1.1zM11 11h3l-4-4-4 4h3v3h2v-3z" />
 							</svg>
 							<span className="mt-2 text-base leading-normal">{name ?? 'SELECT A FILE'}</span>
-							<input type="file" name="upload-image" onChange={uploadImage} className="hidden" />
+							<input type="file" name="upload-image" onChange={upload} className="hidden" />
 						</label>
 					) : (
 						<div className="relative h-full">
 							<img src={imageAsset?.url} alt="uploaded_image" className="h-full w-full" />
 							<button
-								type="button"
+								type="submit"
 								className="absolute bottom-3 right-3 p-3 rounded-full bg-white text-xl cursor-pointer outline-none hover:shadow-md transition-all duration-500 ease-in-out"
 								onClick={() => setImageAsset(null)}
 							>
@@ -274,8 +283,17 @@ const PostForm: FC = () => {
 					</label>
 				</div>
 				<div className="text-center w-full">
-					<button type="button" onClick={savePost} className={styles.submitButton}>
-						Save Image
+					<button
+						type="button"
+						onClick={submitPost}
+						className={styles.submitButton}
+						disabled={isLoading || submitting}
+					>
+						{isLoading || submitting
+							? 'Submitting...'
+							: medusa?.keypair
+							? 'Post your content'
+							: 'Please Sign in'}
 					</button>
 				</div>
 			</form>
