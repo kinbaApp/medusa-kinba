@@ -82,10 +82,10 @@ const PostListing: FC<Post & { purchased: boolean }> = ({ creator, cipherId, uri
 		chainId: arbitrumGoerli.id,
 	})
 
-	const { data: dataRequestPost, write: requestPost } = useContractWrite(config)
+	const { data: data, write: requestPost } = useContractWrite(config)
 
 	useWaitForTransaction({
-		hash: dataRequestPost?.hash,
+		hash: data?.hash,
 		onSuccess: txData => {
 			toast.dismiss()
 			toast.success(
