@@ -15,6 +15,7 @@ import PostListing from './PostListing'
 import { BigNumber, ethers } from 'ethers'
 import { formatEther, getAddress, parseEther } from 'ethers/lib/utils'
 import UnlockedSanity from './UnlockedSanity'
+import LockedPost from './LockedPost'
 import { arbitrumGoerli } from 'wagmi/chains'
 import toast from 'react-hot-toast'
 import Head from 'next/head'
@@ -501,9 +502,18 @@ const UserProfileSanity = ({ creatorAddress }) => {
 								) : (
 									<div>No post</div>
 								)
-							) : (
+							) : postsSanity ? (
 								<div>
-									Blurred post
+									{postsSanity?.map(post => (
+										<LockedPost
+											key={post._id}
+											{...post}
+											uri={post.uri}
+											creator={post.postedBy}
+											displayName={post.poster?.displayName}
+											userName={post.poster?.userName}
+										/>
+									))}
 									{/* {lockedPostsUser.map(post => (
 										<PostListing
 											creator={creatorAddress}
@@ -513,6 +523,8 @@ const UserProfileSanity = ({ creatorAddress }) => {
 										/>
 									))} */}
 								</div>
+							) : (
+								<div>No post</div>
 							)}
 							{/* {(isSubscriber || creatorAddress==address) ? ( postsSanity ?
 								<div className="grid grid-rows-1 gap-6 p-4 w-full transition-all">
