@@ -245,12 +245,12 @@ const PostForm: FC = () => {
 
 	const submitPost = (event: any) => {
 		savePost()
-		//handleSubmit(event)
+		handleSubmit(event)
 	}
 
 	const upload = (event: any) => {
 		uploadImage(event)
-		//handleFileChange(event)
+		handleFileChange(event)
 	}
 	return (
 		<>

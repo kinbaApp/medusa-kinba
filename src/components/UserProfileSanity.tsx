@@ -33,6 +33,8 @@ import Connect from './reusable/Connect'
 import { useRouter } from 'next/router'
 import { client, urlFor } from '@/lib/sanityClient'
 import { userCreatedPostsQuery } from '@/lib/utils'
+import { creatorIdQuery } from '@/lib/utils'
+import { display } from '@mui/system'
 
 const UserProfileSanity = ({ creatorAddress }) => {
 	const provider = useProvider()
@@ -40,6 +42,8 @@ const UserProfileSanity = ({ creatorAddress }) => {
 	const { isConnected, address } = useAccount()
 	const [isOpen, setIsOpen] = useState(false)
 	const [subscriptionPrice, setSubscriptionPrice] = useState('')
+	const [creatorDoc, setCreatorDoc] = useState(null)
+	const [profilePicture, setProfilePicture] = useState(null)
 	const customStyles = {
 		overlay: {
 			backgroundColor: 'rgba(0, 0, 0, 0.6)',
@@ -53,6 +57,131 @@ const UserProfileSanity = ({ creatorAddress }) => {
 			transform: 'translate(-50%, -50%)',
 		},
 	}
+
+	//const [isSubscriber, setIsSubscriber] = useState(isAddressSubscriber)
+	const updatePosts = useGlobalStore(state => state.updatePosts)
+	const updateRequests = useGlobalStore(state => state.updateRequests)
+	const updateDecryptions = useGlobalStore(state => state.updateDecryptions)
+	const addPost = useGlobalStore(state => state.addPost)
+	const addRequest = useGlobalStore(state => state.addRequest)
+	const addDecryption = useGlobalStore(state => state.addDecryption)
+	const addSubscriber = useGlobalStore(state => state.addSubscriber)
+	const updateCreators = useGlobalStore(state => state.updateCreators)
+	const addCreator = useGlobalStore(state => state.addCreator)
+	const updateSubscribe = useGlobalStore(state => state.updateSubscribe)
+	useContractEvent({
+		address: CONTRACT_ADDRESS,
+		abi: DONLYFANS_ABI,
+		eventName: 'NewSubscriber',
+		listener(creator, subscriber, price) {
+			if (subscriber == address) {
+				addSubscriber({ creator, subscriber, price })
+			}
+		},
+	})
+	useContractEvent({
+		address: CONTRACT_ADDRESS,
+		abi: DONLYFANS_ABI,
+		eventName: 'NewPost',
+		listener(creator, cipherId, name, description, uri) {
+			addPost({ creator, cipherId, name, description, uri })
+		},
+	})
+
+	useContractEvent({
+		address: CONTRACT_ADDRESS,
+		abi: DONLYFANS_ABI,
+		eventName: 'NewPostRequest',
+		listener(subscriber, creator, requestId, cipherId) {
+			if (subscriber === address) {
+				addRequest({ subscriber, creator, requestId, cipherId })
+			}
+		},
+	})
+
+	useContractEvent({
+		address: CONTRACT_ADDRESS,
+		abi: DONLYFANS_ABI,
+		eventName: 'PostDecryption',
+		listener(requestId, ciphertext) {
+			addDecryption({ requestId, ciphertext })
+		},
+	})
+
+	const donlyFans = useContract({
+		address: CONTRACT_ADDRESS,
+		abi: DONLYFANS_ABI,
+		signerOrProvider: provider,
+	})
+
+	useEffect(() => {
+		const getEvents = async () => {
+			const iface = new ethers.utils.Interface(DONLYFANS_ABI)
+
+			const newPostFilter = donlyFans.filters.NewPost()
+			console.log(newPostFilter)
+			const newPosts = await donlyFans.queryFilter(newPostFilter)
+
+			if (iface && newPosts) {
+				const posts = newPosts.reverse().map((filterTopic: any) => {
+					const result = iface.parseLog(filterTopic)
+					const { creator, cipherId, name, description, uri } = result.args
+					return { creator, cipherId, name, description, uri } as Post
+				})
+				updatePosts(posts)
+			}
+
+			const newRequestFilter = donlyFans.filters.NewPostRequest(address)
+			const newRequests = await donlyFans.queryFilter(newRequestFilter)
+
+			if (iface && newRequests) {
+				const requests = newRequests.reverse().map((filterTopic: any) => {
+					const result = iface.parseLog(filterTopic)
+					const { subscriber, creator, requestId, cipherId } = result.args
+					return { subscriber, creator, requestId, cipherId } as Request
+				})
+				updateRequests(requests)
+			}
+
+			const postDecryptionFilter = donlyFans.filters.PostDecryption()
+			const postDecryptions = await donlyFans.queryFilter(postDecryptionFilter)
+
+			if (iface && postDecryptions) {
+				const decryptions = postDecryptions.reverse().map((filterTopic: any) => {
+					const result = iface.parseLog(filterTopic)
+					const { requestId, ciphertext } = result.args
+					return { requestId, ciphertext } as Decryption
+				})
+				updateDecryptions(decryptions)
+			}
+
+			const creatorsListFilter = donlyFans.filters.NewCreatorProfileCreated()
+			const newCreatorsProfile = await donlyFans.queryFilter(creatorsListFilter)
+			console.log(newCreatorsProfile)
+
+			if (iface && newCreatorsProfile) {
+				const creators = newCreatorsProfile.reverse().map((filterTopic: any) => {
+					const result = iface.parseLog(filterTopic)
+					const { creatorAddress, price, period } = result.args
+					return { creatorAddress, price, period } as Creator
+				})
+				updateCreators(creators)
+			}
+			const newSubscriberFilter = donlyFans.filters.NewSubscriber()
+
+			const newSubscribers = await donlyFans.queryFilter(newSubscriberFilter)
+
+			if (iface && newSubscribers) {
+				const subscribers = newSubscribers.reverse().map((filterTopic: any) => {
+					const result = iface.parseLog(filterTopic)
+					const { subscriber, creator, price } = result.args
+					return { subscriber, creator, price } as Post
+				})
+				updateSubscribe(subscribers)
+			}
+		}
+		getEvents()
+	}, [address])
 
 	const requests = useGlobalStore(state => state.requests)
 	const [creator] = useGlobalStore(state => state.creators).filter(
@@ -146,6 +275,21 @@ const UserProfileSanity = ({ creatorAddress }) => {
 	}
 	const [text, setText] = useState('Created')
 	const [postsSanity, setPostsSanity] = useState(null)
+	const getCreator = () => {
+		//get the creator
+		const creatorQuery = creatorIdQuery(creatorAddress)
+		if (creatorQuery) {
+			client.fetch(creatorQuery)?.then(data => {
+				console.log('data', data[0])
+				if (data[0]) {
+					client.getDocument(data[0]?._id)?.then(data2 => {
+						setCreatorDoc(data2)
+					})
+					setProfilePicture(data[0]?.image)
+				}
+			})
+		}
+	}
 
 	useEffect(() => {
 		console.log('fetching data for', creatorAddress)
@@ -155,7 +299,11 @@ const UserProfileSanity = ({ creatorAddress }) => {
 			setPostsSanity(data)
 			console.log('fetched data', data)
 		})
-	}, [])
+
+		getCreator()
+		console.log('creator doc', creatorDoc)
+		console.log('profile pic', profilePicture)
+	}, [creatorAddress])
 
 	//const userPost = posts.some(post => post.creator === creatorAddress)
 	if (!isConnected) {
@@ -193,9 +341,19 @@ const UserProfileSanity = ({ creatorAddress }) => {
 						<div className={styles.profilepic}>
 							<div className={styles.pinkring}>
 								<div className={styles.purplering}>
-									<div>
-										<img src="/Profile/girl.png" alt="" className={styles.image} />
-									</div>
+									{creatorDoc?.image ? (
+										<div>
+											<img
+												src={creatorDoc.image && urlFor(creatorDoc.image).url()}
+												alt=""
+												className={styles.image}
+											/>
+										</div>
+									) : (
+										<div>
+											<img src="/profile.ico" alt="" className={styles.image} />
+										</div>
+									)}
 								</div>
 							</div>
 						</div>
@@ -208,7 +366,12 @@ const UserProfileSanity = ({ creatorAddress }) => {
 							<div className={styles.bottomhalf}>
 								{/* INTERPOLATE USER INFO HERE  */}
 								<div className={`${styles.nameAndPostInfo}`}>
-									<p className={`${styles.name} ${fonts.bold}`}>Anne Onyme</p>
+									{creatorDoc?.displayName ? (
+										<p className={`${styles.name} ${fonts.bold}`}>{creatorDoc.displayName}</p>
+									) : (
+										<p className={`${styles.name} ${fonts.bold}`}>Anne Onyme</p>
+									)}
+
 									<img src="/Profile/verified.png" alt="" className={styles.verified} />
 									<div className={styles.postsCount}>
 										<AiOutlinePicture size="20px" color="white" />
@@ -224,10 +387,22 @@ const UserProfileSanity = ({ creatorAddress }) => {
 										<p className={fonts.lightText}>528.8K </p>
 									</div>
 								</div>
-								<div className={`${styles.username} ${fonts.lightText}`}>@anneonyme</div>
-								<div className={`${styles.bioText} ${fonts.lightText}`}>
-									Exclusive Anne Onyme Kinba profile {creatorAddress}
-								</div>
+								{creatorDoc?.userName ? (
+									<div className={`${styles.username} ${fonts.lightText}`}>
+										@{creatorDoc.userName}
+									</div>
+								) : (
+									<div className={`${styles.username} ${fonts.lightText}`}>@anneonyme</div>
+								)}
+								{creatorDoc?.displayName ? (
+									<div className={`${styles.bioText} ${fonts.lightText}`}>
+										Exclusive {creatorDoc.displayName} Kinba profile {creatorAddress}
+									</div>
+								) : (
+									<div className={`${styles.bioText} ${fonts.lightText}`}>
+										Exclusive Anne Onyme Kinba profile {creatorAddress}
+									</div>
+								)}
 							</div>
 						</div>
 						{creatorAddress == address ? (
