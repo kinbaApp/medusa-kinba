@@ -132,6 +132,16 @@ const UserProfileSanity = ({ creatorAddress }) => {
 			toast.loading('Subscribing..')
 			subscribe?.()
 			console.log(configSubscribe)
+			// const doc = {
+			// 	_type: 'post',
+			// 	title: 'text post',
+			// 	userId: address,
+			// 	caption: description,
+			// }
+			// client
+			// 	.create(doc)
+			// 	.then(response => console.log('Post created:', response))
+			// 	.catch(error => console.error('Error creating post:', error))
 		}
 	}
 	const [text, setText] = useState('Created')

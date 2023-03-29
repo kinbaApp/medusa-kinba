@@ -15,12 +15,14 @@ export const postDetailQuery = postId => {
     _id,
     title, 
     caption,
+    poster,
+    postedBy,
   }`
 	return query
 }
 
 export const userCreatedPostsQuery = userId => {
-	const query = `*[ _type == 'post' && userId == '${userId}'] | order(_createdAt desc){
+	const query = `*[ _type == 'post' && postedBy == '${userId}'] | order(_createdAt desc){
     image{
       asset->{
         url
@@ -29,6 +31,24 @@ export const userCreatedPostsQuery = userId => {
     _id,
     title,
     caption,
+    poster,
+    postedBy,
+  }`
+	return query
+}
+
+export const allPostsQuery = () => {
+	const query = `*[_type == "post" ]{
+    image{
+      asset->{
+        url
+      }
+    },
+    _id,
+    title, 
+    caption,
+    postedBy,
+    poster
   }`
 	return query
 }

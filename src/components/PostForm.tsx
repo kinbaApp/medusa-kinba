@@ -199,7 +199,7 @@ const PostForm: FC = () => {
 						_ref: imageAsset?._id,
 					},
 				},
-				userId: address,
+				postedBy: address,
 				caption: description,
 			}
 			client
@@ -212,7 +212,7 @@ const PostForm: FC = () => {
 			const data3 = {
 				_type: 'post',
 				title: 'text post',
-				userId: address,
+				postedBy: address,
 				caption: description,
 			}
 			client

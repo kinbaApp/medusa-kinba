@@ -1,3 +1,4 @@
 import user from './user'
 import post from './post'
-export const schemaTypes = [user, post]
+import creator from './creator'
+export const schemaTypes = [user, post, creator]

@@ -88,12 +88,12 @@ const Sidebar = () => {
 			</div>
 			<div className={styles.container}>
 				<div className={styles.feed}>
-					<Link href="/feed">
+					<Link href="/feedSanity">
 						<a>
 							<VscHome size="25px" color={'white'} />
 						</a>
 					</Link>
-					<Link href="/feed">
+					<Link href="/feedSanity">
 						<a>
 							<p className={`${styles.navText} ${fonts.bodyText}`}>Home</p>
 						</a>

@@ -10,11 +10,14 @@ import { arbitrumGoerli } from 'wagmi/chains'
 import styles from '../../styles/CreateNewProfile.module.scss'
 import fonts from '../../styles/Fonts.module.scss'
 import { useRouter } from 'next/router'
+import { client } from '../lib/sanityClient'
 const CreateNewProfile: FC = () => {
 	const router = useRouter()
 	const { isConnected, address } = useAccount()
 	const [price, setPrice] = useState('')
 	const [period, setPeriod] = useState('')
+	const [username, setUsername] = useState('')
+	const [displayName, setDisplayName] = useState('')
 	const [submitting, setSubmitting] = useState(false)
 
 	const medusa = useGlobalStore(state => state.medusa)
@@ -78,11 +81,29 @@ const CreateNewProfile: FC = () => {
 		},
 	})
 
+	const profile = () => {
+		createNewProfile()
+		sanityProfile()
+	}
+
 	const createNewProfile = async () => {
 		toast.loading('Creating new profile...')
 		creator?.()
 		console.log(data)
 		console.log(creator)
+	}
+
+	const sanityProfile = () => {
+		const doc = {
+			_type: 'creator',
+			userName: username,
+			displayName,
+			address,
+		}
+		client
+			.create(doc)
+			.then(response => console.log('Post created:', response))
+			.catch(error => console.error('Error creating post:', error))
 	}
 
 	return (
@@ -116,11 +137,37 @@ const CreateNewProfile: FC = () => {
 					/>
 				</label>
 			</div>
+			<div className="pt-4 text-center">
+				<label className="block">
+					<span className={`${styles.postTitle} ${fonts.bold}`}>Username</span>
+					<input
+						required
+						type="string"
+						placeholder="username"
+						className={styles.textArea}
+						value={username}
+						onChange={e => setUsername(e.target.value)}
+					/>
+				</label>
+			</div>
+			<div className="pt-4 text-center">
+				<label className="block">
+					<span className={`${styles.postTitle} ${fonts.bold}`}>Display Name</span>
+					<input
+						required
+						type="string"
+						placeholder="Your Name"
+						className={styles.textArea}
+						value={displayName}
+						onChange={e => setDisplayName(e.target.value)}
+					/>
+				</label>
+			</div>
 			<div className="text-center w-full my-6">
 				<button
 					disabled={!isConnected || submitting} //|| profileCreated}
 					className={styles.submitButton}
-					onClick={() => createNewProfile()}
+					onClick={() => profile()}
 				>
 					{submitting
 						? 'Profile Created'

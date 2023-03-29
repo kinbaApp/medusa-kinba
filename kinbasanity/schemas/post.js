@@ -17,9 +17,14 @@ export default {
       },
     },
     {
-      name: 'userId',
-      title: 'UserId',
+      name: 'postedBy',
+      title: 'PostedBy',
       type: 'string',
+    },
+    {
+      name: 'poster',
+      title: 'Poster',
+      type: 'creator',
     },
     {
       name: 'caption',

@@ -49,8 +49,8 @@ const UnlockedSanity = ({ post }) => {
 				<img src="/Profile/girl.png" alt="" className={styles.pfp} />
 				<div className={styles.nameAndDate}>
 					<div className={styles.nameAndUsername}>
-						<p>Name of Poster</p>
-						<p>@username</p>
+						{post.poster?.displayName ? <p>{post.poster.displayName}</p> : <p>Name of Poster</p>}
+						{post.poster?.userName ? <p>@{post.poster.userName}</p> : <p>@username</p>}
 					</div>
 					<div className={styles.dateAndMore}>
 						<p className={`${fonts.lightText} ${styles.datePosted}`}>Yesterday</p>
@@ -58,7 +58,7 @@ const UnlockedSanity = ({ post }) => {
 					</div>
 				</div>
 				<div className={styles.postCaption}>
-					<div className={styles.description}>{postDetail.caption}</div>
+					<div className={styles.description}>{postDetail?.caption}</div>
 					<div className={postDetail?.image ? styles.imageContainer : styles.captionContainer}>
 						{/* <p className="mb-3">{BigNumber.from(0).eq(post.price) ? 'Free' : `${formatEther(post.price)} ETH`} </p> */}
 
