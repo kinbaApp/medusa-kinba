@@ -7,12 +7,13 @@ import { DONLYFANS_ABI, CONTRACT_ADDRESS } from '@/lib/consts'
 import { parseEther } from 'ethers/lib/utils'
 import storeCiphertext from '@/lib/storeCiphertext'
 import toast from 'react-hot-toast'
-import { ipfsGatewayLink } from '@/lib/utils'
+import { creatorDetailId, ipfsGatewayLink } from '@/lib/utils'
 import useGlobalStore from '@/stores/globalStore'
 import { Base64 } from 'js-base64'
 import styles from '../../styles/PostForm.module.scss'
 import fonts from '../../styles/Fonts.module.scss'
 import { client } from '../lib/sanityClient'
+import { creatorIdQuery } from '@/lib/utils'
 
 const PostForm: FC = () => {
 	const { address } = useAccount()
@@ -28,6 +29,8 @@ const PostForm: FC = () => {
 	const [ciphertextKey, setCiphertextKey] = useState<HGamalEVMCipher>()
 	const [cid, setCid] = useState('')
 	const [submitting, setSubmitting] = useState(false)
+	const [creatorId, setCreatorId] = useState('')
+	const [creatorDoc, setCreatorDoc] = useState(null)
 	const router = useRouter()
 
 	const {
@@ -186,7 +189,21 @@ const PostForm: FC = () => {
 			setWrongImageType(true)
 		}
 	}
+
+	const getCreator = () => {
+		//get the creator
+		const creatorQuery = creatorIdQuery(address)
+
+		client.fetch(creatorQuery).then(data => {
+			setCreatorId(data[0]._id)
+			client.getDocument(data[0]._id).then(data2 => {
+				setCreatorDoc(data2)
+			})
+		})
+	}
 	const savePost = () => {
+		getCreator()
+
 		if (imageAsset?._id) {
 			console.log('save post', imageAsset)
 			const data3 = {
@@ -201,6 +218,7 @@ const PostForm: FC = () => {
 				},
 				postedBy: address,
 				caption: description,
+				poster: creatorDoc,
 			}
 			client
 				.create(data3)
@@ -227,12 +245,12 @@ const PostForm: FC = () => {
 
 	const submitPost = (event: any) => {
 		savePost()
-		handleSubmit(event)
+		//handleSubmit(event)
 	}
 
 	const upload = (event: any) => {
 		uploadImage(event)
-		handleFileChange(event)
+		//handleFileChange(event)
 	}
 	return (
 		<>

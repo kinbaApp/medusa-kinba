@@ -52,3 +52,10 @@ export const allPostsQuery = () => {
   }`
 	return query
 }
+
+export const creatorIdQuery = address => {
+	const query = `*[_type == "creator" && address == '${address}']{
+    _id,
+  }`
+	return query
+}
