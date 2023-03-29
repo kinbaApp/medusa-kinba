@@ -337,7 +337,7 @@ const UserProfileSanity = ({ creatorAddress }) => {
 					<div className={styles.content}>
 						{creatorDoc?.banner ? (
 							<div className={styles.headerImage}>
-								<img src="/Profile/layingdown.png" alt="" />
+								<img src={creatorDoc.banner && urlFor(creatorDoc.banner).url()} alt="" />
 							</div>
 						) : (
 							<div className={styles.headerImage}>
