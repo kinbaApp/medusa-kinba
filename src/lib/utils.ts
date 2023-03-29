@@ -57,6 +57,7 @@ export const creatorIdQuery = address => {
 	const query = `*[_type == "creator" && address == '${address}']{
     _id,
     image,
+    banner
   }`
 	return query
 }

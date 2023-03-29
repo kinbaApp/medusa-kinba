@@ -27,6 +27,14 @@ export default {
       },
     },
     {
+      name: 'banner',
+      title: 'Banner',
+      type: 'image',
+      options: {
+        hotspot: true,
+      },
+    },
+    {
       name: 'fans',
       title: 'Fans',
       type: 'array',

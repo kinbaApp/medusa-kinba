@@ -335,9 +335,15 @@ const UserProfileSanity = ({ creatorAddress }) => {
 						<Sidebar />
 					</div>
 					<div className={styles.content}>
-						<div className={styles.headerImage}>
-							<img src="/Profile/layingdown.png" alt="" />
-						</div>
+						{creatorDoc?.banner ? (
+							<div className={styles.headerImage}>
+								<img src="/Profile/layingdown.png" alt="" />
+							</div>
+						) : (
+							<div className={styles.headerImage}>
+								<img src="/Profile/kinbaBGv2.png" alt="" />
+							</div>
+						)}
 						<div className={styles.profilepic}>
 							<div className={styles.pinkring}>
 								<div className={styles.purplering}>
