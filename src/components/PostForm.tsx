@@ -216,6 +216,7 @@ const PostForm: FC = () => {
 		console.log('first response', response)
 		const documentResponse = await client.getDocument(response[0]._id)
 		console.log('doc response 1', documentResponse)
+		setCreatorDoc(documentResponse)
 		return documentResponse
 	}
 

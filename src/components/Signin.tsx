@@ -10,7 +10,7 @@ const Signin: FC = () => {
 	const medusa = useGlobalStore(state => state.medusa)
 	const updateMedusa = useGlobalStore(state => state.updateMedusa)
 	const { data: signer } = useSigner()
-	console.log(medusa)
+	//console.log(medusa)
 
 	const signMessage = async () => {
 		if (!signer) return
@@ -19,7 +19,7 @@ const Signin: FC = () => {
 		updateMedusa(medusa)
 	}
 
-	console.log(medusa?.keypair)
+	//console.log(medusa?.keypair)
 	if (medusa?.keypair) {
 		return (
 			<button className={styles.signInButton} onClick={() => medusa.setKeypair(null)}>

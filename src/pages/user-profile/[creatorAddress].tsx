@@ -17,7 +17,8 @@ import CreatorsList from '@/components/CreatorsList'
 import UserProfile from '@/components/UserProfile'
 import { Sidebar } from '@/components'
 import UserProfileSanity from '@/components/UserProfileSanity'
-
+import { userCreatedPostsQuery } from '@/lib/utils'
+import { client } from '@/lib/sanityClient'
 const UserProfilePage = () => {
 	const router = useRouter()
 	const { address } = useAccount()

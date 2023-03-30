@@ -64,7 +64,7 @@ const Sidebar = () => {
 			const iface = new ethers.utils.Interface(DONLYFANS_ABI)
 			const creatorsListFilter = donlyFans.filters.NewCreatorProfileCreated()
 			const newCreatorsProfile = await donlyFans.queryFilter(creatorsListFilter)
-			console.log(newCreatorsProfile)
+			//console.log(newCreatorsProfile)
 
 			if (iface && newCreatorsProfile) {
 				const creators = newCreatorsProfile.reverse().map((filterTopic: any) => {
