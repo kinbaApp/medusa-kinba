@@ -52,7 +52,7 @@ const PostForm: FC = () => {
 
 	useEffect(() => {
 		if (readyToSendTransaction) {
-			toast.loading('Submitting secret to Medusa...')
+			toast.loading('Submitting post...')
 			CreatePost?.()
 			setCid('')
 		}
@@ -69,7 +69,7 @@ const PostForm: FC = () => {
 					target="_blank"
 					rel="noreferrer"
 				>
-					Secret successfully submitted to Medusa! View on Etherscan
+					Post successfully submitted! View on Etherscan
 					<svg
 						className="ml-2 w-5 h-5"
 						fill="currentColor"
@@ -84,7 +84,7 @@ const PostForm: FC = () => {
 		},
 		onError: e => {
 			toast.dismiss()
-			toast.error(`Failed to submit secret to Medusa: ${e.message}`)
+			toast.error(`Failed to submit post: ${e.message}`)
 		},
 	})
 
@@ -190,67 +190,89 @@ const PostForm: FC = () => {
 		}
 	}
 
-	const getCreator = () => {
+	async function getCreator() {
 		//get the creator
 		const creatorQuery = creatorIdQuery(address)
 
-		client.fetch(creatorQuery).then(data => {
-			setCreatorId(data[0]._id)
-			client.getDocument(data[0]._id).then(data2 => {
-				setCreatorDoc(data2)
-			})
-		})
+		// client.fetch(creatorQuery).then(data => {
+		// 	setCreatorId(data[0]._id)
+		// 	client.getDocument(data[0]._id).then(data2 => {
+		// 		setCreatorDoc(data2)
+		// 		console.log('creator doc', data2)
+		// 	})
+		// })
+		// return creatorDoc
+		// const creatorQuery = creatorIdQuery(address)
+		const response = await client.fetch(creatorQuery)
+		console.log(response)
+		// client.fetch(creatorQuery).then(data => {
+		// 	setCreatorId(data[0]._id)
+		// 	client.getDocument(data[0]._id).then(data2 => {
+		// 		setCreatorDoc(data2)
+		// 		console.log('creator doc', data2)
+		// 		return data2
+		// 	})
+		// })
+		console.log('first response', response)
+		const documentResponse = await client.getDocument(response[0]._id)
+		console.log('doc response 1', documentResponse)
+		return documentResponse
 	}
-	const savePost = () => {
-		getCreator()
 
-		if (imageAsset?._id) {
-			console.log('save post', imageAsset)
-			const data3 = {
-				_type: 'post',
-				title: 'success',
-				image: {
-					_type: 'image',
-					asset: {
-						_type: 'reference',
-						_ref: imageAsset?._id,
+	function savePost() {
+		async function savePostAsync() {
+			const creatorfromasyncfunc = await getCreator()
+			console.log('creator doc after calling function', creatorfromasyncfunc)
+			if (imageAsset?._id) {
+				console.log('save post', imageAsset)
+				const data3 = {
+					_type: 'post',
+					title: 'success',
+					image: {
+						_type: 'image',
+						asset: {
+							_type: 'reference',
+							_ref: imageAsset?._id,
+						},
 					},
-				},
-				postedBy: address,
-				caption: description,
-				poster: creatorDoc,
+					postedBy: address,
+					caption: description,
+					poster: creatorfromasyncfunc,
+				}
+				client
+					.create(data3)
+					.then(response => console.log('Post created:', response))
+					.catch(error => console.error('Error creating post:', error))
+				console.log('doc created')
+				console.log(imageAsset)
+			} else {
+				const data3 = {
+					_type: 'post',
+					title: 'text post',
+					postedBy: address,
+					caption: description,
+					poster: creatorfromasyncfunc,
+				}
+				client
+					.create(data3)
+					.then(response => console.log('Post created:', response))
+					.catch(error => console.error('Error creating post:', error))
+				console.log('no post')
+				setFields(true)
+				setTimeout(() => setFields(false), 2000)
 			}
-			client
-				.create(data3)
-				.then(response => console.log('Post created:', response))
-				.catch(error => console.error('Error creating post:', error))
-			console.log('doc created')
-			console.log(imageAsset)
-		} else {
-			const data3 = {
-				_type: 'post',
-				title: 'text post',
-				postedBy: address,
-				caption: description,
-			}
-			client
-				.create(data3)
-				.then(response => console.log('Post created:', response))
-				.catch(error => console.error('Error creating post:', error))
-			console.log('no post')
-			setFields(true)
-			setTimeout(() => setFields(false), 2000)
 		}
+		savePostAsync()
 	}
 
 	const submitPost = (event: any) => {
 		savePost()
-		handleSubmit(event)
+		//	handleSubmit(event)
 	}
 
 	const upload = (event: any) => {
 		uploadImage(event)
-		handleFileChange(event)
+		//handleFileChange(event)
 	}
 	return (
 		<>

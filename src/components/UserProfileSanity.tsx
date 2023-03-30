@@ -304,7 +304,7 @@ const UserProfileSanity = ({ creatorAddress }) => {
 		getCreator()
 		console.log('creator doc', creatorDoc)
 		console.log('profile pic', profilePicture)
-	}, [creatorAddress])
+	}, [window.location.pathname])
 
 	function handleImageChange() {
 		// Logic to update image source goes here
