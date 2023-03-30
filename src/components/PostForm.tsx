@@ -7,7 +7,7 @@ import { DONLYFANS_ABI, CONTRACT_ADDRESS } from '@/lib/consts'
 import { parseEther } from 'ethers/lib/utils'
 import storeCiphertext from '@/lib/storeCiphertext'
 import toast from 'react-hot-toast'
-import { creatorDetailId, ipfsGatewayLink } from '@/lib/utils'
+import { ipfsGatewayLink } from '@/lib/utils'
 import useGlobalStore from '@/stores/globalStore'
 import { Base64 } from 'js-base64'
 import styles from '../../styles/PostForm.module.scss'
@@ -273,7 +273,7 @@ const PostForm: FC = () => {
 						</label>
 					) : (
 						<div className="relative h-full">
-							<img src={imageAsset?.url} alt="uploaded_image" className="h-full w-full" />
+							<img src={imageAsset?.url} alt="uploaded_image" width={500} height={500} />
 							<button
 								type="submit"
 								className="absolute bottom-3 right-3 p-3 rounded-full bg-white text-xl cursor-pointer outline-none hover:shadow-md transition-all duration-500 ease-in-out"
