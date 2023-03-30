@@ -306,6 +306,10 @@ const UserProfileSanity = ({ creatorAddress }) => {
 		console.log('profile pic', profilePicture)
 	}, [creatorAddress])
 
+	function handleImageChange() {
+		// Logic to update image source goes here
+		//setImageSrc('/images/my-new-image.jpg')
+	}
 	//const userPost = posts.some(post => post.creator === creatorAddress)
 	if (!isConnected) {
 		return (
@@ -346,7 +350,43 @@ const UserProfileSanity = ({ creatorAddress }) => {
 							</div>
 						)}
 						<div className={styles.profilepic}>
-							<div className={styles.pinkring}>
+							{creatorDoc?.image ? (
+								<div className={styles.pinkring}>
+									<div className={styles.purplering}>
+										<img
+											src={creatorDoc.image && urlFor(creatorDoc.image).url()}
+											alt=""
+											className={styles.image}
+										/>
+									</div>
+								</div>
+							) : (
+								<div>
+									{creatorAddress === address ? (
+										<button onClick={handleImageChange}>
+											<div className={styles.pinkring}>
+												<div className={styles.purplering}>
+													<img src="/profile.ico" alt="" className={styles.image} />
+													{/* <img
+														src="/Profile/setting.png"
+														alt=""
+														className={styles.image}
+														style={{ position: 'absolute', bottom: 0, left: 0 }}
+													/> */}
+												</div>
+											</div>
+										</button>
+									) : (
+										<div className={styles.pinkring}>
+											<div className={styles.purplering}>
+												<img src="/profile.ico" alt="" className={styles.image} />
+											</div>
+										</div>
+									)}
+								</div>
+							)}
+
+							{/* <div className={styles.pinkring}>
 								<div className={styles.purplering}>
 									{creatorDoc?.image ? (
 										<div>
@@ -358,11 +398,23 @@ const UserProfileSanity = ({ creatorAddress }) => {
 										</div>
 									) : (
 										<div>
-											<img src="/profile.ico" alt="" className={styles.image} />
+											{creatorAddress === address ? (
+												<button onClick={handleImageChange}>
+													<img src="/profile.ico" alt="" className={styles.image} />
+													{/* <img
+														src="/Profile/setting.png"
+														alt=""
+														className={styles.image}
+														style={{ position: 'absolute', bottom: 0, left: 0 }}
+													/> */}
+							{/* </button>
+											) : (
+												<img src="/profile.ico" alt="" className={styles.image} />
+											)}
 										</div>
 									)}
 								</div>
-							</div>
+							</div> */}
 						</div>
 						<div className={styles.bio}>
 							<div className={styles.likeAndShare}>

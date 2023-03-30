@@ -21,6 +21,7 @@ import App from './_app'
 import { useTheme } from 'next-themes'
 import Content from './Feed'
 import Login from './Login'
+import FeedSanity from './feedSanity'
 
 const Home: FC = () => {
 	const provider = useProvider()
@@ -128,7 +129,7 @@ const Home: FC = () => {
 		getEvents()
 	}, [address])
 
-	return <>{isConnected ? <Content /> : <Login />}</>
+	return <>{isConnected ? <FeedSanity /> : <Login />}</>
 }
 
 export default Home
