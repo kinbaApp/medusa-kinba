@@ -157,8 +157,8 @@ const FeedSanity: FC = () => {
 											{...post}
 											uri={post.uri}
 											creator={post.postedBy}
-											displayName={post.poster?.displayName}
-											userName={post.poster?.userName}
+											// displayName={post.poster?.displayName}
+											// userName={post.poster?.userName}
 										/>
 									))}
 							</div>
