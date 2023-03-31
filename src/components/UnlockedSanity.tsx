@@ -16,10 +16,15 @@ import { CiDollar } from 'react-icons/ci'
 import { BsBookmark } from 'react-icons/bs'
 import { client, urlFor } from '@/lib/sanityClient'
 import { postDetailQuery } from '@/lib/utils'
+import { useRouter } from 'next/router'
+import Link from 'next/link'
+
 const UnlockedSanity = ({ post }) => {
 	const postId = post._id
 	const [downloadLink, setDownloadLink] = useState('')
 	const [postDetail, setPostDetail] = useState(null)
+	const router = useRouter()
+	const pathName = router.pathname
 
 	const isFile = (data: string) => {
 		return data.startsWith('data:')
@@ -35,6 +40,7 @@ const UnlockedSanity = ({ post }) => {
 			client.fetch(`${query}`).then(data => {
 				setPostDetail(data[0])
 				console.log('data', data[1])
+				console.log('data post', post)
 			})
 		}
 	}
@@ -46,7 +52,34 @@ const UnlockedSanity = ({ post }) => {
 	return (
 		<div className={styles.container}>
 			<div className={styles.postHeader}>
-				<img src="/Profile/girl.png" alt="" className={styles.pfp} />
+				{pathName != '/user-profile/[creatorAddress]' ? (
+					<Link href={`/user-profile/${post.postedBy.toString()}`}>
+						<a>
+							{post.poster?.image ? (
+								<img
+									src={post.poster.image && urlFor(post.poster.image).url()}
+									alt=""
+									className={styles.pfp}
+								/>
+							) : (
+								<img src="/profile.ico" alt="" className={styles.pfp} />
+							)}
+						</a>
+					</Link>
+				) : (
+					<>
+						{post.poster?.image ? (
+							<img
+								src={post.poster.image && urlFor(post.poster.image).url()}
+								alt=""
+								className={styles.pfp}
+							/>
+						) : (
+							<img src="/profile.ico" alt="" className={styles.pfp} />
+						)}
+					</>
+				)}
+
 				<div className={styles.nameAndDate}>
 					<div className={styles.nameAndUsername}>
 						{post.poster?.displayName ? <p>{post.poster.displayName}</p> : <p>Name of Poster</p>}

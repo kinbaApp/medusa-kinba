@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import useGlobalStore from '@/stores/globalStore'
 import { APP_NAME, CONTRACT_ADDRESS, DONLYFANS_ABI, CREATOR_ABI } from '@/lib/consts'
 import {
@@ -158,7 +158,7 @@ const UserProfileSanity = ({ creatorAddress }) => {
 
 			const creatorsListFilter = donlyFans.filters.NewCreatorProfileCreated()
 			const newCreatorsProfile = await donlyFans.queryFilter(creatorsListFilter)
-			console.log(newCreatorsProfile)
+			//console.log(newCreatorsProfile)
 
 			if (iface && newCreatorsProfile) {
 				const creators = newCreatorsProfile.reverse().map((filterTopic: any) => {
@@ -278,8 +278,8 @@ const UserProfileSanity = ({ creatorAddress }) => {
 	const [postsSanity, setPostsSanity] = useState(null)
 	async function getCreator() {
 		//get the creator
-		if (address) {
-			const creatorQuery = creatorIdQuery(address)
+		if (creatorAddress) {
+			const creatorQuery = creatorIdQuery(creatorAddress)
 			const response = await client.fetch(creatorQuery)
 			console.log(response)
 			console.log('first response', response)
@@ -289,7 +289,16 @@ const UserProfileSanity = ({ creatorAddress }) => {
 			return documentResponse
 		}
 	}
-	async function fetchCreatorPostsSanity() {
+	async function getPostAsync() {
+		//await fetchCreatorPostsSanity
+		const postssss = fetchCreatorPostsSanity().then(data => {
+			setPostsSanity(data)
+			console.log('fetched posts', data)
+		})
+		console.log('inside async', postssss)
+		return postssss
+	}
+	const fetchCreatorPostsSanity = async () => {
 		console.log('fetching data for', creatorAddress)
 		const createdPostsQuery = userCreatedPostsQuery(creatorAddress)
 		const postResponse = await client.fetch(createdPostsQuery)
@@ -297,24 +306,22 @@ const UserProfileSanity = ({ creatorAddress }) => {
 
 		return postResponse
 	}
+
+	// const fetchCreatorPostsSanity = useCallback(async () => {
+	// 	console.log('fetching data for', creatorAddress)
+	// 	const createdPostsQuery = userCreatedPostsQuery(creatorAddress)
+	// 	const postResponse = await client.fetch(createdPostsQuery)
+	// 	setPostsSanity(postResponse)
+	// 	console.log('postresponse', postResponse)
+
+	// 	return postResponse
+	// }, [])
+
 	useEffect(() => {
 		console.log('hello there')
-
-		async function getPostAsync() {
-			await fetchCreatorPostsSanity
-			const postssss = fetchCreatorPostsSanity().then(data => {
-				setPostsSanity(data)
-				console.log('fetched posts', data)
-			})
-			console.log('inside async', postssss)
-			return postssss
-		}
-
-		getPostAsync()
-		getPostAsync()
-
 		getCreator()
-	}, [address, creatorAddress])
+		getPostAsync()
+	}, [])
 
 	function handleImageChange() {
 		// Logic to update image source goes here
