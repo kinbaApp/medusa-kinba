@@ -314,7 +314,7 @@ const UserProfileSanity = ({ creatorAddress }) => {
 		getPostAsync()
 
 		getCreator()
-	}, [])
+	}, [address, creatorAddress])
 
 	function handleImageChange() {
 		// Logic to update image source goes here

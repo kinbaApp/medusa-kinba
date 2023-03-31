@@ -220,7 +220,8 @@ const PostForm: FC = () => {
 		return documentResponse
 	}
 
-	function savePost() {
+	function submitToSanity() {
+		//setSubmitting(true)
 		async function savePostAsync() {
 			const creatorfromasyncfunc = await getCreator()
 			console.log('creator doc after calling function', creatorfromasyncfunc)
@@ -242,7 +243,10 @@ const PostForm: FC = () => {
 				}
 				client
 					.create(data3)
-					.then(response => console.log('Post created:', response))
+					.then(response => {
+						console.log('Post created:', response)
+						setSubmitting(false)
+					})
 					.catch(error => console.error('Error creating post:', error))
 				console.log('doc created')
 				console.log(imageAsset)
@@ -262,13 +266,21 @@ const PostForm: FC = () => {
 				setFields(true)
 				setTimeout(() => setFields(false), 2000)
 			}
+
+			setSubmitting(false)
+			setDescription('')
+			toast.success('Content posted to your profile!')
 		}
 		savePostAsync()
 	}
 
 	const submitPost = (event: any) => {
-		savePost()
+		event.preventDefault()
+		setSubmitting(true)
+
+		submitToSanity()
 		//	handleSubmit(event)
+		setImageAsset(null)
 	}
 
 	const upload = (event: any) => {
@@ -277,7 +289,7 @@ const PostForm: FC = () => {
 	}
 	return (
 		<>
-			<form className="lg:w lg:mx-auto">
+			<form className="lg:w lg:mx-auto" onSubmit={submitPost}>
 				<h1 className={`${styles.NewPost} ${fonts.bold}`}>New Post</h1>
 
 				<div className="flex items-center justify-center">
@@ -313,7 +325,7 @@ const PostForm: FC = () => {
 					<span className={`${styles.caption} ${fonts.bold}`}>Caption</span>
 					<label className="py-3 block">
 						<textarea
-							required
+							//required
 							className={styles.textArea}
 							// className="form-textarea mt-1 block w-full h-24 dark:bg-gray-800 dark:text-white"
 							rows={3}
@@ -325,8 +337,8 @@ const PostForm: FC = () => {
 				</div>
 				<div className="text-center w-full">
 					<button
-						type="button"
-						onClick={submitPost}
+						type="submit"
+						//onClick={submitPost}
 						className={styles.submitButton}
 						disabled={isLoading || submitting}
 					>
