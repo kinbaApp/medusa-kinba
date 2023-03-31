@@ -3,7 +3,7 @@ import { ipfsGatewayLink } from '@/lib/utils'
 import useGlobalStore, { Post } from '@/stores/globalStore'
 import { BigNumber, ethers } from 'ethers'
 import { formatEther, getAddress, parseEther } from 'ethers/lib/utils'
-import { FC, useEffect } from 'react'
+import { FC, useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import {
 	useAccount,
@@ -25,20 +25,43 @@ import { CiDollar } from 'react-icons/ci'
 import { BsBookmark } from 'react-icons/bs'
 import PinkButton from './reusable/PinkButton'
 import { useRouter } from 'next/router'
-const LockedPost = ({ creator, cipherId, uri, name, description, purchased, displayName, userName }) => {
+import { creatorIdQuery } from '@/lib/utils'
+import { client, urlFor } from '@/lib/sanityClient'
+const LockedPost = ({ creator, cipherId, uri, name, description, purchased }) => {
 	const { isConnected, address } = useAccount()
 	const provider = useProvider()
 	//const isSubscriber = true
 	const creatorAddress = creator
 	const addSubscriber = useGlobalStore(state => state.addSubscriber)
 	const updateSubscribe = useGlobalStore(state => state.updateSubscribe)
+	const [creatorDoc, setCreatorDoc] = useState(null)
+	const [displayName, setDisplayName] = useState('')
+	const [userName, setUserName] = useState('')
+	const [profilePic, setProfilePic] = useState(null)
 
 	//get all the creators and fetch the price
 	const [creator_fetched] = useGlobalStore(state => state.creators).filter(
 		creator => creator.creatorAddress === creatorAddress
 	)
 	const price_fetched = creator_fetched?.price
-
+	async function getCreator() {
+		//get the creator
+		if (creatorAddress) {
+			const creatorQuery = creatorIdQuery(creatorAddress)
+			const response = await client.fetch(creatorQuery)
+			console.log(response)
+			console.log('first response', response)
+			if (response[0]) {
+				const documentResponse = await client.getDocument(response[0]._id)
+				setCreatorDoc(documentResponse)
+				console.log('doc response 1', documentResponse)
+				setDisplayName(documentResponse.displayName)
+				setUserName(documentResponse.userName)
+				setProfilePic(documentResponse.image)
+				return documentResponse
+			}
+		}
+	}
 	// const {
 	// 	data: creatorContractAddress,
 	// 	isError,
@@ -197,6 +220,9 @@ const LockedPost = ({ creator, cipherId, uri, name, description, purchased, disp
 		}
 		getEvents()
 	}, [address])
+	useEffect(() => {
+		getCreator()
+	}, [])
 
 	const subscribers = useGlobalStore(state => state.subscribers)
 	const isSubscriber =
@@ -207,7 +233,12 @@ const LockedPost = ({ creator, cipherId, uri, name, description, purchased, disp
 		<>
 			<div className={styles.container}>
 				<div className={styles.postHeader}>
-					<img src="/Profile/girl.png" alt="" className={styles.pfp} />
+					{profilePic ? (
+						<img src={profilePic && urlFor(profilePic).url()} alt="" className={styles.pfp} />
+					) : (
+						<img src="/profile.ico" alt="" className={styles.pfp} />
+					)}
+
 					<div className={styles.nameAndDate}>
 						<div className={styles.nameAndUsername}>
 							{displayName ? <p>{displayName}</p> : <p>Name of Poster</p>}

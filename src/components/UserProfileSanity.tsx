@@ -328,6 +328,10 @@ const UserProfileSanity = ({ creatorAddress }) => {
 		//setImageSrc('/images/my-new-image.jpg')
 	}
 	//const userPost = posts.some(post => post.creator === creatorAddress)
+	// const exists = async () => {
+	// 	client.fetch(`*[_type == 'creator' && address == '${creatorAddress}'][0]._id != null`)
+	// }
+	// if (!exists) return <div>This is not a </div>
 	if (!isConnected) {
 		return (
 			<div className={styles.pleaseConnect}>

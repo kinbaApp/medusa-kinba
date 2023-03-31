@@ -15,7 +15,7 @@ import { TbMessageCircle2 } from 'react-icons/tb'
 import { CiDollar } from 'react-icons/ci'
 import { BsBookmark } from 'react-icons/bs'
 import { client, urlFor } from '@/lib/sanityClient'
-import { postDetailQuery } from '@/lib/utils'
+import { postDetailQuery, creatorIdQuery } from '@/lib/utils'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 
@@ -25,6 +25,8 @@ const UnlockedSanity = ({ post }) => {
 	const [postDetail, setPostDetail] = useState(null)
 	const router = useRouter()
 	const pathName = router.pathname
+	const creatorAddress = post.poster?.address
+	const [creatorDoc, setCreatorDoc] = useState(null)
 
 	const isFile = (data: string) => {
 		return data.startsWith('data:')
@@ -44,8 +46,22 @@ const UnlockedSanity = ({ post }) => {
 			})
 		}
 	}
+	async function getCreator() {
+		//get the creator
+		if (creatorAddress) {
+			const creatorQuery = creatorIdQuery(creatorAddress)
+			const response = await client.fetch(creatorQuery)
+			console.log(response)
+			console.log('first response', response)
+			const documentResponse = await client.getDocument(response[0]._id)
+			setCreatorDoc(documentResponse)
+			console.log('doc response 1', documentResponse)
+			return documentResponse
+		}
+	}
 
 	useEffect(() => {
+		getCreator()
 		fetchPinDetails()
 	}, [postId])
 
@@ -55,9 +71,9 @@ const UnlockedSanity = ({ post }) => {
 				{pathName != '/user-profile/[creatorAddress]' ? (
 					<Link href={`/user-profile/${post.postedBy.toString()}`}>
 						<a>
-							{post.poster?.image ? (
+							{creatorDoc?.image ? (
 								<img
-									src={post.poster.image && urlFor(post.poster.image).url()}
+									src={creatorDoc.image && urlFor(creatorDoc.image).url()}
 									alt=""
 									className={styles.pfp}
 								/>
@@ -68,9 +84,9 @@ const UnlockedSanity = ({ post }) => {
 					</Link>
 				) : (
 					<>
-						{post.poster?.image ? (
+						{creatorDoc?.image ? (
 							<img
-								src={post.poster.image && urlFor(post.poster.image).url()}
+								src={creatorDoc.image && urlFor(creatorDoc.image).url()}
 								alt=""
 								className={styles.pfp}
 							/>
@@ -82,8 +98,8 @@ const UnlockedSanity = ({ post }) => {
 
 				<div className={styles.nameAndDate}>
 					<div className={styles.nameAndUsername}>
-						{post.poster?.displayName ? <p>{post.poster.displayName}</p> : <p>Name of Poster</p>}
-						{post.poster?.userName ? <p>@{post.poster.userName}</p> : <p>@username</p>}
+						{creatorDoc?.displayName ? <p>{creatorDoc.displayName}</p> : <p>Name of Poster</p>}
+						{creatorDoc?.userName ? <p>@{creatorDoc.userName}</p> : <p>@username</p>}
 					</div>
 					<div className={styles.dateAndMore}>
 						<p className={`${fonts.lightText} ${styles.datePosted}`}>Yesterday</p>
