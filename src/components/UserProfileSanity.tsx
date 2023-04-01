@@ -38,6 +38,7 @@ import { creatorIdQuery } from '@/lib/utils'
 import { display } from '@mui/system'
 
 const UserProfileSanity = ({ creatorAddress }) => {
+	const sanityOnly = true
 	const provider = useProvider()
 	const router = useRouter()
 	const { isConnected, address } = useAccount()
@@ -258,10 +259,33 @@ const UserProfileSanity = ({ creatorAddress }) => {
 			console.log('not enough eth')
 			toast.dismiss()
 			toast.error(`Subscription price is ${formatEther(price)} ETH`)
+			// update list of fans on sanity here
 		} else {
 			toast.loading('Subscribing..')
-			subscribe?.()
-			console.log(configSubscribe)
+			if (!sanityOnly) {
+				subscribe?.()
+				console.log(configSubscribe)
+			}
+			// const myObject = {
+			// 	_type: 'string',
+
+			// }
+
+			getCreator()
+			console.log('address', typeof address)
+			console.log('creator doc', creatorDoc)
+			client
+				.patch(creatorDoc._id)
+				//.set({ fans: { $push: address } })
+				.setIfMissing({ fans: [] })
+				.append('fans', [address])
+				.commit()
+				.then(() => {
+					console.log('Successfully added item to array field')
+				})
+				.catch(err => {
+					console.error('Error adding item to array field:', err.message)
+				})
 			// const doc = {
 			// 	_type: 'post',
 			// 	title: 'text post',
