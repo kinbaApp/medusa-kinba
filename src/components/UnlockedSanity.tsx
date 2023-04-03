@@ -41,8 +41,8 @@ const UnlockedSanity = ({ post }) => {
 		if (query) {
 			client.fetch(`${query}`).then(data => {
 				setPostDetail(data[0])
-				console.log('data', data[1])
-				console.log('data post', post)
+				// console.log('data', data[1])
+				// console.log('data post', post)
 			})
 		}
 	}
@@ -51,11 +51,11 @@ const UnlockedSanity = ({ post }) => {
 		if (creatorAddress) {
 			const creatorQuery = creatorIdQuery(creatorAddress)
 			const response = await client.fetch(creatorQuery)
-			console.log(response)
-			console.log('first response', response)
+			// console.log(response)
+			// console.log('first response', response)
 			const documentResponse = await client.getDocument(response[0]._id)
 			setCreatorDoc(documentResponse)
-			console.log('doc response 1', documentResponse)
+			//console.log('doc response 1', documentResponse)
 			return documentResponse
 		}
 	}

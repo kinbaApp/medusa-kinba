@@ -61,132 +61,133 @@ const UserProfileSanity = ({ creatorAddress }) => {
 		},
 	}
 
-	//const [isSubscriber, setIsSubscriber] = useState(isAddressSubscriber)
-	const updatePosts = useGlobalStore(state => state.updatePosts)
-	const updateRequests = useGlobalStore(state => state.updateRequests)
-	const updateDecryptions = useGlobalStore(state => state.updateDecryptions)
-	const addPost = useGlobalStore(state => state.addPost)
-	const addRequest = useGlobalStore(state => state.addRequest)
-	const addDecryption = useGlobalStore(state => state.addDecryption)
-	const addSubscriber = useGlobalStore(state => state.addSubscriber)
-	const updateCreators = useGlobalStore(state => state.updateCreators)
-	const addCreator = useGlobalStore(state => state.addCreator)
-	const updateSubscribe = useGlobalStore(state => state.updateSubscribe)
-	useContractEvent({
-		address: CONTRACT_ADDRESS,
-		abi: DONLYFANS_ABI,
-		eventName: 'NewSubscriber',
-		listener(creator, subscriber, price) {
-			if (subscriber == address) {
-				addSubscriber({ creator, subscriber, price })
-			}
-		},
-	})
-	// useContractEvent({
-	// 	address: CONTRACT_ADDRESS,
-	// 	abi: DONLYFANS_ABI,
-	// 	eventName: 'NewPost',
-	// 	listener(creator, cipherId, name, description, uri) {
-	// 		addPost({ creator, cipherId, name, description, uri })
-	// 	},
-	// })
-
-	// useContractEvent({
-	// 	address: CONTRACT_ADDRESS,
-	// 	abi: DONLYFANS_ABI,
-	// 	eventName: 'NewPostRequest',
-	// 	listener(subscriber, creator, requestId, cipherId) {
-	// 		if (subscriber === address) {
-	// 			addRequest({ subscriber, creator, requestId, cipherId })
-	// 		}
-	// 	},
-	// })
-
-	// useContractEvent({
-	// 	address: CONTRACT_ADDRESS,
-	// 	abi: DONLYFANS_ABI,
-	// 	eventName: 'PostDecryption',
-	// 	listener(requestId, ciphertext) {
-	// 		addDecryption({ requestId, ciphertext })
-	// 	},
-	// })
-
-	const donlyFans = useContract({
-		address: CONTRACT_ADDRESS,
-		abi: DONLYFANS_ABI,
-		signerOrProvider: provider,
-	})
 	if (!sanityOnly) {
-		useEffect(() => {
-			const getEvents = async () => {
-				const iface = new ethers.utils.Interface(DONLYFANS_ABI)
-
-				// const newPostFilter = donlyFans.filters.NewPost()
-				// console.log(newPostFilter)
-				// const newPosts = await donlyFans.queryFilter(newPostFilter)
-
-				// if (iface && newPosts) {
-				// 	const posts = newPosts.reverse().map((filterTopic: any) => {
-				// 		const result = iface.parseLog(filterTopic)
-				// 		const { creator, cipherId, name, description, uri } = result.args
-				// 		return { creator, cipherId, name, description, uri } as Post
-				// 	})
-				// 	updatePosts(posts)
-				// }
-
-				// const newRequestFilter = donlyFans.filters.NewPostRequest(address)
-				// const newRequests = await donlyFans.queryFilter(newRequestFilter)
-
-				// if (iface && newRequests) {
-				// 	const requests = newRequests.reverse().map((filterTopic: any) => {
-				// 		const result = iface.parseLog(filterTopic)
-				// 		const { subscriber, creator, requestId, cipherId } = result.args
-				// 		return { subscriber, creator, requestId, cipherId } as Request
-				// 	})
-				// 	updateRequests(requests)
-				// }
-
-				// const postDecryptionFilter = donlyFans.filters.PostDecryption()
-				// const postDecryptions = await donlyFans.queryFilter(postDecryptionFilter)
-
-				// if (iface && postDecryptions) {
-				// 	const decryptions = postDecryptions.reverse().map((filterTopic: any) => {
-				// 		const result = iface.parseLog(filterTopic)
-				// 		const { requestId, ciphertext } = result.args
-				// 		return { requestId, ciphertext } as Decryption
-				// 	})
-				// 	updateDecryptions(decryptions)
-				// }
-
-				const creatorsListFilter = donlyFans.filters.NewCreatorProfileCreated()
-				const newCreatorsProfile = await donlyFans.queryFilter(creatorsListFilter)
-				//console.log(newCreatorsProfile)
-
-				if (iface && newCreatorsProfile) {
-					const creators = newCreatorsProfile.reverse().map((filterTopic: any) => {
-						const result = iface.parseLog(filterTopic)
-						const { creatorAddress, price, period } = result.args
-						return { creatorAddress, price, period } as Creator
-					})
-					updateCreators(creators)
+		//const [isSubscriber, setIsSubscriber] = useState(isAddressSubscriber)
+		const updatePosts = useGlobalStore(state => state.updatePosts)
+		const updateRequests = useGlobalStore(state => state.updateRequests)
+		const updateDecryptions = useGlobalStore(state => state.updateDecryptions)
+		const addPost = useGlobalStore(state => state.addPost)
+		const addRequest = useGlobalStore(state => state.addRequest)
+		const addDecryption = useGlobalStore(state => state.addDecryption)
+		const addSubscriber = useGlobalStore(state => state.addSubscriber)
+		const updateCreators = useGlobalStore(state => state.updateCreators)
+		const addCreator = useGlobalStore(state => state.addCreator)
+		const updateSubscribe = useGlobalStore(state => state.updateSubscribe)
+		useContractEvent({
+			address: CONTRACT_ADDRESS,
+			abi: DONLYFANS_ABI,
+			eventName: 'NewSubscriber',
+			listener(creator, subscriber, price) {
+				if (subscriber == address) {
+					addSubscriber({ creator, subscriber, price })
 				}
-				const newSubscriberFilter = donlyFans.filters.NewSubscriber()
+			},
+		})
+		// useContractEvent({
+		// 	address: CONTRACT_ADDRESS,
+		// 	abi: DONLYFANS_ABI,
+		// 	eventName: 'NewPost',
+		// 	listener(creator, cipherId, name, description, uri) {
+		// 		addPost({ creator, cipherId, name, description, uri })
+		// 	},
+		// })
 
-				const newSubscribers = await donlyFans.queryFilter(newSubscriberFilter)
+		// useContractEvent({
+		// 	address: CONTRACT_ADDRESS,
+		// 	abi: DONLYFANS_ABI,
+		// 	eventName: 'NewPostRequest',
+		// 	listener(subscriber, creator, requestId, cipherId) {
+		// 		if (subscriber === address) {
+		// 			addRequest({ subscriber, creator, requestId, cipherId })
+		// 		}
+		// 	},
+		// })
 
-				if (iface && newSubscribers) {
-					const subscribers = newSubscribers.reverse().map((filterTopic: any) => {
-						const result = iface.parseLog(filterTopic)
-						const { subscriber, creator, price } = result.args
-						return { subscriber, creator, price } as Post
-					})
-					updateSubscribe(subscribers)
+		// useContractEvent({
+		// 	address: CONTRACT_ADDRESS,
+		// 	abi: DONLYFANS_ABI,
+		// 	eventName: 'PostDecryption',
+		// 	listener(requestId, ciphertext) {
+		// 		addDecryption({ requestId, ciphertext })
+		// 	},
+		// })
+
+		const donlyFans = useContract({
+			address: CONTRACT_ADDRESS,
+			abi: DONLYFANS_ABI,
+			signerOrProvider: provider,
+		})
+		if (!sanityOnly) {
+			useEffect(() => {
+				const getEvents = async () => {
+					const iface = new ethers.utils.Interface(DONLYFANS_ABI)
+
+					// const newPostFilter = donlyFans.filters.NewPost()
+					// console.log(newPostFilter)
+					// const newPosts = await donlyFans.queryFilter(newPostFilter)
+
+					// if (iface && newPosts) {
+					// 	const posts = newPosts.reverse().map((filterTopic: any) => {
+					// 		const result = iface.parseLog(filterTopic)
+					// 		const { creator, cipherId, name, description, uri } = result.args
+					// 		return { creator, cipherId, name, description, uri } as Post
+					// 	})
+					// 	updatePosts(posts)
+					// }
+
+					// const newRequestFilter = donlyFans.filters.NewPostRequest(address)
+					// const newRequests = await donlyFans.queryFilter(newRequestFilter)
+
+					// if (iface && newRequests) {
+					// 	const requests = newRequests.reverse().map((filterTopic: any) => {
+					// 		const result = iface.parseLog(filterTopic)
+					// 		const { subscriber, creator, requestId, cipherId } = result.args
+					// 		return { subscriber, creator, requestId, cipherId } as Request
+					// 	})
+					// 	updateRequests(requests)
+					// }
+
+					// const postDecryptionFilter = donlyFans.filters.PostDecryption()
+					// const postDecryptions = await donlyFans.queryFilter(postDecryptionFilter)
+
+					// if (iface && postDecryptions) {
+					// 	const decryptions = postDecryptions.reverse().map((filterTopic: any) => {
+					// 		const result = iface.parseLog(filterTopic)
+					// 		const { requestId, ciphertext } = result.args
+					// 		return { requestId, ciphertext } as Decryption
+					// 	})
+					// 	updateDecryptions(decryptions)
+					// }
+
+					const creatorsListFilter = donlyFans.filters.NewCreatorProfileCreated()
+					const newCreatorsProfile = await donlyFans.queryFilter(creatorsListFilter)
+					//console.log(newCreatorsProfile)
+
+					if (iface && newCreatorsProfile) {
+						const creators = newCreatorsProfile.reverse().map((filterTopic: any) => {
+							const result = iface.parseLog(filterTopic)
+							const { creatorAddress, price, period } = result.args
+							return { creatorAddress, price, period } as Creator
+						})
+						updateCreators(creators)
+					}
+					const newSubscriberFilter = donlyFans.filters.NewSubscriber()
+
+					const newSubscribers = await donlyFans.queryFilter(newSubscriberFilter)
+
+					if (iface && newSubscribers) {
+						const subscribers = newSubscribers.reverse().map((filterTopic: any) => {
+							const result = iface.parseLog(filterTopic)
+							const { subscriber, creator, price } = result.args
+							return { subscriber, creator, price } as Post
+						})
+						updateSubscribe(subscribers)
+					}
 				}
-			}
-			getEvents()
-		}, [address])
+				getEvents()
+			}, [address])
+		}
 	}
-
 	//const requests = useGlobalStore(state => state.requests)
 	const [creator] = useGlobalStore(state => state.creators).filter(
 		creator => creator.creatorAddress === creatorAddress
@@ -274,7 +275,7 @@ const UserProfileSanity = ({ creatorAddress }) => {
 
 			// }
 
-			getCreator()
+			await getCreator()
 			console.log('address', typeof address)
 			console.log('creator doc', creatorDoc)
 			client
@@ -306,51 +307,33 @@ const UserProfileSanity = ({ creatorAddress }) => {
 	}
 	const [text, setText] = useState('Created')
 	const [postsSanity, setPostsSanity] = useState(null)
+	const [reload, setReload] = useState(0)
 	async function getCreator() {
 		//get the creator
 		if (creatorAddress) {
 			const creatorQuery = creatorIdQuery(creatorAddress)
 			const response = await client.fetch(creatorQuery)
-			console.log(response)
-			console.log('first response', response)
+			// console.log(response)
+			// console.log('first response', response)
 			const documentResponse = await client.getDocument(response[0]?._id)
 			setCreatorDoc(documentResponse)
-			console.log('doc response 1', documentResponse)
+			//console.log('doc response 1', documentResponse)
 			return documentResponse
 		}
-	}
-	async function getPostAsync() {
-		//await fetchCreatorPostsSanity
-		const postssss = fetchCreatorPostsSanity().then(data => {
-			setPostsSanity(data)
-			console.log('fetched posts', data)
-		})
-		console.log('inside async', postssss)
-		return postssss
 	}
 	const fetchCreatorPostsSanity = async () => {
 		console.log('fetching data for', creatorAddress)
 		const createdPostsQuery = userCreatedPostsQuery(creatorAddress)
-		const postResponse = await client.fetch(createdPostsQuery)
-		console.log('postresponse', postResponse)
-
-		return postResponse
+		const postResponse = client.fetch(createdPostsQuery).then(data => {
+			setPostsSanity(data)
+			console.log('fetched posts', data)
+		})
 	}
-
-	// const fetchCreatorPostsSanity = useCallback(async () => {
-	// 	console.log('fetching data for', creatorAddress)
-	// 	const createdPostsQuery = userCreatedPostsQuery(creatorAddress)
-	// 	const postResponse = await client.fetch(createdPostsQuery)
-	// 	setPostsSanity(postResponse)
-	// 	console.log('postresponse', postResponse)
-
-	// 	return postResponse
-	// }, [])
 
 	useEffect(() => {
 		console.log('hello there')
 		async function getIsSubscriber() {
-			getCreator()
+			await getCreator()
 			if (sanityOnly && creatorDoc) {
 				setIsSubscriber(creatorDoc.fans?.includes(address))
 			} else {
@@ -359,9 +342,13 @@ const UserProfileSanity = ({ creatorAddress }) => {
 				)
 			}
 		}
-		getIsSubscriber()
-		getPostAsync()
-	}, [])
+		async function fetchData() {
+			await getIsSubscriber()
+			await fetchCreatorPostsSanity()
+			console.log('posts here', postsSanity)
+		}
+		fetchData()
+	}, [address, creatorAddress, router.asPath])
 
 	function handleImageChange() {
 		// Logic to update image source goes here
