@@ -194,7 +194,7 @@ const LockedPost = ({ creator, cipherId, uri, name, description, purchased }) =>
 	// }
 	const router = useRouter()
 	const pathName = router.pathname
-	console.log('query', pathName)
+	//console.log('query', pathName)
 
 	const donlyFans = useContract({
 		address: CONTRACT_ADDRESS,

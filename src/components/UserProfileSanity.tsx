@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import useGlobalStore from '@/stores/globalStore'
+import { groq } from 'next-sanity'
 import { APP_NAME, CONTRACT_ADDRESS, DONLYFANS_ABI, CREATOR_ABI } from '@/lib/consts'
 import {
 	useProvider,
@@ -115,82 +116,84 @@ const UserProfileSanity = ({ creatorAddress }) => {
 		abi: DONLYFANS_ABI,
 		signerOrProvider: provider,
 	})
+	if (!sanityOnly) {
+		useEffect(() => {
+			const getEvents = async () => {
+				const iface = new ethers.utils.Interface(DONLYFANS_ABI)
 
-	useEffect(() => {
-		const getEvents = async () => {
-			const iface = new ethers.utils.Interface(DONLYFANS_ABI)
+				// const newPostFilter = donlyFans.filters.NewPost()
+				// console.log(newPostFilter)
+				// const newPosts = await donlyFans.queryFilter(newPostFilter)
 
-			// const newPostFilter = donlyFans.filters.NewPost()
-			// console.log(newPostFilter)
-			// const newPosts = await donlyFans.queryFilter(newPostFilter)
+				// if (iface && newPosts) {
+				// 	const posts = newPosts.reverse().map((filterTopic: any) => {
+				// 		const result = iface.parseLog(filterTopic)
+				// 		const { creator, cipherId, name, description, uri } = result.args
+				// 		return { creator, cipherId, name, description, uri } as Post
+				// 	})
+				// 	updatePosts(posts)
+				// }
 
-			// if (iface && newPosts) {
-			// 	const posts = newPosts.reverse().map((filterTopic: any) => {
-			// 		const result = iface.parseLog(filterTopic)
-			// 		const { creator, cipherId, name, description, uri } = result.args
-			// 		return { creator, cipherId, name, description, uri } as Post
-			// 	})
-			// 	updatePosts(posts)
-			// }
+				// const newRequestFilter = donlyFans.filters.NewPostRequest(address)
+				// const newRequests = await donlyFans.queryFilter(newRequestFilter)
 
-			// const newRequestFilter = donlyFans.filters.NewPostRequest(address)
-			// const newRequests = await donlyFans.queryFilter(newRequestFilter)
+				// if (iface && newRequests) {
+				// 	const requests = newRequests.reverse().map((filterTopic: any) => {
+				// 		const result = iface.parseLog(filterTopic)
+				// 		const { subscriber, creator, requestId, cipherId } = result.args
+				// 		return { subscriber, creator, requestId, cipherId } as Request
+				// 	})
+				// 	updateRequests(requests)
+				// }
 
-			// if (iface && newRequests) {
-			// 	const requests = newRequests.reverse().map((filterTopic: any) => {
-			// 		const result = iface.parseLog(filterTopic)
-			// 		const { subscriber, creator, requestId, cipherId } = result.args
-			// 		return { subscriber, creator, requestId, cipherId } as Request
-			// 	})
-			// 	updateRequests(requests)
-			// }
+				// const postDecryptionFilter = donlyFans.filters.PostDecryption()
+				// const postDecryptions = await donlyFans.queryFilter(postDecryptionFilter)
 
-			// const postDecryptionFilter = donlyFans.filters.PostDecryption()
-			// const postDecryptions = await donlyFans.queryFilter(postDecryptionFilter)
+				// if (iface && postDecryptions) {
+				// 	const decryptions = postDecryptions.reverse().map((filterTopic: any) => {
+				// 		const result = iface.parseLog(filterTopic)
+				// 		const { requestId, ciphertext } = result.args
+				// 		return { requestId, ciphertext } as Decryption
+				// 	})
+				// 	updateDecryptions(decryptions)
+				// }
 
-			// if (iface && postDecryptions) {
-			// 	const decryptions = postDecryptions.reverse().map((filterTopic: any) => {
-			// 		const result = iface.parseLog(filterTopic)
-			// 		const { requestId, ciphertext } = result.args
-			// 		return { requestId, ciphertext } as Decryption
-			// 	})
-			// 	updateDecryptions(decryptions)
-			// }
+				const creatorsListFilter = donlyFans.filters.NewCreatorProfileCreated()
+				const newCreatorsProfile = await donlyFans.queryFilter(creatorsListFilter)
+				//console.log(newCreatorsProfile)
 
-			const creatorsListFilter = donlyFans.filters.NewCreatorProfileCreated()
-			const newCreatorsProfile = await donlyFans.queryFilter(creatorsListFilter)
-			//console.log(newCreatorsProfile)
+				if (iface && newCreatorsProfile) {
+					const creators = newCreatorsProfile.reverse().map((filterTopic: any) => {
+						const result = iface.parseLog(filterTopic)
+						const { creatorAddress, price, period } = result.args
+						return { creatorAddress, price, period } as Creator
+					})
+					updateCreators(creators)
+				}
+				const newSubscriberFilter = donlyFans.filters.NewSubscriber()
 
-			if (iface && newCreatorsProfile) {
-				const creators = newCreatorsProfile.reverse().map((filterTopic: any) => {
-					const result = iface.parseLog(filterTopic)
-					const { creatorAddress, price, period } = result.args
-					return { creatorAddress, price, period } as Creator
-				})
-				updateCreators(creators)
+				const newSubscribers = await donlyFans.queryFilter(newSubscriberFilter)
+
+				if (iface && newSubscribers) {
+					const subscribers = newSubscribers.reverse().map((filterTopic: any) => {
+						const result = iface.parseLog(filterTopic)
+						const { subscriber, creator, price } = result.args
+						return { subscriber, creator, price } as Post
+					})
+					updateSubscribe(subscribers)
+				}
 			}
-			const newSubscriberFilter = donlyFans.filters.NewSubscriber()
-
-			const newSubscribers = await donlyFans.queryFilter(newSubscriberFilter)
-
-			if (iface && newSubscribers) {
-				const subscribers = newSubscribers.reverse().map((filterTopic: any) => {
-					const result = iface.parseLog(filterTopic)
-					const { subscriber, creator, price } = result.args
-					return { subscriber, creator, price } as Post
-				})
-				updateSubscribe(subscribers)
-			}
-		}
-		getEvents()
-	}, [address])
+			getEvents()
+		}, [address])
+	}
 
 	//const requests = useGlobalStore(state => state.requests)
 	const [creator] = useGlobalStore(state => state.creators).filter(
 		creator => creator.creatorAddress === creatorAddress
 	)
 	const subscribers = useGlobalStore(state => state.subscribers)
-	const isSubscriber = subscribers.some(item => item.creator === creatorAddress && item.subscriber === address)
+	const [isSubscriber, setIsSubscriber] = useState(false)
+
 	const price = creator?.price
 	const period = creator?.period
 	// const userPosts = useGlobalStore(state => state.posts).filter(post => post.creator === creatorAddress)
@@ -282,6 +285,9 @@ const UserProfileSanity = ({ creatorAddress }) => {
 				.commit()
 				.then(() => {
 					console.log('Successfully added item to array field')
+					toast.dismiss()
+					toast.success('Succesfully subscribed!')
+					setIsSubscriber(true)
 				})
 				.catch(err => {
 					console.error('Error adding item to array field:', err.message)
@@ -307,7 +313,7 @@ const UserProfileSanity = ({ creatorAddress }) => {
 			const response = await client.fetch(creatorQuery)
 			console.log(response)
 			console.log('first response', response)
-			const documentResponse = await client.getDocument(response[0]._id)
+			const documentResponse = await client.getDocument(response[0]?._id)
 			setCreatorDoc(documentResponse)
 			console.log('doc response 1', documentResponse)
 			return documentResponse
@@ -343,7 +349,17 @@ const UserProfileSanity = ({ creatorAddress }) => {
 
 	useEffect(() => {
 		console.log('hello there')
-		getCreator()
+		async function getIsSubscriber() {
+			getCreator()
+			if (sanityOnly && creatorDoc) {
+				setIsSubscriber(creatorDoc.fans?.includes(address))
+			} else {
+				setIsSubscriber(
+					subscribers.some(item => item.creator === creatorAddress && item.subscriber === address)
+				)
+			}
+		}
+		getIsSubscriber()
 		getPostAsync()
 	}, [])
 
