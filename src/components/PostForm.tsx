@@ -14,6 +14,10 @@ import styles from '../../styles/PostForm.module.scss'
 import fonts from '../../styles/Fonts.module.scss'
 import { client } from '../lib/sanityClient'
 import { creatorIdQuery } from '@/lib/utils'
+import { useDispatch } from 'react-redux'
+import { useStore } from 'react-redux'
+
+import store from '@/lib/reduxStore'
 
 const PostForm: FC = () => {
 	const { address } = useAccount()
@@ -273,7 +277,19 @@ const PostForm: FC = () => {
 		}
 		savePostAsync()
 	}
-
+	//const dispatch = useDispatch()
+	const increment = () => {
+		return {
+			type: 'counter/increment',
+		}
+	}
+	const store = useStore()
+	const handleIncrement = () => {
+		store.dispatch(increment())
+		//dispatch(increment())
+		console.log('state store', store.getState())
+		//console.log('state store', dispatch.getState())
+	}
 	const submitPost = (event: any) => {
 		event.preventDefault()
 		setSubmitting(true)
@@ -281,6 +297,7 @@ const PostForm: FC = () => {
 		submitToSanity()
 		//	handleSubmit(event)
 		setImageAsset(null)
+		handleIncrement()
 	}
 
 	const upload = (event: any) => {

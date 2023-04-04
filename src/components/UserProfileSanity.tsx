@@ -37,6 +37,8 @@ import { client, urlFor } from '@/lib/sanityClient'
 import { userCreatedPostsQuery } from '@/lib/utils'
 import { creatorIdQuery } from '@/lib/utils'
 import { display } from '@mui/system'
+import store from '@/lib/reduxStore'
+import { useDispatch } from 'react-redux'
 
 const UserProfileSanity = ({ creatorAddress }) => {
 	const sanityOnly = true
@@ -329,7 +331,7 @@ const UserProfileSanity = ({ creatorAddress }) => {
 			console.log('fetched posts', data)
 		})
 	}
-
+	const dispatch = useDispatch()
 	useEffect(() => {
 		console.log('hello there')
 		async function getIsSubscriber() {
@@ -348,7 +350,8 @@ const UserProfileSanity = ({ creatorAddress }) => {
 			console.log('posts here', postsSanity)
 		}
 		fetchData()
-	}, [address, creatorAddress, router.asPath])
+	}, [address, creatorAddress, router.asPath, dispatch])
+	//})
 
 	function handleImageChange() {
 		// Logic to update image source goes here
