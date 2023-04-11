@@ -12,6 +12,7 @@ import fonts from '../../styles/Fonts.module.scss'
 import { useRouter } from 'next/router'
 import { client } from '../lib/sanityClient'
 const CreateNewProfile: FC = () => {
+	const sanityOnly = false
 	const router = useRouter()
 	const { isConnected, address } = useAccount()
 	const [price, setPrice] = useState('')
@@ -82,7 +83,9 @@ const CreateNewProfile: FC = () => {
 	})
 
 	const profile = () => {
-		createNewProfile()
+		if (!sanityOnly) {
+			createNewProfile()
+		}
 		sanityProfile()
 	}
 

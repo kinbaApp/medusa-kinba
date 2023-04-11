@@ -20,6 +20,7 @@ import { useStore } from 'react-redux'
 import store from '@/lib/reduxStore'
 
 const PostForm: FC = () => {
+	const sanityOnly = true
 	const { address } = useAccount()
 	const medusa = useGlobalStore(state => state.medusa)
 	const [fields, setFields] = useState(false)
@@ -283,13 +284,13 @@ const PostForm: FC = () => {
 			type: 'counter/increment',
 		}
 	}
-	const store = useStore()
-	const handleIncrement = () => {
-		store.dispatch(increment())
-		//dispatch(increment())
-		console.log('state store', store.getState())
-		//console.log('state store', dispatch.getState())
-	}
+	//const store = useStore()
+	// const handleIncrement = () => {
+	// 	store.dispatch(increment())
+	// 	//dispatch(increment())
+	// 	console.log('state store', store.getState())
+	// 	//console.log('state store', dispatch.getState())
+	// }
 	const submitPost = (event: any) => {
 		event.preventDefault()
 		setSubmitting(true)
@@ -297,7 +298,7 @@ const PostForm: FC = () => {
 		submitToSanity()
 		//	handleSubmit(event)
 		setImageAsset(null)
-		handleIncrement()
+		//handleIncrement()
 	}
 
 	const upload = (event: any) => {
@@ -362,6 +363,8 @@ const PostForm: FC = () => {
 						{isLoading || submitting
 							? 'Submitting...'
 							: medusa?.keypair
+							? 'Post your content'
+							: sanityOnly
 							? 'Post your content'
 							: 'Please Sign in'}
 					</button>
