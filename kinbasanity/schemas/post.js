@@ -32,5 +32,17 @@ export default {
       title: 'Caption',
       type: 'string',
     },
+    {
+      name: 'comments',
+      title: 'Comments',
+      type: 'array',
+      of: [{type: 'comment'}],
+    },
+    {
+      name: 'likes',
+      title: 'Likes',
+      type: 'array',
+      of: [{type: 'like'}],
+    },
   ],
 }

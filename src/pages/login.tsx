@@ -11,6 +11,7 @@ import Input from '@material-ui/core/Input'
 import { ConnectKitButton } from 'connectkit'
 import styled from 'styled-components'
 import Link from 'next/link'
+import { client } from '@/lib/sanityClient'
 
 const Login = () => {
 	const [values, setValues] = React.useState({
@@ -33,6 +34,22 @@ const Login = () => {
 	const StyledButton = styled.button`
 		width: 300px;
 	`
+
+	const userLoginSanity = address => {
+		const query = `*[_type == "user" && address == '${address}']`
+		const documents = client.fetch(query).then(response => {
+			if (response.length === 0) {
+				const doc = {
+					_type: 'user',
+					address,
+				}
+				client
+					.create(doc)
+					.then(response => console.log('User created:', response))
+					.catch(error => console.error('Error creating post:', error))
+			}
+		})
+	}
 
 	return (
 		<div>
@@ -93,9 +110,13 @@ const Login = () => {
 
 						<div className={styles.loginButton}>
 							<ConnectKitButton.Custom>
-								{({ isConnected, show, truncatedAddress, ensName }) => {
+								{({ isConnected, show, truncatedAddress, ensName, address }) => {
 									return (
-										<StyledButton onClick={show}>
+										<StyledButton
+											onClick={() => {
+												isConnected ? userLoginSanity(address) : show()
+											}}
+										>
 											{isConnected ? ensName ?? truncatedAddress : 'LOGIN'}
 										</StyledButton>
 									)

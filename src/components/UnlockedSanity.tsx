@@ -18,11 +18,14 @@ import { client, urlFor } from '@/lib/sanityClient'
 import { postDetailQuery, creatorIdQuery } from '@/lib/utils'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
+import { v4 as uuivd4 } from 'uuid'
 
 const UnlockedSanity = ({ post }) => {
 	const postId = post._id
 	const [downloadLink, setDownloadLink] = useState('')
 	const [postDetail, setPostDetail] = useState(null)
+	const [comment, setComment] = useState('')
+	const [addingComment, setAddingComment] = useState(false)
 	const router = useRouter()
 	const pathName = router.pathname
 	const creatorAddress = post.poster?.address
@@ -35,6 +38,32 @@ const UnlockedSanity = ({ post }) => {
 	const isImage = (data: string): Boolean => {
 		return data.startsWith('data:image')
 	}
+
+	const addComment = () => {
+		if (comment) {
+			setAddingComment(true)
+			client
+				.patch(postId)
+				.setIfMissing({ comments: [] })
+				.insert('after', 'comment[-1]', [
+					{
+						comment,
+						_key: uuivd4(),
+						postedBy: {
+							_type: 'postedBy',
+							//_ref: user?._id,
+						},
+					},
+				])
+				.commit()
+				.then(() => {
+					fetchPinDetails()
+					setComment('')
+					setAddingComment(false)
+				})
+		}
+	}
+
 	const fetchPinDetails = () => {
 		const query = postDetailQuery(postId)
 

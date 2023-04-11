@@ -9,6 +9,16 @@ export default {
       type: 'string',
     },
     {
+      name: 'displayName',
+      title: 'DisplayName',
+      type: 'string',
+    },
+    {
+      name: 'address',
+      title: 'Address',
+      type: 'string',
+    },
+    {
       name: 'image',
       title: 'Image',
       type: 'string',
