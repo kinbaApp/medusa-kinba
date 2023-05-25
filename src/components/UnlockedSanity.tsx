@@ -26,6 +26,9 @@ const UnlockedSanity = ({ post }) => {
 	const [postDetail, setPostDetail] = useState(null)
 	const [comment, setComment] = useState('')
 	const [addingComment, setAddingComment] = useState(false)
+	const [comments, setComments] = useState([])
+	const [likes, setLikes] = useState([])
+	const [hasLiked, setHasLiked] = useState(false)
 	const router = useRouter()
 	const pathName = router.pathname
 	const creatorAddress = post.poster?.address
@@ -41,25 +44,28 @@ const UnlockedSanity = ({ post }) => {
 
 	const addComment = () => {
 		if (comment) {
+			console.log(comment)
 			setAddingComment(true)
 			client
 				.patch(postId)
 				.setIfMissing({ comments: [] })
-				.insert('after', 'comment[-1]', [
-					{
-						comment,
-						_key: uuivd4(),
-						postedBy: {
-							_type: 'postedBy',
-							//_ref: user?._id,
-						},
-					},
-				])
+				.append('comments', [comment])
+				// .insert('after', 'comment[-1]', [
+				// 	{
+				// 		comment,
+				// 		_key: uuivd4(),
+				// 		// 	postedBy: {
+				// 		// 		_type: 'postedBy',
+				// 		// 		//_ref: user?._id,
+				// 		// 	},
+				// 	},
+				// ])
 				.commit()
 				.then(() => {
 					fetchPinDetails()
 					setComment('')
 					setAddingComment(false)
+					console.log('comment added', post.comments)
 				})
 		}
 	}
@@ -195,6 +201,7 @@ const UnlockedSanity = ({ post }) => {
 						<div className={styles.top}>
 							<AiOutlineHeart size={'25px'} color="gray" />
 							<TbMessageCircle2 size={'25px'} color="gray" />
+
 							<div className={styles.tip}>
 								<CiDollar size={'25px'} color="gray" />
 								<p className={`${fonts.lightText} ${styles.tipText}`}>SEND TIP</p>
@@ -202,6 +209,22 @@ const UnlockedSanity = ({ post }) => {
 						</div>
 						<div className={styles.postLikeCount}>
 							<p>139 Likes</p>
+						</div>
+						<div>
+							<input
+								className="flex-1 border-gray-100 outline-none border-2 p-2 rounded-2xl focus:border-gray-300"
+								type="text"
+								placeholder="Add a comment"
+								value={comment}
+								onChange={e => setComment(e.target.value)}
+							/>
+							<button
+								type="button"
+								className="bg-customPink text-white rounded-full px-6 py-2 font-semibold text-base outline-none"
+								onClick={addComment}
+							>
+								{addingComment ? 'Posting the comment...' : 'Post '}
+							</button>
 						</div>
 					</div>
 					<div className={styles.right}>
