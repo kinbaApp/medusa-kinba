@@ -17,6 +17,7 @@ export const postDetailQuery = postId => {
     caption,
     poster,
     postedBy,
+    comments,
   }`
 	return query
 }

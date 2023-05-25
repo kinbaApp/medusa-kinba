@@ -65,7 +65,7 @@ const UnlockedSanity = ({ post }) => {
 					fetchPinDetails()
 					setComment('')
 					setAddingComment(false)
-					console.log('comment added', post.comments)
+					console.log('comment added')
 				})
 		}
 	}
@@ -76,7 +76,7 @@ const UnlockedSanity = ({ post }) => {
 		if (query) {
 			client.fetch(`${query}`).then(data => {
 				setPostDetail(data[0])
-				// console.log('data', data[1])
+				console.log('data', data[0].comments)
 				// console.log('data post', post)
 			})
 		}
@@ -99,6 +99,10 @@ const UnlockedSanity = ({ post }) => {
 		getCreator()
 		fetchPinDetails()
 	}, [postId])
+
+	// useEffect(()=>{
+
+	// })
 
 	return (
 		<div className={styles.container}>
@@ -210,26 +214,35 @@ const UnlockedSanity = ({ post }) => {
 						<div className={styles.postLikeCount}>
 							<p>139 Likes</p>
 						</div>
-						<div>
-							<input
-								className="flex-1 border-gray-100 outline-none border-2 p-2 rounded-2xl focus:border-gray-300"
-								type="text"
-								placeholder="Add a comment"
-								value={comment}
-								onChange={e => setComment(e.target.value)}
-							/>
-							<button
-								type="button"
-								className="bg-customPink text-white rounded-full px-6 py-2 font-semibold text-base outline-none"
-								onClick={addComment}
-							>
-								{addingComment ? 'Posting the comment...' : 'Post '}
-							</button>
-						</div>
 					</div>
 					<div className={styles.right}>
 						<BsBookmark size={'25px'} color="gray" />
 					</div>
+				</div>
+				<div>
+					<input
+						className="flex-1 border-gray-100 outline-none border-2 p-2 rounded-2xl focus:border-gray-300"
+						type="text"
+						placeholder="Add a comment"
+						value={comment}
+						onChange={e => setComment(e.target.value)}
+					/>
+					<button
+						type="button"
+						className="bg-customPink text-white rounded-full px-6 py-2 font-semibold text-base outline-none"
+						onClick={addComment}
+					>
+						{addingComment ? 'Posting the comment...' : 'Post '}
+					</button>
+				</div>
+				<div>
+					{postDetail?.comments?.length > 0 && (
+						<div>
+							{postDetail.comments.map(comment => (
+								<p>{comment}</p>
+							))}
+						</div>
+					)}
 				</div>
 			</div>
 		</div>
